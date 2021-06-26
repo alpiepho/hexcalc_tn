@@ -1,4 +1,10 @@
-# hexcalc_tn
+## Get Application
+Version: 0.1
+
+GH-Pages site: https://alpiepho.github.io/hexcalc_tn/
+
+## hexcalc_tn
+
 
 Goal:<br>
 semi-duplicate hexcalc from [cp hexcalc](https://www.fileviewer.com/cphexcalc/), 
