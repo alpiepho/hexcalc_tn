@@ -23,12 +23,12 @@ const RESOURCES = {
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = [
-  "/",
-"main.dart.js",
-"index.html",
-"assets/NOTICES",
-"assets/AssetManifest.json",
-"assets/FontManifest.json"];
+  "https://alpiepho.github.io/hexcalc_tn/",
+"https://alpiepho.github.io/hexcalc_tn/main.dart.js",
+"https://alpiepho.github.io/hexcalc_tn/index.html",
+"https://alpiepho.github.io/hexcalc_tn/assets/NOTICES",
+"https://alpiepho.github.io/hexcalc_tn/assets/AssetManifest.json",
+"https://alpiepho.github.io/hexcalc_tn/assets/FontManifest.json"];
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
   self.skipWaiting();
