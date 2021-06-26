@@ -1,11 +1,11 @@
 {
-    "name": "hexcalc_tn",
-    "short_name": "hexcalc_tn",
+    "name": "HexCalcTN",
+    "short_name": "HexCalcTN",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "HexCalc TN.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
