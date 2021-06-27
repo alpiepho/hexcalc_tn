@@ -59547,7 +59547,7 @@ s.B5()
 return null},
 $S:111}
 F.zn.prototype={
-O:function(a,b){return new S.t5(new T.qC(null),"Scoreboard TN",null)}}
+O:function(a,b){return new S.t5(new T.qC(null),"HexCalc TN",null)}}
 T.qC.prototype={
 aw:function(){return new T.vP(C.k,C.dg,C.k,C.df,C.bS,new O.Pb(C.k,C.dg,C.k,C.df,C.k,C.dg,C.k,C.df,C.bS),C.o)}}
 T.vP.prototype={
