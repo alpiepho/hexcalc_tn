@@ -8,6 +8,11 @@ const kInputPageBackgroundColor = Colors.black45;
 const kMainContainerWidthPortrait = 600.0;
 const kMainContainerWidthLandscape = 1000.0;
 
+const kMainColumnHeightPortrait = 80.0;
+const kMainColumnHeightLandscape = 80.0;
+
+const kMainColumnWidthPortrait = 80.0;
+const kMainColumnWidthLandscape = 80.0;
 
 const kSettingsModalBackgroundColor = Colors.black45;
 
@@ -46,7 +51,7 @@ const kLabelTextStyle_system = TextStyle(
   fontWeight: FontWeight.bold,
 );
 const kNumberTextStyle_system = TextStyle(
-  fontSize: 250.0,
+  fontSize: 25,
   fontWeight: FontWeight.bold,
   height: 1.1,
 );
@@ -59,7 +64,7 @@ var kLabelTextStyle_lato = GoogleFonts.lato(
 );
 // ignore: non_constant_identifier_names
 var kNumberTextStyle_lato = GoogleFonts.lato(
-  fontSize: 250,
+  fontSize: 25,
   color: Colors.black,
   fontWeight: FontWeight.bold,
   height: 1.1,
@@ -73,7 +78,7 @@ var kLabelTextStyle_merriweather = GoogleFonts.merriweather(
 );
 // ignore: non_constant_identifier_names
 var kNumberTextStyle_merriweather = GoogleFonts.merriweather(
-  fontSize: 250,
+  fontSize: 25,
   color: Colors.black,
   fontWeight: FontWeight.bold,
   height: 1.1,
@@ -87,7 +92,7 @@ var kLabelTextStyle_montserrat = GoogleFonts.montserrat(
 );
 // ignore: non_constant_identifier_names
 var kNumberTextStyle_montserrat = GoogleFonts.montserrat(
-  fontSize: 250,
+  fontSize: 25,
   color: Colors.black,
   fontWeight: FontWeight.bold,
   height: 1.1,
@@ -101,7 +106,7 @@ var kLabelTextStyle_robotomono = GoogleFonts.robotoMono(
 );
 // ignore: non_constant_identifier_names
 var kNumberTextStyle_robotomono = GoogleFonts.robotoMono(
-  fontSize: 200,
+  fontSize: 20,
   color: Colors.black,
   fontWeight: FontWeight.bold,
   height: 1.1,
@@ -115,7 +120,7 @@ var kLabelTextStyle_rocksalt = GoogleFonts.rockSalt(
 );
 // ignore: non_constant_identifier_names
 var kNumberTextStyle_rocksalt = GoogleFonts.rockSalt(
-  fontSize: 120,
+  fontSize: 12,
   color: Colors.black,
   fontWeight: FontWeight.bold,
   height: 1.1,

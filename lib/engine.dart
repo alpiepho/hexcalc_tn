@@ -3,7 +3,7 @@ import 'package:hexcalc_tn/constants.dart';
 
 class Engine {
   Color colorTextLeft = Colors.black;
-  Color colorBackgroundLeft = Colors.red;
+  Color colorBackgroundLeft = Colors.grey;
   Color colorTextRight = Colors.black;
   Color colorBackgroundRight = Colors.blueAccent;
 

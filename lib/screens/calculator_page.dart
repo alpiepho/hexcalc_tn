@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hexcalc_tn/components/score_card.dart';
+import 'package:hexcalc_tn/components/calc_button.dart';
 import 'package:hexcalc_tn/components/settings_button.dart';
 import 'package:hexcalc_tn/components/settings_modal.dart';
 import 'package:hexcalc_tn/constants.dart';
@@ -77,149 +77,149 @@ class _CalculatorPageState extends State<CalculatorPage> {
     });
   }
 
-  bool _hitEarned(TapUpDetails details, BuildContext? c) {
-    if (c != null) {
-      RenderBox rb = c.findRenderObject() as RenderBox;
-      if(rb.size != Size.zero) {
-        Offset centerPtInWidgetSpace = Offset(rb.size.width/2, rb.size.height/2);
-        Offset centerPtInScreenSpace = rb.localToGlobal(centerPtInWidgetSpace);
-        double dx = 1.2*(rb.size.width/2);
-        double dy = 1.2*(rb.size.height/2);
-        if ((details.globalPosition.dx >= (centerPtInScreenSpace.dx - dx)) &&
-            (details.globalPosition.dx <= (centerPtInScreenSpace.dx + dx)) &&
-            (details.globalPosition.dy >= (centerPtInScreenSpace.dy - dy)) &&
-            (details.globalPosition.dy <= (centerPtInScreenSpace.dy + dy))
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
+  // bool _hitEarned(TapUpDetails details, BuildContext? c) {
+  //   if (c != null) {
+  //     RenderBox rb = c.findRenderObject() as RenderBox;
+  //     if(rb.size != Size.zero) {
+  //       Offset centerPtInWidgetSpace = Offset(rb.size.width/2, rb.size.height/2);
+  //       Offset centerPtInScreenSpace = rb.localToGlobal(centerPtInWidgetSpace);
+  //       double dx = 1.2*(rb.size.width/2);
+  //       double dy = 1.2*(rb.size.height/2);
+  //       if ((details.globalPosition.dx >= (centerPtInScreenSpace.dx - dx)) &&
+  //           (details.globalPosition.dx <= (centerPtInScreenSpace.dx + dx)) &&
+  //           (details.globalPosition.dy >= (centerPtInScreenSpace.dy - dy)) &&
+  //           (details.globalPosition.dy <= (centerPtInScreenSpace.dy + dy))
+  //       ) {
+  //         return true;
+  //       }
+  //     }
+  //   }
+  //   return false;
+  // }
 
-  bool _hitEarnedLeft(TapUpDetails details) {
-    if (_hitEarned(details, _keyPortraitLeft.currentContext)) {
-      return true;
-    }
-    if (_hitEarned(details, _keyLandscapeLeft.currentContext)) {
-      return true;
-    }
-    return false;
-  }
+  // bool _hitEarnedLeft(TapUpDetails details) {
+  //   if (_hitEarned(details, _keyPortraitLeft.currentContext)) {
+  //     return true;
+  //   }
+  //   if (_hitEarned(details, _keyLandscapeLeft.currentContext)) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  bool _hitEarnedRight(TapUpDetails details) {
-    if (_hitEarned(details, _keyPortraitRight.currentContext)) {
-      return true;
-    }
-    if (_hitEarned(details, _keyLandscapeRight.currentContext)) {
-      return true;
-    }
-    return false;
-  }
+  // bool _hitEarnedRight(TapUpDetails details) {
+  //   if (_hitEarned(details, _keyPortraitRight.currentContext)) {
+  //     return true;
+  //   }
+  //   if (_hitEarned(details, _keyLandscapeRight.currentContext)) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  void _incrementLeft(TapUpDetails details) async {
-    bool earned = _hitEarnedLeft(details);
-    this._engine.incrementLeft(earned);
-    _fromEngine();
-    _notify7();
-    _notify8();
-  }
+  // void _incrementLeft(TapUpDetails details) async {
+  //   bool earned = _hitEarnedLeft(details);
+  //   this._engine.incrementLeft(earned);
+  //   _fromEngine();
+  //   _notify7();
+  //   _notify8();
+  // }
 
-  void _decrementLeft() async {
-    this._engine.decrementLeft(true);
-    _fromEngine();
-  }
+  // void _decrementLeft() async {
+  //   this._engine.decrementLeft(true);
+  //   _fromEngine();
+  // }
 
-  void _incrementRight(TapUpDetails details) async {
-    bool earned = _hitEarnedRight(details);
-    this._engine.incrementRight(earned);
-    _fromEngine();
-    _notify7();
-    _notify8();
-  }
+  // void _incrementRight(TapUpDetails details) async {
+  //   bool earned = _hitEarnedRight(details);
+  //   this._engine.incrementRight(earned);
+  //   _fromEngine();
+  //   _notify7();
+  //   _notify8();
+  // }
 
-  void _decrementRight() async {
-    this._engine.decrementRight(true);
-    _fromEngine();
-  }
+  // void _decrementRight() async {
+  //   this._engine.decrementRight(true);
+  //   _fromEngine();
+  // }
 
-  void _onClear() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Clear Scores'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Would you clear scores?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Clear'),
-              onPressed: () {
-                this._engine.clearBoth();
-                _fromEngine();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _onClear() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('Clear Scores'),
+  //         content: SingleChildScrollView(
+  //           child: ListBody(
+  //             children: <Widget>[
+  //               Text('Would you clear scores?'),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text('Cancel'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: Text('Clear'),
+  //             onPressed: () {
+  //               this._engine.clearBoth();
+  //               _fromEngine();
+  //               Navigator.of(context).pop();
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  void _onReset() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Reset All'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Would you reset everything?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Reset'),
-              onPressed: () {
-                this._engine.resetBoth();
-                _fromEngine();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _onReset() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('Reset All'),
+  //         content: SingleChildScrollView(
+  //           child: ListBody(
+  //             children: <Widget>[
+  //               Text('Would you reset everything?'),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text('Cancel'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: Text('Reset'),
+  //             onPressed: () {
+  //               this._engine.resetBoth();
+  //               _fromEngine();
+  //               Navigator.of(context).pop();
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  void _onSwap() async {
-    this._engine.swapTeams();
-    _fromEngine();
-    Navigator.of(context).pop();
-  }
+  // void _onSwap() async {
+  //   this._engine.swapTeams();
+  //   _fromEngine();
+  //   Navigator.of(context).pop();
+  // }
 
   void _onDone() async {
     this._engine.saveBoth();
@@ -227,113 +227,113 @@ class _CalculatorPageState extends State<CalculatorPage> {
     Navigator.of(context).pop();
   }
 
-  void _panUpdateLeft(DragUpdateDetails details) async {
-    // use swipe to adjust score
-    if (details.delta.dy.abs() > 1) {
-      _panPositionYLeft += details.delta.dy;
-      if (_panPositionYLeft < -100) {
-        _panPositionYLeft = 0.0;
-        this._engine.incrementLeft(false);
-        _fromEngine();
-      } else if (_panPositionYLeft > 100) {
-        _panPositionYLeft = 0.0;
-        _decrementLeft();
-      }
-    } else {
-      _panPositionYLeft = 0.0;
-    }
-  }
+  // void _panUpdateLeft(DragUpdateDetails details) async {
+  //   // use swipe to adjust score
+  //   if (details.delta.dy.abs() > 1) {
+  //     _panPositionYLeft += details.delta.dy;
+  //     if (_panPositionYLeft < -100) {
+  //       _panPositionYLeft = 0.0;
+  //       this._engine.incrementLeft(false);
+  //       _fromEngine();
+  //     } else if (_panPositionYLeft > 100) {
+  //       _panPositionYLeft = 0.0;
+  //       _decrementLeft();
+  //     }
+  //   } else {
+  //     _panPositionYLeft = 0.0;
+  //   }
+  // }
 
-  void _panUpdateRight(DragUpdateDetails details) async {
-    // use swipe to adjust score
-    if (details.delta.dy.abs() > 1) {
-      _panPositionYRight += details.delta.dy;
-      if (_panPositionYRight < -100) {
-        _panPositionYRight = 0.0;
-        this._engine.incrementRight(false);
-        _fromEngine();
-      } else if (_panPositionYRight > 100) {
-        _panPositionYRight = 0.0;
-        _decrementRight();
-      }
-    } else {
-      _panPositionYRight = 0.0;
-    }
-  }
+  // void _panUpdateRight(DragUpdateDetails details) async {
+  //   // use swipe to adjust score
+  //   if (details.delta.dy.abs() > 1) {
+  //     _panPositionYRight += details.delta.dy;
+  //     if (_panPositionYRight < -100) {
+  //       _panPositionYRight = 0.0;
+  //       this._engine.incrementRight(false);
+  //       _fromEngine();
+  //     } else if (_panPositionYRight > 100) {
+  //       _panPositionYRight = 0.0;
+  //       _decrementRight();
+  //     }
+  //   } else {
+  //     _panPositionYRight = 0.0;
+  //   }
+  // }
 
-  void _notify7() async {
-    if (this._engine.notify7()) {
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('At 7 Points'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text('Would you swap teams?'),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text('Swap'),
-                onPressed: () {
-                  this._engine.swapTeams();
-                  _fromEngine();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
+  // void _notify7() async {
+  //   if (this._engine.notify7()) {
+  //     showDialog<void>(
+  //       context: context,
+  //       barrierDismissible: false, // user must tap button!
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text('At 7 Points'),
+  //           content: SingleChildScrollView(
+  //             child: ListBody(
+  //               children: <Widget>[
+  //                 Text('Would you swap teams?'),
+  //               ],
+  //             ),
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text('Cancel'),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text('Swap'),
+  //               onPressed: () {
+  //                 this._engine.swapTeams();
+  //                 _fromEngine();
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
-  void _notify8() async {
-    if (this._engine.notify8()) {
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('At 8 Points'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text('Would you swap teams?'),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text('Swap'),
-                onPressed: () {
-                  this._engine.swapTeams();
-                  _fromEngine();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
+  // void _notify8() async {
+  //   if (this._engine.notify8()) {
+  //     showDialog<void>(
+  //       context: context,
+  //       barrierDismissible: false, // user must tap button!
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text('At 8 Points'),
+  //           content: SingleChildScrollView(
+  //             child: ListBody(
+  //               children: <Widget>[
+  //                 Text('Would you swap teams?'),
+  //               ],
+  //             ),
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text('Cancel'),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text('Swap'),
+  //               onPressed: () {
+  //                 this._engine.swapTeams();
+  //                 _fromEngine();
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
   @override
   initState() {
@@ -351,7 +351,42 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     var forcePortrait = this._engine.forceLandscape && isPortrait;
-    if (isPortrait) {
+
+    var colWidgets = <Widget>[];
+    for (var i=0; i < 5; i++) {
+      var rowWidgets = <Widget>[];
+      for (var j=0; j < 5; j++) {
+        rowWidgets.add(new Expanded(
+                        child: CalcButton(
+                          //onPress: _incrementLeft,
+                          color: _colorBackgroundLeft,
+                          margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
+                          portrait: forcePortrait,
+                          cardChild: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                i.toString()+","+j.toString(),
+                                style: numberTextStyle.copyWith(color: _colorTextLeft),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+        );
+      }
+      var row = new Row(children: rowWidgets);
+      var expanded = new Expanded(child: row);
+      var container = new Container(
+        height: kMainColumnHeightPortrait,
+        child: expanded,
+      );
+      colWidgets.add(container);
+    }
+
+
+
+    // if (isPortrait) {
       return Scaffold(
         backgroundColor: kInputPageBackgroundColor,
         body: Center(
@@ -359,187 +394,106 @@ class _CalculatorPageState extends State<CalculatorPage> {
             width: kMainContainerWidthPortrait,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: TeamScoreCard(
-                          onPress: _incrementLeft,
-                          onPan: _panUpdateLeft,
-                          color: _colorBackgroundLeft,
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 2),
-                          portrait: forcePortrait,
-                          cardChild: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                _labelLeft,
-                                style: labelTextStyle.copyWith(color: _colorTextLeft),
-                              ),
-                              Text(
-                                (_valueLeft).toString(),
-                                style: numberTextStyle.copyWith(color: _colorTextLeft),
-                              ),
-                              Text(
-                                "earned: " + (_earnedLeft).toString(),
-                                style: labelTextStyle.copyWith(color: (_earnedVisible ? _colorTextLeft : _colorBackgroundLeft), fontSize: 30),
-                                key: _keyPortraitLeft,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: TeamScoreCard(
-                          onPress: _incrementRight,
-                          onPan: _panUpdateRight,
-                          color: _colorBackgroundRight,
-                          margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                          portrait: forcePortrait,
-                          cardChild: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                _labelRight,
-                                style: labelTextStyle.copyWith(color: _colorTextRight),
-                              ),
-                              Text(
-                                (_valueRight).toString(),
-                                style: numberTextStyle.copyWith(color: _colorTextRight),
-                              ),
-                              Text(
-                                "earned: " + (_earnedRight).toString(),
-                                style: labelTextStyle.copyWith(color: (_earnedVisible ? _colorTextRight : _colorBackgroundRight), fontSize: 30),
-                                key: _keyPortraitRight,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              children: colWidgets,
             ),
           ),
         ),
-        floatingActionButton: SettingsButton(
-          onPress: () {
-            this._engine.setNew();
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext bc) {
-                  return SettingsModal(
-                    context,
-                    this._engine,
-                    _onReset,
-                    _onClear,
-                    _onSwap,
-                    _onDone,
-                  );
-                },
-                isScrollControlled: true,
-              );
-            }
-          ),
-        floatingActionButtonLocation: (forcePortrait ? FloatingActionButtonLocation.startFloat : FloatingActionButtonLocation.endFloat),
       );
-    }
-    else {
-      return Scaffold(
-        backgroundColor: kInputPageBackgroundColor,
-        body: Center(
-          child: Container(
-            width: kMainContainerWidthLandscape,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Expanded(
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TeamScoreCard(
-                          onPress: _incrementLeft,
-                          onPan: _panUpdateLeft,
-                          color: _colorBackgroundLeft,
-                          margin: EdgeInsets.fromLTRB(0, 0, 2, 0),
-                          portrait: forcePortrait,
-                          cardChild: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                _labelLeft,
-                                style: labelTextStyle.copyWith(color: _colorTextLeft),
-                              ),
-                              Text(
-                                (_valueLeft).toString(),
-                                style: numberTextStyle.copyWith(color: _colorTextLeft),
-                              ),
-                              Text(
-                                "earned: " + (_earnedLeft).toString(),
-                                style: labelTextStyle.copyWith(color: (_earnedVisible ? _colorTextLeft : _colorBackgroundLeft), fontSize: 30),
-                                key: _keyLandscapeLeft,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: TeamScoreCard(
-                          onPress: _incrementRight,
-                          onPan: _panUpdateRight,
-                          color: _colorBackgroundRight,
-                          margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
-                          portrait: forcePortrait,
-                          cardChild: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                _labelRight,
-                                style: labelTextStyle.copyWith(color: _colorTextRight),
-                              ),
-                              Text(
-                                (_valueRight).toString(),
-                                style: numberTextStyle.copyWith(color: _colorTextRight),
-                              ),
-                              Text(
-                                "earned: " + (_earnedRight).toString(),
-                                style: labelTextStyle.copyWith(color: (_earnedVisible ? _colorTextRight : _colorBackgroundRight), fontSize: 30),
-                                key: _keyLandscapeRight,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        floatingActionButton: SettingsButton(
-            onPress: () {
-              this._engine.setNew();
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext bc) {
-                    return SettingsModal(
-                      context,
-                      this._engine,
-                      _onReset,
-                      _onClear,
-                      _onSwap,
-                      _onDone,
-                    );
-                  },
-                  isScrollControlled: true,
-              );
-            }
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      );
-    }
+    // }
+    // else {
+    //   return Scaffold(
+    //     backgroundColor: kInputPageBackgroundColor,
+    //     body: Center(
+    //       child: Container(
+    //         width: kMainContainerWidthLandscape,
+    //         child: Row(
+    //           crossAxisAlignment: CrossAxisAlignment.stretch,
+    //           children: <Widget>[
+    //             Expanded(
+    //               child: Row(
+    //                 children: <Widget>[
+    //                   Expanded(
+    //                     child: CalcButton(
+    //                       //onPress: _incrementLeft,
+    //                       //onPan: _panUpdateLeft,
+    //                       color: _colorBackgroundLeft,
+    //                       margin: EdgeInsets.fromLTRB(0, 0, 2, 0),
+    //                       portrait: forcePortrait,
+    //                       cardChild: Column(
+    //                         mainAxisAlignment: MainAxisAlignment.center,
+    //                         children: <Widget>[
+    //                           // Text(
+    //                           //   _labelLeft,
+    //                           //   style: labelTextStyle.copyWith(color: _colorTextLeft),
+    //                           // ),
+    //                           Text(
+    //                             (_valueLeft).toString(),
+    //                             style: numberTextStyle.copyWith(color: _colorTextLeft),
+    //                           ),
+    //                           // Text(
+    //                           //   "earned: " + (_earnedLeft).toString(),
+    //                           //   style: labelTextStyle.copyWith(color: (_earnedVisible ? _colorTextLeft : _colorBackgroundLeft), fontSize: 30),
+    //                           //   key: _keyLandscapeLeft,
+    //                           // ),
+    //                         ],
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   Expanded(
+    //                     child: CalcButton(
+    //                       //onPress: _incrementRight,
+    //                       //onPan: _panUpdateRight,
+    //                       color: _colorBackgroundRight,
+    //                       margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
+    //                       portrait: forcePortrait,
+    //                       cardChild: Column(
+    //                         mainAxisAlignment: MainAxisAlignment.center,
+    //                         children: <Widget>[
+    //                           // Text(
+    //                           //   _labelRight,
+    //                           //   style: labelTextStyle.copyWith(color: _colorTextRight),
+    //                           // ),
+    //                           Text(
+    //                             (_valueRight).toString(),
+    //                             style: numberTextStyle.copyWith(color: _colorTextRight),
+    //                           ),
+    //                           // Text(
+    //                           //   "earned: " + (_earnedRight).toString(),
+    //                           //   style: labelTextStyle.copyWith(color: (_earnedVisible ? _colorTextRight : _colorBackgroundRight), fontSize: 30),
+    //                           //   key: _keyLandscapeRight,
+    //                           // ),
+    //                         ],
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //     // floatingActionButton: SettingsButton(
+    //     //     onPress: () {
+    //     //       this._engine.setNew();
+    //     //       showModalBottomSheet(
+    //     //           context: context,
+    //     //           builder: (BuildContext bc) {
+    //     //             return SettingsModal(
+    //     //               context,
+    //     //               this._engine,
+    //     //               _onReset,
+    //     //               _onClear,
+    //     //               _onSwap,
+    //     //               _onDone,
+    //     //             );
+    //     //           },
+    //     //           isScrollControlled: true,
+    //     //       );
+    //     //     }
+    //     // ),
+    //     // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    //   );
+    // }
   }
 }
