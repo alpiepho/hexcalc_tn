@@ -22,7 +22,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   // for display
   //
   Color _colorTextLeft = Colors.black;
-  Color _colorBackgroundLeft = Colors.red;
+  Color _colorBackgroundLeft = Colors.grey;
   Color _colorTextRight = Colors.black;
   Color _colorBackgroundRight = Colors.blueAccent;
 
@@ -57,21 +57,21 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   void _fromEngine() async {
     setState(() {
-      _labelLeft  = this._engine.getLabelLeft();
-      _labelRight = this._engine.getLabelRight();
-      _valueLeft = this._engine.valueLeft;
-      _valueRight = this._engine.valueRight;
-      _earnedLeft = this._engine.earnedLeft;
-      _earnedRight = this._engine.earnedRight;
-      //_earnedEnabled = this._engine.earnedEnabled;
-      _earnedVisible = this._engine.earnedVisible;
+      // _labelLeft  = this._engine.getLabelLeft();
+      // _labelRight = this._engine.getLabelRight();
+      // _valueLeft = this._engine.valueLeft;
+      // _valueRight = this._engine.valueRight;
+      // _earnedLeft = this._engine.earnedLeft;
+      // _earnedRight = this._engine.earnedRight;
+      // //_earnedEnabled = this._engine.earnedEnabled;
+      // _earnedVisible = this._engine.earnedVisible;
 
-      _colorTextLeft = this._engine.colorTextLeft;
-      _colorBackgroundLeft = this._engine.colorBackgroundLeft;
-      _colorTextRight = this._engine.colorTextRight;
-      _colorBackgroundRight = this._engine.colorBackgroundRight;
+      // _colorTextLeft = this._engine.colorTextLeft;
+      // _colorBackgroundLeft = this._engine.colorBackgroundLeft;
+      // _colorTextRight = this._engine.colorTextRight;
+      // _colorBackgroundRight = this._engine.colorBackgroundRight;
 
-      _fontType = this._engine.fontType;
+      // _fontType = this._engine.fontType;
 
       _saveEngine();
     });
@@ -222,7 +222,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   // }
 
   void _onDone() async {
-    this._engine.saveBoth();
+    //this._engine.saveBoth();
     _fromEngine();
     Navigator.of(context).pop();
   }
@@ -353,9 +353,10 @@ class _CalculatorPageState extends State<CalculatorPage> {
     var forcePortrait = this._engine.forceLandscape && isPortrait;
 
     var colWidgets = <Widget>[];
-    for (var i=0; i < 5; i++) {
+    for (var i=0; i < this._engine.getRows(); i++) {
       var rowWidgets = <Widget>[];
-      for (var j=0; j < 5; j++) {
+      for (var j=0; j < this._engine.getCols(); j++) {
+        var label = this._engine.getLabel(i, j);
         rowWidgets.add(new Expanded(
                         child: CalcButton(
                           //onPress: _incrementLeft,
@@ -366,7 +367,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                i.toString()+","+j.toString(),
+                                label,
                                 style: numberTextStyle.copyWith(color: _colorTextLeft),
                               ),
                             ],

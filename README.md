@@ -19,7 +19,9 @@ Also want this to be a PWA.
 - [done] copy lib/engine
 - [done] update main.dart
 
-- convert score_card to calc_button
+- [done] convert score_card to calc_button
+
+- clean up warnings
 
 - duplicate features from main screen
 - duplicate features from settings screen
@@ -32,4 +34,5 @@ Also want this to be a PWA.
 - remove settings_button
 - review constants
 - update README
+- get devide symbol?
 
