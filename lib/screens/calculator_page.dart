@@ -22,7 +22,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   // for display
   //
   // Color _colorTextLeft = Colors.black;
-  Color _colorBackgroundLeft = Colors.grey;
+  // Color _colorBackgroundLeft = Colors.grey;
   // Color _colorTextRight = Colors.black;
   // Color _colorBackgroundRight = Colors.blueAccent;
 
@@ -386,10 +386,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
       for (var j=0; j < this._engine.getCols(); j++) {
         var label = this._engine.getLabel(i, j);
         var style = this._engine.getStyle(i, j);
+        var background = this._engine.grid[i][j].background;
         rowWidgets.add(new Expanded(
                         child: CalcButton(
                           //onPress: _incrementLeft,
-                          color: _colorBackgroundLeft,
+                          color: background,
                           margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
                           portrait: forcePortrait,
                           cardChild: Column(

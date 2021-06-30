@@ -16,7 +16,6 @@ const kMainColumnWidthLandscape = 80.0;
 
 
 
-
 const kSettingsModalBackgroundColor = Colors.black45;
 
 const kSettingsTextStyle_fontSize = 18.0;
@@ -55,13 +54,30 @@ const kResultTextStyle_system = TextStyle(
   height: 1.2,
 );
 
+// red
+// #C30000
 
-const kLabelTextStyle_system = TextStyle(
+// blue
+// #637D9E
+
+// green
+// #00B02B
+
+// orange
+// #FF985A
+
+
+const kLabelTextStyle = TextStyle(
   fontSize: 15.0,
   color: Colors.white,
   fontWeight: FontWeight.bold,
 );
 
+const kBlueColor = Color(0xFF637D9E);
+const kRedColor = Color(0xFFC30000);
+const kGreenColor = Color(0xFF00B02B);
+const kOrangeColor = Color(0xFFFF985A);
+const kDarkColor = Color(0xFFF29292C);
 
 const kNumberTextStyle_system = TextStyle(
   fontSize: 25,
