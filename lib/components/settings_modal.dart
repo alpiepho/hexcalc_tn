@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+// import 'package:flutter/services.dart';
+// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 
 // ignore: must_be_immutable
@@ -65,10 +65,10 @@ class _SettingsModal extends State<SettingsModal> {
   late Function onSwap;
   late Function onDone;
 
-  late Color _newColorTextLeft;
-  late Color _newColorBackgroundLeft;
-  late Color _newColorTextRight;
-  late Color _newColorBackgroundRight;
+  // late Color _newColorTextLeft;
+  // late Color _newColorBackgroundLeft;
+  // late Color _newColorTextRight;
+  // late Color _newColorBackgroundRight;
 
   //late var selectedFont = "";
   //late List<String> allFonts;

@@ -18,10 +18,10 @@ Also want this to be a PWA.
 - [done] copy lib/consts
 - [done] copy lib/engine
 - [done] update main.dart
-
 - [done] convert score_card to calc_button
+- [done] clean up warnings
 
-- clean up warnings
+- cleanup commented out code
 
 - duplicate features from main screen
 - duplicate features from settings screen

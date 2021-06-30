@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hexcalc_tn/components/calc_button.dart';
-import 'package:hexcalc_tn/components/settings_button.dart';
-import 'package:hexcalc_tn/components/settings_modal.dart';
+// import 'package:hexcalc_tn/components/settings_button.dart';
+// import 'package:hexcalc_tn/components/settings_modal.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-GlobalKey _keyPortraitLeft = GlobalKey();
-GlobalKey _keyPortraitRight = GlobalKey();
-GlobalKey _keyLandscapeLeft = GlobalKey();
-GlobalKey _keyLandscapeRight = GlobalKey();
+// GlobalKey _keyPortraitLeft = GlobalKey();
+// GlobalKey _keyPortraitRight = GlobalKey();
+// GlobalKey _keyLandscapeLeft = GlobalKey();
+// GlobalKey _keyLandscapeRight = GlobalKey();
 
 class CalculatorPage extends StatefulWidget {
   @override
@@ -21,25 +21,25 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //
   // for display
   //
-  Color _colorTextLeft = Colors.black;
+  // Color _colorTextLeft = Colors.black;
   Color _colorBackgroundLeft = Colors.grey;
-  Color _colorTextRight = Colors.black;
-  Color _colorBackgroundRight = Colors.blueAccent;
+  // Color _colorTextRight = Colors.black;
+  // Color _colorBackgroundRight = Colors.blueAccent;
 
-  String _labelLeft = "Away";
-  String _labelRight = "Home";
-  int _valueLeft = 0;
-  int _valueRight = 0;
-  int _earnedLeft = 0;
-  int _earnedRight = 0;
-  //bool _earnedEnabled = false;
-  bool _earnedVisible = false;
+  // String _labelLeft = "Away";
+  // String _labelRight = "Home";
+  // int _valueLeft = 0;
+  // int _valueRight = 0;
+  // int _earnedLeft = 0;
+  // int _earnedRight = 0;
+  // bool _earnedEnabled = false;
+  // bool _earnedVisible = false;
 
-  FontTypes _fontType = FontTypes.system;
+  // FontTypes _fontType = FontTypes.system;
 
   // for increment/decrement swiping
-  double _panPositionYLeft = 0.0;
-  double _panPositionYRight = 0.0;
+  // double _panPositionYLeft = 0.0;
+  // double _panPositionYRight = 0.0;
 
   Engine _engine = Engine();
 
@@ -221,11 +221,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //   Navigator.of(context).pop();
   // }
 
-  void _onDone() async {
-    //this._engine.saveBoth();
-    _fromEngine();
-    Navigator.of(context).pop();
-  }
+  // void _onDone() async {
+  //   //this._engine.saveBoth();
+  //   _fromEngine();
+  //   Navigator.of(context).pop();
+  // }
 
   // void _panUpdateLeft(DragUpdateDetails details) async {
   //   // use swipe to adjust score
@@ -343,20 +343,49 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle labelTextStyle = kLabelTextStyle_system;
-    TextStyle numberTextStyle = kNumberTextStyle_system;
+    // TextStyle labelTextStyle = kLabelTextStyle_system;
+    // TextStyle numberTextStyle = kNumberTextStyle_system;
 
-    labelTextStyle = getLabelFont(_fontType);
-    numberTextStyle = getNumberFont(_fontType);
+    // labelTextStyle = getLabelFont(_fontType);
+    // numberTextStyle = kNumberTextStyle_system; //getNumberFont(_fontType);
 
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     var forcePortrait = this._engine.forceLandscape && isPortrait;
 
     var colWidgets = <Widget>[];
+
+    colWidgets.add(SizedBox(
+      height: 20,
+    ));
+    colWidgets.add(Text(
+      "0",
+      style: kResultTextStyle_system,
+      textAlign: TextAlign.end,
+    ));
+    colWidgets.add(Text(
+      "0",
+      style: kResultTextStyle_system,
+      textAlign: TextAlign.end,
+    ));
+    colWidgets.add(Text(
+      "0",
+      style: kResultTextStyle_system,
+      textAlign: TextAlign.end,
+    ));
+    colWidgets.add(Text(
+      "0",
+      style: kResultTextStyle_system,
+      textAlign: TextAlign.end,
+    ));
+    colWidgets.add(SizedBox(
+      height: 20,
+    ));
+
     for (var i=0; i < this._engine.getRows(); i++) {
       var rowWidgets = <Widget>[];
       for (var j=0; j < this._engine.getCols(); j++) {
         var label = this._engine.getLabel(i, j);
+        var style = this._engine.getStyle(i, j);
         rowWidgets.add(new Expanded(
                         child: CalcButton(
                           //onPress: _incrementLeft,
@@ -368,7 +397,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                             children: <Widget>[
                               Text(
                                 label,
-                                style: numberTextStyle.copyWith(color: _colorTextLeft),
+                                style: style,
                               ),
                             ],
                           ),

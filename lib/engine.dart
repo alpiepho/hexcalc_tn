@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:hexcalc_tn/constants.dart';
 
-class Cell {
-  Cell(this.label);
+class Line {
+  Line(
+    this.label,
+    this.style
+  );
 
   String label = "";
-  Color colorText = Colors.white;
-  Color colorBackground = Colors.grey;
+  TextStyle style = kResultTextStyle_system;
+
+  bool gradient = false;
+  bool halfHeight = false;
+  int spanCount = 1;
+  bool rightJustify = false;
+  int outlineCount = 0;
+}
+class Cell {
+  Cell(
+    this.label,
+    this.style
+  );
+
+  String label = "";
+  TextStyle style = kNumberTextStyle_system;
+
   bool gradient = false;
   bool halfHeight = false;
   int spanCount = 1;
@@ -48,72 +66,72 @@ class Engine {
 
   int rows = 9;
   int cols = 5;
-  var grid = List.generate(9, (i) => List.generate(5, (index) => Cell("")), growable: false);
+  var grid = List.generate(9, (i) => List.generate(5, (index) => Cell("", kNumberTextStyle_system)), growable: false);
 
   Engine() {
     int row = 0;
     int col = 0;
-    grid[row][col] = new Cell("HEX"); col++;
-    grid[row][col] = new Cell("DEC"); col++;
-    grid[row][col] = new Cell("OCT"); col++;
-    grid[row][col] = new Cell("BIN"); col++;
-    grid[row][col] = new Cell("i"); col++;
+    grid[row][col] = new Cell("HEX", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("DEC", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("OCT", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("BIN", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("i", kLabelTextStyle_system); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell("M+"); col++;
-    grid[row][col] = new Cell("M-"); col++;
-    grid[row][col] = new Cell("M in"); col++;
-    grid[row][col] = new Cell("MR"); col++;
-    grid[row][col] = new Cell("MC"); col++;
+    grid[row][col] = new Cell("M+", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("M-", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("M in", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("MR", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("MC", kLabelTextStyle_system); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell("SHL"); col++;
-    grid[row][col] = new Cell("SHR"); col++;
-    grid[row][col] = new Cell("ROL"); col++;
-    grid[row][col] = new Cell("ROR"); col++;
-    grid[row][col] = new Cell("MOD"); col++;
+    grid[row][col] = new Cell("SHL", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("SHR", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("ROL", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("ROR", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("MOD", kLabelTextStyle_system); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell("D"); col++;
-    grid[row][col] = new Cell("E"); col++;
-    grid[row][col] = new Cell("F"); col++;
-    grid[row][col] = new Cell("NEG"); col++;
-    grid[row][col] = new Cell("AC"); col++;
+    grid[row][col] = new Cell("D", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("E", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("F", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("NEG", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("AC", kNumberTextStyle_system); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell("A"); col++;
-    grid[row][col] = new Cell("B"); col++;
-    grid[row][col] = new Cell("C"); col++;
-    grid[row][col] = new Cell("NOT"); col++;
-    grid[row][col] = new Cell("/"); col++;
+    grid[row][col] = new Cell("A", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("B", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("C", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("NOT", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("/", kNumberTextStyle_system); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell("7"); col++;
-    grid[row][col] = new Cell("8"); col++;
-    grid[row][col] = new Cell("9"); col++;
-    grid[row][col] = new Cell("AND"); col++;
-    grid[row][col] = new Cell("x"); col++;
+    grid[row][col] = new Cell("7", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("8", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("9", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("AND", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("x", kNumberTextStyle_system); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell("4"); col++;
-    grid[row][col] = new Cell("5"); col++;
-    grid[row][col] = new Cell("6"); col++;
-    grid[row][col] = new Cell("XOR"); col++;
-    grid[row][col] = new Cell("-"); col++;
+    grid[row][col] = new Cell("4", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("5", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("6", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("XOR", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("-", kNumberTextStyle_system); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell("1"); col++;
-    grid[row][col] = new Cell("2"); col++;
-    grid[row][col] = new Cell("3"); col++;
-    grid[row][col] = new Cell("OR"); col++;
-    grid[row][col] = new Cell("+"); col++;
+    grid[row][col] = new Cell("1", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("2", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("3", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("OR", kLabelTextStyle_system); col++;
+    grid[row][col] = new Cell("+", kNumberTextStyle_system); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell("CE"); col++;
-    grid[row][col] = new Cell("0"); col++;
-    grid[row][col] = new Cell("00"); col++;
-    grid[row][col] = new Cell("="); col++;
-    grid[row][col] = new Cell(""); col++;
+    grid[row][col] = new Cell("CE", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("0", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("00", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("=", kNumberTextStyle_system); col++;
+    grid[row][col] = new Cell("", kNumberTextStyle_system); col++;
 
   }
 
@@ -160,6 +178,10 @@ class Engine {
 
   String getLabel(int x, int y) {
     return grid[x][y].label;
+  }
+
+  TextStyle getStyle(int x, int y) {
+    return grid[x][y].style;
   }
 
   // Color stringToColor(String code) {

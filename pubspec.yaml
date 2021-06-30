@@ -31,14 +31,14 @@ dependencies:
 
   font_awesome_flutter: ^9.0.0
 
-  flutter_material_pickers: ^2.0.1
+  # flutter_material_pickers: ^2.0.1
 
   shared_preferences: ^2.0.5
 
   url_launcher: ^6.0.3
 
-  flutter_colorpicker: ^0.4.0
-  google_fonts: ^2.0.0
+  # flutter_colorpicker: ^0.4.0
+  # google_fonts: ^2.0.0
 
 dev_dependencies:
   flutter_test:
