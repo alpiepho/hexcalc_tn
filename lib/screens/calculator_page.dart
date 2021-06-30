@@ -354,9 +354,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     var colWidgets = <Widget>[];
 
-    colWidgets.add(SizedBox(
-      height: 20,
-    ));
+    // colWidgets.add(SizedBox(
+    //   height: 20,
+    // ));
     colWidgets.add(Text(
       "0",
       style: kResultTextStyle_system,
@@ -378,7 +378,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
       textAlign: TextAlign.end,
     ));
     colWidgets.add(SizedBox(
-      height: 20,
+      height: 10,
     ));
 
     for (var i=0; i < this._engine.getRows(); i++) {
@@ -408,7 +408,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
       var row = new Row(children: rowWidgets);
       var expanded = new Expanded(child: row);
       var container = new Container(
-        height: kMainColumnHeightPortrait,
+        height: (this._engine.grid[i][0].halfHeight ? kMainColumnHeightPortrait/2 : kMainColumnHeightPortrait),
         child: expanded,
       );
       colWidgets.add(container);

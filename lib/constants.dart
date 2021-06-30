@@ -49,10 +49,10 @@ const kSettingsTextEditStyle = TextStyle(
 // }
 
 const kResultTextStyle_system = TextStyle(
-  fontSize: 40,
+  fontSize: 30,
   color: Colors.white,
   fontWeight: FontWeight.bold,
-  height: 1.5,
+  height: 1.2,
 );
 
 
@@ -61,6 +61,8 @@ const kLabelTextStyle_system = TextStyle(
   color: Colors.white,
   fontWeight: FontWeight.bold,
 );
+
+
 const kNumberTextStyle_system = TextStyle(
   fontSize: 25,
   color: Colors.white,
