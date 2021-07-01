@@ -32,6 +32,7 @@ Also want this to be a PWA.
 - change labels
 
 - finish hex/dec/oct/bin outline
+- fix InkWell splash, ink is plashed behind the decoration/gradient
 
 - remove settings_button
 - review constants

@@ -394,7 +394,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
         var gradient = this._engine.grid[i][j].gradient;
         var flex = this._engine.grid[i][j].flex;
         // build onpress function
-        var onPress = (TapUpDetails details) { 
+        var onPress = () { 
           var msg = i.toString() + "," + j.toString();
           print(msg);
         };
@@ -406,6 +406,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                             margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
                             portrait: forcePortrait,
                             gradient: gradient,
+                            disabled: disabled,
                             cardChild: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[

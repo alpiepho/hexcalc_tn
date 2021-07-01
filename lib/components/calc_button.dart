@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcalc_tn/constants.dart';
 
 Color darken(Color color, [double amount = .1]) {
   assert(amount >= 0 && amount <= 1);
@@ -39,8 +40,9 @@ class CalcButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var colorTop = color;
     var colorBottom = (gradient ? darken(color, 0.2) : color);
-    return GestureDetector(
-        onTapUp: onPress as void Function(TapUpDetails)?,
+    return InkWell(
+        onTap: onPress as void Function()?,
+        splashColor: (disabled ? Colors.transparent : Colors.white),
         child: Container(
           child: cardChild,
           margin: margin,
