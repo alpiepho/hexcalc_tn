@@ -31,6 +31,8 @@ Also want this to be a PWA.
 - add parens for non-rpn
 - change labels
 
+- finish hex/dec/oct/bin outline
+
 - remove settings_button
 - review constants
 - update README

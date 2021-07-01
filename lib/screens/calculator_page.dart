@@ -393,10 +393,15 @@ class _CalculatorPageState extends State<CalculatorPage> {
         var background = this._engine.grid[i][j].background;
         var gradient = this._engine.grid[i][j].gradient;
         var flex = this._engine.grid[i][j].flex;
+        // build onpress function
+        var onPress = (TapUpDetails details) { 
+          var msg = i.toString() + "," + j.toString();
+          print(msg);
+        };
         if (flex > 0) {
           rowWidgets.add(new Expanded(
                           child: CalcButton(
-                            //onPress: _incrementLeft,
+                            onPress: onPress,
                             color: background,
                             margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
                             portrait: forcePortrait,

@@ -10,7 +10,6 @@ class Cell {
   bool gradient;
   int flex;
   bool disabled;
-  // int outlineCount = 0;
 
   Cell(
     { 
@@ -23,7 +22,6 @@ class Cell {
       this.disabled = false,
     }
   );
-
 
 
 }
