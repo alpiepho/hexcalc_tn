@@ -70,7 +70,7 @@ class Engine {
     grid[row][col] = new Cell(label: "DEC", style: kDarkLabelTextStyle, halfHeight: true, background: kBlueColor, gradient: false); col++;
     grid[row][col] = new Cell(label: "OCT", style: kBlueLabelTextStyle, halfHeight: true, background: kDarkColor, gradient: false); col++;
     grid[row][col] = new Cell(label: "BIN", style: kBlueLabelTextStyle, halfHeight: true, background: kDarkColor, gradient: false); col++;
-    grid[row][col] = new Cell(label: "i", style: kLabelTextStyle, halfHeight: true, background: kBlueColor); col++;
+    grid[row][col] = new Cell(label: "?", style: kLabelTextStyle, halfHeight: true, background: kBlueColor); col++;
     row++;
     col = 0;
     grid[row][col] = new Cell(label: "M+", style: kLabelTextStyle, halfHeight: true, background: kBlueColor); col++;
@@ -125,9 +125,8 @@ class Engine {
     grid[row][col] = new Cell(label: "CE", background: kGreenColor); col++;
     grid[row][col] = new Cell(label: "0"); col++;
     grid[row][col] = new Cell(label: "00"); col++;
-    grid[row][col] = new Cell(label: "=", background: kOrangeColor); col++;
     grid[row][col] = new Cell(label: ""); col++;
-
+    grid[row][col] = new Cell(label: "=", background: kOrangeColor); col++;
   }
 
   //
