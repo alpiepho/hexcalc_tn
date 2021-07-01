@@ -359,22 +359,22 @@ class _CalculatorPageState extends State<CalculatorPage> {
     // ));
     colWidgets.add(Text(
       "0",
-      style: kResultTextStyle_system,
+      style: kResultTextStyle,
       textAlign: TextAlign.end,
     ));
     colWidgets.add(Text(
       "0",
-      style: kResultTextStyle_system,
+      style: kResultTextStyle,
       textAlign: TextAlign.end,
     ));
     colWidgets.add(Text(
       "0",
-      style: kResultTextStyle_system,
+      style: kResultTextStyle,
       textAlign: TextAlign.end,
     ));
     colWidgets.add(Text(
       "0",
-      style: kResultTextStyle_system,
+      style: kResultTextStyle,
       textAlign: TextAlign.end,
     ));
     colWidgets.add(SizedBox(
@@ -386,6 +386,10 @@ class _CalculatorPageState extends State<CalculatorPage> {
       for (var j=0; j < this._engine.getCols(); j++) {
         var label = this._engine.getLabel(i, j);
         var style = this._engine.getStyle(i, j);
+        var disabled = this._engine.grid[i][j].disabled;
+        if (disabled) {
+          style = style.copyWith(color: kLightColor);
+        }
         var background = this._engine.grid[i][j].background;
         var gradient = this._engine.grid[i][j].gradient;
         rowWidgets.add(new Expanded(

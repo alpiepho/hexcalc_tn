@@ -2,23 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hexcalc_tn/constants.dart';
 
 
-
-class User {
-
-  String name;
-  int age;
-  String home;
-
-  User(this.name, this.age, {this.home = 'Earth'});
-}
-
-
 class Cell {
   String label;
   TextStyle style;
   bool halfHeight;
   Color background;
   bool gradient;
+  bool disabled;
   // int spanCount = 1;
   // int outlineCount = 0;
 
@@ -29,6 +19,7 @@ class Cell {
       this.halfHeight = false,
       this.background = Colors.grey,
       this.gradient = true,
+      this.disabled = false,
     }
   );
 
@@ -96,16 +87,16 @@ class Engine {
     grid[row][col] = new Cell(label: "MOD", style: kLabelTextStyle, halfHeight: true, background: kBlueColor); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell(label: "D"); col++;
-    grid[row][col] = new Cell(label: "E"); col++;
-    grid[row][col] = new Cell(label: "F"); col++;
+    grid[row][col] = new Cell(label: "D", disabled: true); col++;
+    grid[row][col] = new Cell(label: "E", disabled: true); col++;
+    grid[row][col] = new Cell(label: "F", disabled: true); col++;
     grid[row][col] = new Cell(label: "NEG", style: kLabelTextStyle); col++;
     grid[row][col] = new Cell(label: "AC", background: kRedColor); col++;
     row++;
     col = 0;
-    grid[row][col] = new Cell(label: "A"); col++;
-    grid[row][col] = new Cell(label: "B"); col++;
-    grid[row][col] = new Cell(label: "C"); col++;
+    grid[row][col] = new Cell(label: "A", disabled: true); col++;
+    grid[row][col] = new Cell(label: "B", disabled: true); col++;
+    grid[row][col] = new Cell(label: "C", disabled: true); col++;
     grid[row][col] = new Cell(label: "NOT", style: kLabelTextStyle); col++;
     grid[row][col] = new Cell(label: "/"); col++;
     row++;

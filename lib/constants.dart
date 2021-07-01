@@ -47,32 +47,19 @@ const kSettingsTextEditStyle = TextStyle(
 //   rockSalt,
 // }
 
-const kResultTextStyle_system = TextStyle(
+const kResultTextStyle = TextStyle(
   fontSize: 30,
   color: Colors.white,
   fontWeight: FontWeight.bold,
   height: 1.2,
 );
 
-// red
-// #C30000
-
-// blue
-// #637D9E
-
-// green
-// #00B02B
-
-// orange
-// #FF985A
-
-
-
 const kBlueColor = Color(0xFF637D9E);
 const kRedColor = Color(0xFFC30000);
 const kGreenColor = Color(0xFF00B02B);
 const kOrangeColor = Color(0xFFFF985A);
 const kDarkColor = Color(0xFFF29292C);
+const kLightColor = Color(0xFFACACAC);
 
 const kLabelTextStyle = TextStyle(
   fontSize: 18.0,

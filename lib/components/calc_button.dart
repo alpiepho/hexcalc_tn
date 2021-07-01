@@ -23,6 +23,7 @@ class CalcButton extends StatelessWidget {
     required this.margin, 
     required this.portrait,
     this.gradient = true,
+    this.disabled = false,
     this.cardChild, 
     this.onPress});
 
@@ -30,6 +31,7 @@ class CalcButton extends StatelessWidget {
   final EdgeInsets margin;
   final bool portrait;
   final bool gradient;
+  final bool disabled;
   final Widget? cardChild;
   final Function? onPress;
 
@@ -44,8 +46,12 @@ class CalcButton extends StatelessWidget {
           margin: margin,
           width: double.infinity,
           decoration: BoxDecoration(
-            //color: color,
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(10),
+              topLeft: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10),
+            ),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
