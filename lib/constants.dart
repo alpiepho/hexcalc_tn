@@ -80,7 +80,7 @@ const kDarkLabelTextStyle = TextStyle(
 );
 
 const kNumberTextStyle = TextStyle(
-  fontSize: 30,
+  fontSize: 36,
   color: Colors.white,
   fontWeight: FontWeight.bold,
   height: 1.1,

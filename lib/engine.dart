@@ -8,8 +8,8 @@ class Cell {
   bool halfHeight;
   Color background;
   bool gradient;
+  int flex;
   bool disabled;
-  // int spanCount = 1;
   // int outlineCount = 0;
 
   Cell(
@@ -19,6 +19,7 @@ class Cell {
       this.halfHeight = false,
       this.background = Colors.grey,
       this.gradient = true,
+      this.flex = 1,
       this.disabled = false,
     }
   );
@@ -125,8 +126,8 @@ class Engine {
     grid[row][col] = new Cell(label: "CE", background: kGreenColor); col++;
     grid[row][col] = new Cell(label: "0"); col++;
     grid[row][col] = new Cell(label: "00"); col++;
-    grid[row][col] = new Cell(label: ""); col++;
-    grid[row][col] = new Cell(label: "=", background: kOrangeColor); col++;
+    grid[row][col] = new Cell(label: "=", background: kOrangeColor, flex: 2); col++;
+    grid[row][col] = new Cell(label: "", flex: 0); col++;
   }
 
   //

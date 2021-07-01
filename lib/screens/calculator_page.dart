@@ -392,25 +392,29 @@ class _CalculatorPageState extends State<CalculatorPage> {
         }
         var background = this._engine.grid[i][j].background;
         var gradient = this._engine.grid[i][j].gradient;
-        rowWidgets.add(new Expanded(
-                        child: CalcButton(
-                          //onPress: _incrementLeft,
-                          color: background,
-                          margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
-                          portrait: forcePortrait,
-                          gradient: gradient,
-                          cardChild: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                label,
-                                style: style,
-                              ),
-                            ],
+        var flex = this._engine.grid[i][j].flex;
+        if (flex > 0) {
+          rowWidgets.add(new Expanded(
+                          child: CalcButton(
+                            //onPress: _incrementLeft,
+                            color: background,
+                            margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
+                            portrait: forcePortrait,
+                            gradient: gradient,
+                            cardChild: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  label,
+                                  style: style,
+                                ),
+                              ],
+                            ),
                           ),
+                          flex: flex,
                         ),
-                      ),
-        );
+          );
+        }
       }
       var row = new Row(children: rowWidgets);
       var expanded = new Expanded(child: row);
