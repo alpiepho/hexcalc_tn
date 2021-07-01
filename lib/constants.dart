@@ -67,11 +67,6 @@ const kResultTextStyle_system = TextStyle(
 // #FF985A
 
 
-const kLabelTextStyle = TextStyle(
-  fontSize: 15.0,
-  color: Colors.white,
-  fontWeight: FontWeight.bold,
-);
 
 const kBlueColor = Color(0xFF637D9E);
 const kRedColor = Color(0xFFC30000);
@@ -79,8 +74,26 @@ const kGreenColor = Color(0xFF00B02B);
 const kOrangeColor = Color(0xFFFF985A);
 const kDarkColor = Color(0xFFF29292C);
 
-const kNumberTextStyle_system = TextStyle(
-  fontSize: 25,
+const kLabelTextStyle = TextStyle(
+  fontSize: 18.0,
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+);
+
+const kBlueLabelTextStyle = TextStyle(
+  fontSize: 18.0,
+  color: kBlueColor,
+  fontWeight: FontWeight.bold,
+);
+
+const kDarkLabelTextStyle = TextStyle(
+  fontSize: 18.0,
+  color: kDarkColor,
+  fontWeight: FontWeight.bold,
+);
+
+const kNumberTextStyle = TextStyle(
+  fontSize: 30,
   color: Colors.white,
   fontWeight: FontWeight.bold,
   height: 1.1,

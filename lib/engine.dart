@@ -18,16 +18,17 @@ class Cell {
   TextStyle style;
   bool halfHeight;
   Color background;
-  // bool gradient = true;
+  bool gradient;
   // int spanCount = 1;
   // int outlineCount = 0;
 
   Cell(
     { 
       this.label = '',
-      this.style = kNumberTextStyle_system,
+      this.style = kNumberTextStyle,
       this.halfHeight = false,
       this.background = Colors.grey,
+      this.gradient = true,
     }
   );
 
@@ -74,10 +75,10 @@ class Engine {
   Engine() {
     int row = 0;
     int col = 0;
-    grid[row][col] = new Cell(label: "HEX", style: kLabelTextStyle, halfHeight: true, background: kDarkColor); col++;
-    grid[row][col] = new Cell(label: "DEC", style: kLabelTextStyle, halfHeight: true, background: kBlueColor); col++;
-    grid[row][col] = new Cell(label: "OCT", style: kLabelTextStyle, halfHeight: true, background: kDarkColor); col++;
-    grid[row][col] = new Cell(label: "BIN", style: kLabelTextStyle, halfHeight: true, background: kDarkColor); col++;
+    grid[row][col] = new Cell(label: "HEX", style: kBlueLabelTextStyle, halfHeight: true, background: kDarkColor, gradient: false); col++;
+    grid[row][col] = new Cell(label: "DEC", style: kDarkLabelTextStyle, halfHeight: true, background: kBlueColor, gradient: false); col++;
+    grid[row][col] = new Cell(label: "OCT", style: kBlueLabelTextStyle, halfHeight: true, background: kDarkColor, gradient: false); col++;
+    grid[row][col] = new Cell(label: "BIN", style: kBlueLabelTextStyle, halfHeight: true, background: kDarkColor, gradient: false); col++;
     grid[row][col] = new Cell(label: "i", style: kLabelTextStyle, halfHeight: true, background: kBlueColor); col++;
     row++;
     col = 0;

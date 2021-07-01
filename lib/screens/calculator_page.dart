@@ -387,12 +387,14 @@ class _CalculatorPageState extends State<CalculatorPage> {
         var label = this._engine.getLabel(i, j);
         var style = this._engine.getStyle(i, j);
         var background = this._engine.grid[i][j].background;
+        var gradient = this._engine.grid[i][j].gradient;
         rowWidgets.add(new Expanded(
                         child: CalcButton(
                           //onPress: _incrementLeft,
                           color: background,
                           margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
                           portrait: forcePortrait,
+                          gradient: gradient,
                           cardChild: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
