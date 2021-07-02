@@ -58,11 +58,17 @@ class Engine {
   // bool lastPointLeft = false;
   // bool lastPointEnabled = false;
 
-  int rows = 9;
-  int cols = 5;
+  int shown = 4;
+  var stack = List.generate(10, (index) => "0");
+  
+  //int rows = 9;
+  //int cols = 5;
   var grid = List.generate(9, (i) => List.generate(5, (index) => Cell()), growable: false);
 
   Engine() {
+    for (int i = 0; i < stack.length; i++) {
+      stack[i] = i.toString();
+    }
     int row = 0;
     int col = 0;
     grid[row][col] = new Cell(label: "HEX", style: kBlueLabelTextStyle, halfHeight: true, background: kDarkColor, gradient: false); col++;
@@ -151,12 +157,17 @@ class Engine {
 
     // result += fontType.toString() + ";";
 
-    result += forceLandscape.toString() + ";";
-    // result += notify7Enabled.toString() + ";";
+     // result += notify7Enabled.toString() + ";";
     // result += notify8Enabled.toString() + ";";
 
     // result += lastPointLeft.toString() + ";";
     // result += lastPointEnabled.toString() + ";";
+
+    result += forceLandscape.toString() + ";";
+    result += shown.toString() + ";";
+    for (var value in stack) {
+      result += value + ";";
+    }
 
     return result;
   }
@@ -216,7 +227,6 @@ class Engine {
     // }
     // index++;
 
-    forceLandscape = parts[index++] == "true";
     // notify7Enabled = parts[index++] == "true";
     // notify8Enabled = parts[index++] == "true";
 
@@ -233,6 +243,11 @@ class Engine {
     // newColorTextRight = colorTextRight;
     // newColorBackgroundRight = colorBackgroundRight;
 
+    forceLandscape = parts[index++] == "true";
+    shown = int.parse(parts[index++]);
+    // for (int i = 0; i < stack.length; i++) {
+    //   stack[i] = parts[index++];
+    // }
   }
 
   // //

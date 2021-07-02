@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcalc_tn/components/calc_button.dart';
+import 'package:hexcalc_tn/components/settings_modal.dart';
 // import 'package:hexcalc_tn/components/settings_button.dart';
 // import 'package:hexcalc_tn/components/settings_modal.dart';
 import 'package:hexcalc_tn/constants.dart';
@@ -354,33 +355,20 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     var colWidgets = <Widget>[];
 
-    // colWidgets.add(SizedBox(
-    //   height: 20,
-    // ));
-    colWidgets.add(Text(
-      "0",
-      style: kResultTextStyle,
-      textAlign: TextAlign.end,
-    ));
-    colWidgets.add(Text(
-      "0",
-      style: kResultTextStyle,
-      textAlign: TextAlign.end,
-    ));
-    colWidgets.add(Text(
-      "0",
-      style: kResultTextStyle,
-      textAlign: TextAlign.end,
-    ));
-    colWidgets.add(Text(
-      "0",
-      style: kResultTextStyle,
-      textAlign: TextAlign.end,
-    ));
+    // build the result lines from last N lines of stack
+    var index = this._engine.stack.length - this._engine.shown;
+    for (int i = 0; i < this._engine.shown; i++) {
+      colWidgets.add(Text(
+        this._engine.stack[index++],
+        style: kResultTextStyle,
+        textAlign: TextAlign.end,
+      ));
+    }
     colWidgets.add(SizedBox(
       height: 10,
     ));
 
+    // build the buttons
     for (var i=0; i < this._engine.getRows(); i++) {
       var rowWidgets = <Widget>[];
       for (var j=0; j < this._engine.getCols(); j++) {
@@ -398,6 +386,25 @@ class _CalculatorPageState extends State<CalculatorPage> {
           var msg = i.toString() + "," + j.toString();
           print(msg);
         };
+        if (label == "?") {
+          // replace press onPress with settings page call
+            onPress = () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext bc) {
+                    return SettingsModal(
+                      context,
+                      this._engine,
+                      () => {},
+                      () => {},
+                      () => {},
+                      () => {},
+                    );
+                  },
+                  isScrollControlled: true,
+              );
+            };
+        }
         if (flex > 0) {
           rowWidgets.add(new Expanded(
                           child: CalcButton(

@@ -20,16 +20,17 @@ Also want this to be a PWA.
 - [done] update main.dart
 - [done] convert score_card to calc_button
 - [done] clean up warnings
+- [done] duplicate features from main screen
+- [done] change labels
+
+- expand results lines based on engine
 
 - cleanup commented out code
 
-- duplicate features from main screen
 - duplicate features from settings screen
-- expand results lines
 - add rpn
 - add decimal point and support for float
 - add parens for non-rpn
-- change labels
 
 - finish hex/dec/oct/bin outline
 - fix InkWell splash, ink is plashed behind the decoration/gradient
