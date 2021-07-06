@@ -67,24 +67,4 @@ class CalcButton extends StatelessWidget {
         ),
       );
   }
-
-  //   Widget build(BuildContext context) {
-  //   return RotatedBox(
-  //     quarterTurns: (this.portrait ? 1 : 0),
-  //     child: GestureDetector(
-  //       onTapUp: onPress as void Function(TapUpDetails)?,
-  //       onPanUpdate: onPan as void Function(DragUpdateDetails)?,
-  //       child: Container(
-  //         child: cardChild,
-  //         margin: margin,
-  //         width: double.infinity,
-  //         decoration: BoxDecoration(
-  //           color: color,
-  //           borderRadius: BorderRadius.circular(20.0),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
 }

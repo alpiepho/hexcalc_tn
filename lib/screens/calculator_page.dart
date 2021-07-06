@@ -42,6 +42,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
   // double _panPositionYLeft = 0.0;
   // double _panPositionYRight = 0.0;
 
+  String _result3 = "0";
+  String _result2 = "0";
+  String _result1 = "0";
+  String _result0 = "0";
+
   Engine _engine = Engine();
 
   void _loadEngine() async {
@@ -58,6 +63,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   void _fromEngine() async {
     setState(() {
+
+    var index = 0;
+    _result0 = this._engine.stack[index++];
+    _result1 = this._engine.stack[index++];
+    _result2 = this._engine.stack[index++];
+    _result3 = this._engine.stack[index++];
+
       // _labelLeft  = this._engine.getLabelLeft();
       // _labelRight = this._engine.getLabelRight();
       // _valueLeft = this._engine.valueLeft;
@@ -144,7 +156,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //   _fromEngine();
   // }
 
-  // void _onClear() async {
+  void _onClear() async {
   //   showDialog<void>(
   //     context: context,
   //     barrierDismissible: false, // user must tap button!
@@ -178,9 +190,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //       );
   //     },
   //   );
-  // }
+  }
 
-  // void _onReset() async {
+  void _onReset() async {
   //   showDialog<void>(
   //     context: context,
   //     barrierDismissible: false, // user must tap button!
@@ -214,19 +226,19 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //       );
   //     },
   //   );
-  // }
+  }
 
-  // void _onSwap() async {
+  void _onSwap() async {
   //   this._engine.swapTeams();
   //   _fromEngine();
   //   Navigator.of(context).pop();
-  // }
+  }
 
-  // void _onDone() async {
+  void _onDone() async {
   //   //this._engine.saveBoth();
   //   _fromEngine();
   //   Navigator.of(context).pop();
-  // }
+  }
 
   // void _panUpdateLeft(DragUpdateDetails details) async {
   //   // use swipe to adjust score
@@ -336,6 +348,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //   }
   // }
 
+  void _notifyEngine(int x, int y) async {
+    this._engine.processKey(x, y);
+    _fromEngine();
+  }
+
   @override
   initState() {
     super.initState();
@@ -351,19 +368,31 @@ class _CalculatorPageState extends State<CalculatorPage> {
     // numberTextStyle = kNumberTextStyle_system; //getNumberFont(_fontType);
 
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    var forcePortrait = this._engine.forceLandscape && isPortrait;
+    var forcePortrait = isPortrait;
 
     var colWidgets = <Widget>[];
 
     // build the result lines from last N lines of stack
-    var index = this._engine.stack.length - this._engine.shown;
-    for (int i = 0; i < this._engine.shown; i++) {
-      colWidgets.add(Text(
-        this._engine.stack[index++],
-        style: kResultTextStyle,
-        textAlign: TextAlign.end,
-      ));
-    }
+    colWidgets.add(Text(
+      _result3,
+      style: kResultTextStyle,
+      textAlign: TextAlign.end,
+    ));
+    colWidgets.add(Text(
+      _result2,
+      style: kResultTextStyle,
+      textAlign: TextAlign.end,
+    ));
+    colWidgets.add(Text(
+      _result1,
+      style: kResultTextStyle,
+      textAlign: TextAlign.end,
+    ));
+    colWidgets.add(Text(
+      _result0,
+      style: kResultTextStyle,
+      textAlign: TextAlign.end,
+    ));
     colWidgets.add(SizedBox(
       height: 10,
     ));
@@ -381,10 +410,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
         var background = this._engine.grid[i][j].background;
         var gradient = this._engine.grid[i][j].gradient;
         var flex = this._engine.grid[i][j].flex;
-        // build onpress function
+        // build onpress function that calls engine with closure
         var onPress = () { 
-          var msg = i.toString() + "," + j.toString();
-          print(msg);
+          _notifyEngine(i, j);
         };
         if (label == "?") {
           // replace press onPress with settings page call
@@ -395,10 +423,10 @@ class _CalculatorPageState extends State<CalculatorPage> {
                     return SettingsModal(
                       context,
                       this._engine,
-                      () => {},
-                      () => {},
-                      () => {},
-                      () => {},
+                      _onReset,
+                      _onClear,
+                      _onSwap,
+                      _onDone,
                     );
                   },
                   isScrollControlled: true,
@@ -430,10 +458,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
         }
       }
       var row = new Row(children: rowWidgets);
-      var expanded = new Expanded(child: row);
       var container = new Container(
         height: (this._engine.grid[i][0].halfHeight ? kMainColumnHeightPortrait/2 : kMainColumnHeightPortrait),
-        child: expanded,
+        child: row,
       );
       colWidgets.add(container);
     }

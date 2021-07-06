@@ -22,8 +22,24 @@ Also want this to be a PWA.
 - [done] clean up warnings
 - [done] duplicate features from main screen
 - [done] change labels
+- [done] expand results lines based on engine
+- [done] engine process chars
+- [done] engine change result
+- [done] remove settings_button
 
-- expand results lines based on engine
+- engine process operations
+
+- settings: number lines, 1 or 4
+- settings: number bits, 8,12,16,24,32,48,64
+- settings: signed/unsigned
+- settings: key click
+- settings: sounds
+- settings: CE as backspace
+- settings: dozenal (base 12)
+- settings: operator prcedences
+- results: copy
+- results: paste
+
 
 - cleanup commented out code
 
@@ -35,7 +51,6 @@ Also want this to be a PWA.
 - finish hex/dec/oct/bin outline
 - fix InkWell splash, ink is plashed behind the decoration/gradient
 
-- remove settings_button
 - review constants
 - update README
 - get devide symbol?
