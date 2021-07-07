@@ -27,7 +27,12 @@ Also want this to be a PWA.
 - [done] engine change result
 - [done] remove settings_button
 
-- engine process operations
+- engine: process number entry
+- engine: process CE
+- engine: process HEX,DEC,BIN,OCT
+
+
+- engine: process operations
 
 - settings: number lines, 1 or 4
 - settings: number bits, 8,12,16,24,32,48,64
@@ -42,6 +47,7 @@ Also want this to be a PWA.
 
 
 - cleanup commented out code
+- save preferences
 
 - duplicate features from settings screen
 - add rpn
