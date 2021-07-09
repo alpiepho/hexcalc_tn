@@ -11,28 +11,28 @@ class SettingsModal extends StatefulWidget {
   late BuildContext context;
   late Engine engine;
   late Function onReset;
-  late Function onClear;
-  late Function onSwap;
+  // late Function onClear;
+  // late Function onSwap;
   late Function onDone;
 
   SettingsModal(
       BuildContext context,
       Engine engine,
-      Function onReset,
-      Function onClear,
-      Function onSwap,
+      // Function onReset,
+      // Function onClear,
+      // Function onSwap,
       Function onDone
       ) {
     this.context = context;
     this.engine = engine;
-    this.onReset = onReset;
-    this.onClear = onClear;
-    this.onSwap = onSwap;
+    // this.onReset = onReset;
+    // this.onClear = onClear;
+    // this.onSwap = onSwap;
     this.onDone = onDone;
   }
 
   @override
-  _SettingsModal createState() => _SettingsModal(context, engine, onReset, onClear, onSwap, onDone);
+  _SettingsModal createState() => _SettingsModal(context, engine, onDone);
 }
 
 class _SettingsModal extends State<SettingsModal> {
@@ -40,16 +40,16 @@ class _SettingsModal extends State<SettingsModal> {
   _SettingsModal(
       BuildContext context,
       Engine engine,
-      Function onReset,
-      Function onClear,
-      Function onSwap,
+      // Function onReset,
+      // Function onClear,
+      // Function onSwap,
       Function onDone
       ) {
     this.context = context;
     this.engine = engine;
     this.onReset = onReset;
-    this.onClear = onClear;
-    this.onSwap = onSwap;
+    // this.onClear = onClear;
+    // this.onSwap = onSwap;
     this.onDone = onDone;
     // this._newColorTextLeft = this.engine.newColorTextLeft;
     // this._newColorBackgroundLeft = this.engine.newColorBackgroundLeft;

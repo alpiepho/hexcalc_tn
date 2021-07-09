@@ -156,7 +156,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //   _fromEngine();
   // }
 
-  void _onClear() async {
+  // void _onClear() async {
   //   showDialog<void>(
   //     context: context,
   //     barrierDismissible: false, // user must tap button!
@@ -190,9 +190,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //       );
   //     },
   //   );
-  }
+  // }
 
-  void _onReset() async {
+  // void _onReset() async {
   //   showDialog<void>(
   //     context: context,
   //     barrierDismissible: false, // user must tap button!
@@ -226,18 +226,18 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //       );
   //     },
   //   );
-  }
+  // }
 
-  void _onSwap() async {
+  // void _onSwap() async {
   //   this._engine.swapTeams();
   //   _fromEngine();
   //   Navigator.of(context).pop();
-  }
+  // }
 
   void _onDone() async {
   //   //this._engine.saveBoth();
-  //   _fromEngine();
-  //   Navigator.of(context).pop();
+    _fromEngine();
+    Navigator.of(context).pop();
   }
 
   // void _panUpdateLeft(DragUpdateDetails details) async {
@@ -423,9 +423,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
                     return SettingsModal(
                       context,
                       this._engine,
-                      _onReset,
-                      _onClear,
-                      _onSwap,
+                      // _onReset,
+                      // _onClear,
+                      // _onSwap,
                       _onDone,
                     );
                   },

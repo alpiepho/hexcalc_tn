@@ -27,6 +27,8 @@ Also want this to be a PWA.
 - [done] engine change result
 - [done] remove settings_button
 
+- engine: key disable based on mode
+
 - engine: process number entry
 - engine: process CE
 - engine: process HEX,DEC,BIN,OCT
