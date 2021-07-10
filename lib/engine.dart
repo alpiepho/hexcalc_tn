@@ -35,6 +35,15 @@ class Engine {
   var grid = List.generate(9, (i) => List.generate(5, (index) => Cell()), growable: false);
 
   var mode = "DEC";
+  var numberBits = 64; // 8, 12, 24, 32, 48, 64
+  var numberSigned = false;
+  var keyClick = false;
+  var sounds = false;
+  var backspaceCE = true;
+  var dozonal = false; // base12
+  var operatorPrec = true; // 1+2x3=7 instead of 9
+
+  var linesShown = 4;
 
   Engine() {
     for (int i = 0; i < stack.length; i++) {
@@ -115,9 +124,16 @@ class Engine {
       result += value + ";";
     }
     result += stackPointer.toString() + ";";
-
     result += mode + ";";
+    result += numberBits.toString() + ";";
+    result += numberSigned.toString() + ";";
+    result += keyClick.toString() + ";";
+    result += sounds.toString() + ";";
+    result += backspaceCE.toString() + ";";
+    result += dozonal.toString() + ";";
+    result += operatorPrec.toString() + ";";
 
+    result += linesShown.toString() + ";";
     return result;
   }
 
@@ -131,30 +147,20 @@ class Engine {
       stack[i] = parts[index++];
     }
     stackPointer = int.parse(parts[index++]);
-
+    numberBits = int.parse(parts[index++]);
     mode = parts[index++];
-  }
+    numberSigned = parts[index++] == "true";
+    keyClick = parts[index++] == "true";
+    sounds = parts[index++] == "true";
+    backspaceCE = parts[index++] == "true";
+    dozonal = parts[index++] == "true";
+    operatorPrec = parts[index++] == "true";
 
-  int getRows() {
-    return grid.length;
-  }
-
-    int getCols() {
-    return grid[0].length;
-  }
-
-  String getLabel(int x, int y) {
-    return grid[x][y].label;
-  }
-
-  TextStyle getStyle(int x, int y) {
-    return grid[x][y].style;
+    linesShown = int.parse(parts[index++]);
   }
 
 
-  //
-  // Public methods
-  //
+
 
 // case "HEX":
 // case "DEC":
@@ -336,16 +342,89 @@ class Engine {
     return result;
   }
 
+  bool isOp(String key) {
+    bool result;
+    switch(key) {
+      case "SHL":
+      case "SHR":
+      case "ROL":
+      case "ROR":
+      case "MOD":
+      case "NEG":
+      case "NOT":
+      case "/":
+      case "AND":
+      case "x":
+      case "XOR":
+      case "-":
+      case "OR":
+      case "+":
+      case "=": result = true; break;
+      default: result = false; break;
+    }
+    return result;
+  }
+
+  bool isUnaryOp(String key) {
+    bool result;
+    switch(key) {
+      case "SHL":
+      case "SHR":
+      case "ROL":
+      case "ROR":
+      case "NOT": result = true; break;
+      default: result = false; break;
+    }
+    return result;
+  }
+
+  bool isBitOp(String key) {
+    bool result;
+    switch(key) {
+      case "SHL":
+      case "SHR":
+      case "ROL":
+      case "ROR":
+      case "MOD":
+      case "NEG":
+      case "NOT":
+      case "AND":
+      case "XOR":
+      case "OR": result = true; break;
+      default: result = false; break;
+    }
+    return result;
+  }
+
+  bool isMathOp(String key) {
+    bool result;
+    switch(key) {
+      case "/":
+      case "x":
+      case "-":
+      case "+": result = true; break;
+      default: result = false; break;
+    }
+    return result;
+  }
+
+  bool isDoCalcOp(String key) {
+    bool result;
+    // TODO: add RPN 'enter' and isOp here
+    switch(key) {
+      case "=": result = true; break;
+      default: result = false; break;
+    }
+    return result;
+  }
+
+
   void applyMode() {
     for (int x = 0; x < grid.length; x++) {
       for (int y = 0; y < grid[0].length; y++) {
         var key = grid[x][y].label;
         // based on mode highlight appropriate mode key
          if (isModeKey(key)) {
-    // "HEX", style: kBlueLabelTextStyle, background: kDarkColor,
-    // "DEC", style: kDarkLabelTextStyle, background: kBlueColor,
-    // "OCT", style: kBlueLabelTextStyle, background: kDarkColor,
-    // "BIN", style: kBlueLabelTextStyle, background: kDarkColor,
           grid[x][y].style = kBlueLabelTextStyle;
           grid[x][y].background = kDarkColor;
           if (key == mode) { grid[x][y].style = kDarkLabelTextStyle; grid[x][y].background = kBlueColor; }
@@ -369,27 +448,84 @@ class Engine {
     }
   }
 
-  void processKey(int x, int y) {
-    var msg = "ENGINE: " + x.toString() + "," + y.toString() + " " + grid[x][y].label;
-    if (stackPointer < stack.length) {
-      print(msg);
-      stack[stackPointer++] = grid[x][y].label;
+  void processEdit(String key) {
+    if (isNumKey(key)) {
+      var current = stack[stackPointer];
+      // TODO limit based on mode and numberBits
+      // for now: FFFFFFFF FFFFFFFF == 18446744073709551615, 20 digits
+      if (current.length < 20) {
+        if (current.length == 1 && current[0] == '0') {
+          current = key;
+        } else {
+          current = current + key;
+        }
+      }
+      stack[stackPointer] = current;
     }
+  }
 
-    var key = grid[x][y].label;
-
-    // TODO finish ops
+  void processAC(String key) {
     if (key == "AC") {
       for (int i = 0; i < stack.length; i++) {
         stack[i] = "0";
       }
       stackPointer = 0;
     }
+  }
+
+  void processCE(String key) {
+    if (key == "CE") {
+      if (backspaceCE) {
+        var current = stack[stackPointer];
+        if (current.length == 1) {
+          current = "0";
+        } else {
+          current = current.substring(0, current.length-1);
+        }
+        stack[stackPointer] = current;
+      } else {
+        stack[stackPointer] = "0";
+      }
+    }
+  }
+
+  //
+  // Public methods
+  //
+
+  int getRows() {
+    return grid.length;
+  }
+
+    int getCols() {
+    return grid[0].length;
+  }
+
+  String getLabel(int x, int y) {
+    return grid[x][y].label;
+  }
+
+  TextStyle getStyle(int x, int y) {
+    return grid[x][y].style;
+  }
+
+  void processKey(int x, int y) {
+    // var msg = "ENGINE: " + x.toString() + "," + y.toString() + " " + grid[x][y].label;
+    // if (stackPointer < stack.length) {
+    //   print(msg);
+    //   stack[stackPointer++] = grid[x][y].label;
+    // }
+
+    var key = grid[x][y].label;
+
+    // TODO finish ops
+    processEdit(key);
+    processAC(key);
+    processCE(key);
 
     if (isModeKey(key)) {
       setMode(key);
     }
-
     applyMode();
   }
 

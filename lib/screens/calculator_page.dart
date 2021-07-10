@@ -373,21 +373,27 @@ class _CalculatorPageState extends State<CalculatorPage> {
     var colWidgets = <Widget>[];
 
     // build the result lines from last N lines of stack
-    colWidgets.add(Text(
-      _result3,
-      style: kResultTextStyle,
-      textAlign: TextAlign.end,
-    ));
-    colWidgets.add(Text(
-      _result2,
-      style: kResultTextStyle,
-      textAlign: TextAlign.end,
-    ));
-    colWidgets.add(Text(
-      _result1,
-      style: kResultTextStyle,
-      textAlign: TextAlign.end,
-    ));
+    if (this._engine.linesShown >= 4) {
+      colWidgets.add(Text(
+        _result3,
+        style: kResultTextStyle,
+        textAlign: TextAlign.end,
+      ));
+    }
+    if (this._engine.linesShown >= 3) {
+      colWidgets.add(Text(
+        _result2,
+        style: kResultTextStyle,
+        textAlign: TextAlign.end,
+      ));
+    }
+    if (this._engine.linesShown >= 2) {
+      colWidgets.add(Text(
+        _result1,
+        style: kResultTextStyle,
+        textAlign: TextAlign.end,
+      ));
+    }
     colWidgets.add(Text(
       _result0,
       style: kResultTextStyle,
