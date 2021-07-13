@@ -26,12 +26,10 @@ Also want this to be a PWA.
 - [done] engine process chars
 - [done] engine change result
 - [done] remove settings_button
-
-- engine: key disable based on mode
-
-- engine: process number entry
-- engine: process CE
-- engine: process HEX,DEC,BIN,OCT
+- [done] engine: key disable based on mode
+- [done] engine: process number entry
+- [done] engine: process CE
+- [done] engine: process HEX,DEC,BIN,OCT
 
 
 - engine: process operations
@@ -47,8 +45,10 @@ Also want this to be a PWA.
 - results: copy
 - results: paste
 
+- engine: refactor ops as function pointers
 
 - cleanup commented out code
+- look for refactor opportunies
 - save preferences
 
 - duplicate features from settings screen
@@ -58,6 +58,7 @@ Also want this to be a PWA.
 
 - finish hex/dec/oct/bin outline
 - fix InkWell splash, ink is plashed behind the decoration/gradient
+- how to support 64 bit in pwa?
 
 - review constants
 - update README

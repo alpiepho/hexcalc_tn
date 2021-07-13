@@ -25,6 +25,7 @@ class Engine {
   static const KEY_HEX = "HEX";
 
   var lastOp = "";
+  var inputLimit = 20;
 
   var stack = List.generate(10, (index) => "0");
   int stackPointer = 0;
@@ -33,7 +34,7 @@ class Engine {
       growable: false);
 
   var mode = "DEC";
-  var numberBits = 64; // 8, 12, 24, 32, 48, 64
+  var numberBits = 32; // 8, 12, 16, 24, 32, 48,   not supported in pwa: 64
   var numberSigned = false;
   var keyClick = false;
   var sounds = false;
@@ -335,10 +336,6 @@ class Engine {
     return result;
   }
 
-  void setMode(String key) {
-    if (isModeKey(key)) mode = key;
-  }
-
   bool isHexKey(String key) {
     bool result;
     switch (key) {
@@ -556,18 +553,130 @@ class Engine {
     return result;
   }
 
-  bool isDoCalcOp(String key) {
-    bool result;
-    // TODO: add RPN 'enter' and isOp here
-    switch (key) {
-      case "=":
-        result = true;
+  int lineToValue(String line) {
+    int result = 0;
+
+    switch (mode) {
+      case "HEX":
+        result = int.parse(line, radix: 16);
         break;
-      default:
-        result = false;
+      case "DOZ":
+        result = int.parse(line, radix: 12);
+        break;
+      case "DEC":
+        result = int.parse(line, radix: 10);
+        break;
+      case "OCT":
+        result = int.parse(line, radix: 8);
+        break;
+      case "BIN":
+        result = int.parse(line, radix: 2);
         break;
     }
+
     return result;
+  }
+
+  String valueToLine(int value) {
+    var result = "";
+
+    switch (mode) {
+      case "HEX":
+        result = value.toRadixString(16);
+        break;
+      case "DOZ":
+        result = value.toRadixString(12);
+        break;
+      case "DEC":
+        result = value.toRadixString(10);
+        break;
+      case "OCT":
+        result = value.toRadixString(8);
+        break;
+      case "BIN":
+        result = value.toRadixString(2);
+        break;
+    }
+
+    return result;
+  }
+
+  void processEdit(String key) {
+    if (isNumKey(key)) {
+      var current = stack[stackPointer];
+      if (current.length < inputLimit) {
+        if (current.length == 1 && current[0] == '0') {
+          current = key;
+        } else {
+          current = current + key;
+        }
+      }
+      stack[stackPointer] = current;
+    }
+  }
+
+  void processOps(String key) {
+    if (isOp(key)) {
+      lastOp = key;
+    }
+  }
+
+  void processOpUnary() {
+    if (isUnaryOp(lastOp)) {
+      int value = lineToValue(stack[stackPointer]);
+      switch (lastOp) {
+        case "SHL":
+          value = value << 1;
+          break;
+        case "SHR":
+          value = value >> 1;
+          break;
+        case "ROL":
+        case "ROR":
+          // TODO finish ROL and ROR
+          break;
+        case "NEG":
+          value = -1 * value;
+          break;
+        case "NOT":
+          value = ~value;
+          break;
+      }
+      lastOp = "";
+      print(value);
+      stack[stackPointer] = valueToLine(value);
+    }
+  }
+
+  void processEquals(String key) {
+    // TODO finish processEquals
+    if (key == "=" && lastOp != "") {}
+    lastOp = "";
+  }
+
+  void processAC(String key) {
+    if (key == "AC") {
+      for (int i = 0; i < stack.length; i++) {
+        stack[i] = "0";
+      }
+      stackPointer = 0;
+    }
+  }
+
+  void processCE(String key) {
+    if (key == "CE") {
+      if (backspaceCE) {
+        var current = stack[stackPointer];
+        if (current.length == 1) {
+          current = "0";
+        } else {
+          current = current.substring(0, current.length - 1);
+        }
+        stack[stackPointer] = current;
+      } else {
+        stack[stackPointer] = "0";
+      }
+    }
   }
 
   void applyMode() {
@@ -614,154 +723,58 @@ class Engine {
     }
   }
 
-  int lineToValue(String line) {
-    // TODO move this?
-    int result = 0;
-
-    switch (mode) {
-      case "HEX":
-        result = int.parse(line, radix: 16);
-        break;
-      case "DOZ":
-        result = int.parse(line, radix: 12);
-        break;
-      case "DEC":
-        result = int.parse(line, radix: 10);
-        break;
-      case "OCT":
-        result = int.parse(line, radix: 8);
-        break;
-      case "BIN":
-        result = int.parse(line, radix: 2);
-        break;
-    }
-
-    return result;
-  }
-
-  String valueToLine(int value) {
-    // TODO move this?
-    var result = "";
-
-    switch (mode) {
-      case "HEX":
-        result = value.toRadixString(16);
-        break;
-      case "DOZ":
-        result = value.toRadixString(12);
-        break;
-      case "DEC":
-        result = value.toRadixString(10);
-        break;
-      case "OCT":
-        result = value.toRadixString(8);
-        break;
-      case "BIN":
-        result = value.toRadixString(2);
-        break;
-    }
-
-    return result;
-  }
-
-  int countBits(String line) {
-    // TODO move this?
-    var result = 64;
-
-    return result;
-  }
-
-  void processEdit(String key) {
-    if (isNumKey(key)) {
-      // TODO limit based on mode and numberBits
-      // for now: FFFFFFFF FFFFFFFF == 18446744073709551615, 20 digits
-      var limit = 20;
-
-      var current = stack[stackPointer];
-      if (current.length < limit) {
-        if (current.length == 1 && current[0] == '0') {
-          current = key;
-        } else {
-          current = current + key;
-        }
-      }
-      stack[stackPointer] = current;
-    }
-  }
-
-  void processOps(String key) {
-    if (isOp(key)) {
-      lastOp = key;
-    }
-  }
-
-  void processOpUnary() {
-    if (isUnaryOp(lastOp)) {
-      int value = lineToValue(stack[stackPointer]);
-      switch (lastOp) {
-        case "SHL":
-          value = value << 1;
-          break;
-        case "SHR":
-          value = value >> 1;
-          break;
-        case "ROL":
-        case "ROR":
-          // TODO finish ROL and ROR
-          break;
-        case "NEG":
-          value = -1 * value;
-          break;
-        case "NOT":
-          value = ~value;
-          break;
-      }
-      lastOp = "";
-      print(value);
-      stack[stackPointer] = valueToLine(value);
-    }
-  }
-
-  void processEquals(String key) {
-    // TODO finish this
-    if (key == "=" && lastOp != "") {}
-    lastOp = "";
-  }
-
-  void processAC(String key) {
-    if (key == "AC") {
-      for (int i = 0; i < stack.length; i++) {
-        stack[i] = "0";
-      }
-      stackPointer = 0;
-    }
-  }
-
-  void processCE(String key) {
-    if (key == "CE") {
-      if (backspaceCE) {
-        var current = stack[stackPointer];
-        if (current.length == 1) {
-          current = "0";
-        } else {
-          current = current.substring(0, current.length - 1);
-        }
-        stack[stackPointer] = current;
-      } else {
-        stack[stackPointer] = "0";
-      }
-    }
-  }
-
   void processMode(String key) {
     if (isModeKey(key)) {
       var currentMode = mode;
+
+      // change result lines
       for (int i = 0; i < stack.length; i++) {
         int value = lineToValue(stack[i]);
         mode = key;
         stack[i] = valueToLine(value);
         mode = currentMode;
       }
+
+      // set new mode
+      mode = key;
+
+      // recalculate input string limit
+      // limit based on mode and numberBits
+      // ie: FFFFFFFF FFFFFFFF == 18446744073709551615 decimal, 20 digits
+      var temp = 0xffffffff;
+      switch (numberBits) {
+        case 8:
+          temp = 0xff;
+          break;
+        case 12:
+          temp = 0xfff;
+          break;
+        case 16:
+          temp = 0xffff;
+          break;
+        case 24:
+          temp = 0xffffff;
+          break;
+        case 32:
+          temp = 0xffffffff;
+          break;
+        case 48:
+          temp = 0xffffffffffff;
+          break;
+        // case 64:
+        //   temp = 0xffffffffffffffff;
+        //   break;
+      }
+      var line = valueToLine(temp);
+      inputLimit = line.length;
+      //print(line);
+      //print(inputLimit);
+    }
+  }
+
+  void processMem(String key) {
+    if (isMemKey(key)) {
+      // TODO: finish processMem
     }
   }
 
@@ -787,19 +800,14 @@ class Engine {
 
   void processKey(int x, int y) {
     var key = grid[x][y].label;
-
-    // TODO finish ops
     processEdit(key);
     processOps(key);
     processOpUnary();
     processEquals(key);
     processAC(key);
     processCE(key);
-
-    if (isModeKey(key)) {
-      processMode(key);
-      setMode(key);
-    }
+    processMem(key);
+    processMode(key);
     applyMode();
   }
 }
