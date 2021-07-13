@@ -24,6 +24,8 @@ class Cell {
 class Engine {
   static const KEY_HEX = "HEX";
 
+  var lastOp = "";
+
   var stack = List.generate(10, (index) => "0");
   int stackPointer = 0;
 
@@ -505,6 +507,7 @@ class Engine {
       case "SHR":
       case "ROL":
       case "ROR":
+      case "NEG":
       case "NOT":
         result = true;
         break;
@@ -686,16 +689,43 @@ class Engine {
     }
   }
 
+  void processOps(String key) {
+    if (isOp(key)) {
+      lastOp = key;
+    }
+  }
+
+  void processOpUnary() {
+    if (isUnaryOp(lastOp)) {
+      int value = lineToValue(stack[stackPointer]);
+      switch (lastOp) {
+        case "SHL":
+          value = value << 1;
+          break;
+        case "SHR":
+          value = value >> 1;
+          break;
+        case "ROL":
+        case "ROR":
+          // TODO finish ROL and ROR
+          break;
+        case "NEG":
+          value = -1 * value;
+          break;
+        case "NOT":
+          value = ~value;
+          break;
+      }
+      lastOp = "";
+      print(value);
+      stack[stackPointer] = valueToLine(value);
+    }
+  }
+
   void processEquals(String key) {
     // TODO finish this
-    if (key == "=") {
-      // TODO: remove this test
-      var current = stack[stackPointer];
-      int value = lineToValue(current);
-      print(value);
-      var msg = valueToLine(value);
-      print(msg);
-    }
+    if (key == "=" && lastOp != "") {}
+    lastOp = "";
   }
 
   void processAC(String key) {
@@ -723,6 +753,18 @@ class Engine {
     }
   }
 
+  void processMode(String key) {
+    if (isModeKey(key)) {
+      var currentMode = mode;
+      for (int i = 0; i < stack.length; i++) {
+        int value = lineToValue(stack[i]);
+        mode = key;
+        stack[i] = valueToLine(value);
+        mode = currentMode;
+      }
+    }
+  }
+
   //
   // Public methods
   //
@@ -744,21 +786,18 @@ class Engine {
   }
 
   void processKey(int x, int y) {
-    // var msg = "ENGINE: " + x.toString() + "," + y.toString() + " " + grid[x][y].label;
-    // if (stackPointer < stack.length) {
-    //   print(msg);
-    //   stack[stackPointer++] = grid[x][y].label;
-    // }
-
     var key = grid[x][y].label;
 
     // TODO finish ops
     processEdit(key);
+    processOps(key);
+    processOpUnary();
     processEquals(key);
     processAC(key);
     processCE(key);
 
     if (isModeKey(key)) {
+      processMode(key);
       setMode(key);
     }
     applyMode();
