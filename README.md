@@ -30,6 +30,7 @@ Also want this to be a PWA.
 - [done] engine: process number entry
 - [done] engine: process CE
 - [done] engine: process HEX,DEC,BIN,OCT
+- [done] engine: process unary SHL,SHR,ROL,ROR,NEG,NOT
 
 
 - engine: process operations

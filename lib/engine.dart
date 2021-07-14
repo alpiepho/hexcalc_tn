@@ -34,7 +34,7 @@ class Engine {
       growable: false);
 
   var mode = "DEC";
-  var numberBits = 8; // 8, 12, 16, 24, 32, 48,   not supported in pwa: 64
+  var numberBits = 32; // 8, 12, 16, 24, 32, 48,   not supported in pwa: 64
   var numberSigned = false;
   var keyClick = false;
   var sounds = false;
