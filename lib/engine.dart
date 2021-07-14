@@ -34,7 +34,7 @@ class Engine {
       growable: false);
 
   var mode = "DEC";
-  var numberBits = 32; // 8, 12, 16, 24, 32, 48,   not supported in pwa: 64
+  var numberBits = 8; // 8, 12, 16, 24, 32, 48,   not supported in pwa: 64
   var numberSigned = false;
   var keyClick = false;
   var sounds = false;
@@ -597,8 +597,42 @@ class Engine {
         result = value.toRadixString(2);
         break;
     }
+    result = result.toUpperCase();
 
     return result;
+  }
+
+  int get0xFF() {
+    var temp = 0xffffffff;
+    switch (numberBits) {
+      case 8:
+        temp = 0xff;
+        break;
+      case 12:
+        temp = 0xfff;
+        break;
+      case 16:
+        temp = 0xffff;
+        break;
+      case 24:
+        temp = 0xffffff;
+        break;
+      case 32:
+        temp = 0xffffffff;
+        break;
+      case 48:
+        temp = 0xffffffffffff;
+        break;
+      // case 64:
+      //   temp = 0xffffffffffffffff;
+      //   break;
+    }
+    return temp;
+  }
+
+  int get0x10() {
+    var temp = (1 << (numberBits - 1));
+    return temp;
   }
 
   void processEdit(String key) {
@@ -622,24 +656,41 @@ class Engine {
   }
 
   void processOpUnary() {
+    int temp;
     if (isUnaryOp(lastOp)) {
       int value = lineToValue(stack[stackPointer]);
       switch (lastOp) {
         case "SHL":
           value = value << 1;
+          value = value & get0xFF();
           break;
         case "SHR":
           value = value >> 1;
+          value = value & get0xFF();
           break;
         case "ROL":
+          temp = value & get0xFF();
+          temp = temp & get0x10();
+          temp = temp >> (numberBits - 1);
+          value = value << 1;
+          value = value & get0xFF();
+          value += temp;
+          break;
         case "ROR":
-          // TODO finish ROL and ROR
+          temp = (value & 1);
+          temp = temp << (numberBits - 1);
+          value = value >> 1;
+          value = value & get0xFF();
+          value += temp;
+          value = value & get0xFF();
           break;
         case "NEG":
           value = -1 * value;
+          value = value & get0xFF();
           break;
         case "NOT":
           value = ~value;
+          value = value & get0xFF();
           break;
       }
       lastOp = "";
@@ -741,30 +792,7 @@ class Engine {
       // recalculate input string limit
       // limit based on mode and numberBits
       // ie: FFFFFFFF FFFFFFFF == 18446744073709551615 decimal, 20 digits
-      var temp = 0xffffffff;
-      switch (numberBits) {
-        case 8:
-          temp = 0xff;
-          break;
-        case 12:
-          temp = 0xfff;
-          break;
-        case 16:
-          temp = 0xffff;
-          break;
-        case 24:
-          temp = 0xffffff;
-          break;
-        case 32:
-          temp = 0xffffffff;
-          break;
-        case 48:
-          temp = 0xffffffffffff;
-          break;
-        // case 64:
-        //   temp = 0xffffffffffffffff;
-        //   break;
-      }
+      var temp = get0xFF();
       var line = valueToLine(temp);
       inputLimit = line.length;
       //print(line);
