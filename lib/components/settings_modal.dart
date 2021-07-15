@@ -10,7 +10,7 @@ import 'package:hexcalc_tn/engine.dart';
 class SettingsModal extends StatefulWidget {
   late BuildContext context;
   late Engine engine;
-  late Function onReset;
+  // late Function onReset;
   // late Function onClear;
   // late Function onSwap;
   late Function onDone;
@@ -47,7 +47,7 @@ class _SettingsModal extends State<SettingsModal> {
       ) {
     this.context = context;
     this.engine = engine;
-    this.onReset = onReset;
+    // this.onReset = onReset;
     // this.onClear = onClear;
     // this.onSwap = onSwap;
     this.onDone = onDone;
@@ -60,9 +60,9 @@ class _SettingsModal extends State<SettingsModal> {
 
   late BuildContext context;
   late Engine engine;
-  late Function onReset;
-  late Function onClear;
-  late Function onSwap;
+  // late Function onReset;
+  // late Function onClear;
+  // late Function onSwap;
   late Function onDone;
 
   // late Color _newColorTextLeft;
@@ -342,262 +342,303 @@ class _SettingsModal extends State<SettingsModal> {
         toolbarHeight: 50,
         titleSpacing: 20,
         title: Text("Settings"),
+        actions: [
+          Container(
+            width: 50,
+            child: GestureDetector(
+              //onTap: onDone as void Function()?,
+              child: Icon(Icons.done),
+            ),
+          ),
+        ],
       ),
       body: Container(
-        child: ListView(
-          children: <Widget>[
-            Divider(),
-            new ListTile(
-              title: new Text(
-                'Swap.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onSwap as void Function()?,
-            ),
-            new ListTile(
-              title: new Text(
-                'Clear Scores.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onClear as void Function()?,
-            ),
-            Divider(),
-            new ListTile(
-              title: new Text(
-                'Reset All.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onReset as void Function()?,
-            ),
-            dividers[0],
-            Divider(),
-            Divider(),
-            Divider(),
+        width: kMainContainerWidthPortrait,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                new SizedBox(height: kSettingsSizedBoxHeight),
+                new Text(
+                  "Number of Bits", 
+                  textAlign: TextAlign.center,
+                ),
+                new SizedBox(height: 20),
+                new Text(
+                  "[ 8 | 12 | 16 | 24 | 32 | 48 | 64 ]", 
+                  textAlign: TextAlign.center,
+                ),
+                new SizedBox(height: kSettingsSizedBoxHeight),
+                new Text(
+                  "[ UnSigned | Signed ]", 
+                  textAlign: TextAlign.center,
+                ),
+                new SizedBox(height: kSettingsSizedBoxHeight),
 
 
-          //   new ListTile(
-          //     leading: null,
-          //     title: new TextFormField(
-          //       decoration: new InputDecoration.collapsed(
-          //           hintText: 'Team Name',
-          //       ),
-          //       autofocus: false,
-          //       initialValue: engine.labelLeft,
-          //       onChanged: (text) => engine.newLabelLeft = text,
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(Icons.edit),
-          //   ),
-          //   new ListTile(
-          //     leading: null,
-          //     title: new TextFormField(
-          //       decoration: new InputDecoration.collapsed(
-          //           hintText: 'Team Score'
-          //       ),
-          //       autofocus: false,
-          //       keyboardType: TextInputType.number,
-          //       initialValue: engine.valueLeft.toString(),
-          //       onChanged: (text) => engine.newValueLeftString = text,
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(Icons.edit),
-          //  ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Text Color...',
-          //       style: kSettingsTextStyle,
-          //     ),
-          //     trailing: Container(
-          //       width: 30.0,
-          //       height: 30.0,
-          //       decoration: BoxDecoration(
-          //           color: _newColorTextLeft,
-          //           borderRadius: BorderRadius.all(Radius.circular(20))
-          //       ),
-          //     ),
-          //     onTap: colorTextLeftEdit,
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Background Color...',
-          //       style: kSettingsTextStyle,
-          //     ),
-          //     trailing: Container(
-          //       width: 30.0,
-          //       height: 30.0,
-          //       decoration: BoxDecoration(
-          //           color: _newColorBackgroundLeft,
-          //           borderRadius: BorderRadius.all(Radius.circular(20))
-          //       ),
-          //     ),
-          //     onTap: colorBackgroundLeftEdit,
-          //   ),
+                new Text(
+                  "UNDER CONSTRUCTION:  see https://github.com/alpiepho/hexcalc_tn", 
+                  textAlign: TextAlign.center,
+                ),
+                new SizedBox(height: kSettingsSizedBoxHeight),
+
+              ],
+            ),
+
+
+        // child: ListView(
+        //   children: <Widget>[
+        //     Divider(),
+        //     new ListTile(
+        //       title: new Text(
+        //         'Swap.',
+        //         style: kSettingsTextEditStyle,
+        //       ),
+        //       //onTap: onSwap as void Function()?,
+        //     ),
+        //     new ListTile(
+        //       title: new Text(
+        //         'Clear Scores.',
+        //         style: kSettingsTextEditStyle,
+        //       ),
+        //       //onTap: onClear as void Function()?,
+        //     ),
+        //     Divider(),
+        //     new ListTile(
+        //       title: new Text(
+        //         'Reset All.',
+        //         style: kSettingsTextEditStyle,
+        //       ),
+        //       onTap: onReset as void Function()?,
+        //     ),
+        //     dividers[0],
+        //     Divider(),
+        //     Divider(),
+        //     Divider(),
+
+
+        //   //   new ListTile(
+        //   //     leading: null,
+        //   //     title: new TextFormField(
+        //   //       decoration: new InputDecoration.collapsed(
+        //   //           hintText: 'Team Name',
+        //   //       ),
+        //   //       autofocus: false,
+        //   //       initialValue: engine.labelLeft,
+        //   //       onChanged: (text) => engine.newLabelLeft = text,
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(Icons.edit),
+        //   //   ),
+        //   //   new ListTile(
+        //   //     leading: null,
+        //   //     title: new TextFormField(
+        //   //       decoration: new InputDecoration.collapsed(
+        //   //           hintText: 'Team Score'
+        //   //       ),
+        //   //       autofocus: false,
+        //   //       keyboardType: TextInputType.number,
+        //   //       initialValue: engine.valueLeft.toString(),
+        //   //       onChanged: (text) => engine.newValueLeftString = text,
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(Icons.edit),
+        //   //  ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Text Color...',
+        //   //       style: kSettingsTextStyle,
+        //   //     ),
+        //   //     trailing: Container(
+        //   //       width: 30.0,
+        //   //       height: 30.0,
+        //   //       decoration: BoxDecoration(
+        //   //           color: _newColorTextLeft,
+        //   //           borderRadius: BorderRadius.all(Radius.circular(20))
+        //   //       ),
+        //   //     ),
+        //   //     onTap: colorTextLeftEdit,
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Background Color...',
+        //   //       style: kSettingsTextStyle,
+        //   //     ),
+        //   //     trailing: Container(
+        //   //       width: 30.0,
+        //   //       height: 30.0,
+        //   //       decoration: BoxDecoration(
+        //   //           color: _newColorBackgroundLeft,
+        //   //           borderRadius: BorderRadius.all(Radius.circular(20))
+        //   //       ),
+        //   //     ),
+        //   //     onTap: colorBackgroundLeftEdit,
+        //   //   ),
 
             
-          //   Divider(),
-          //   new ListTile(
-          //       leading: null,
-          //     title: new TextFormField(
-          //       decoration: new InputDecoration.collapsed(
-          //           hintText: 'Team Name'
-          //       ),
-          //       autofocus: false,
-          //       initialValue: engine.labelRight,
-          //       onChanged: (text) => engine.newLabelRight = text,
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(Icons.edit),
-          //  ),
-          //   new ListTile(
-          //     leading: null,
-          //     title: new TextFormField(
-          //       decoration: new InputDecoration.collapsed(
-          //           hintText: 'Team Score'
-          //       ),
-          //       autofocus: false,
-          //       keyboardType: TextInputType.number,
-          //       initialValue: engine.valueRight.toString(),
-          //       onChanged: (text) => engine.newValueRightString = text,
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(Icons.edit),
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Text Color...',
-          //       style: kSettingsTextStyle,
-          //     ),
-          //     trailing: Container(
-          //       width: 30.0,
-          //       height: 30.0,
-          //       decoration: BoxDecoration(
-          //           color: _newColorTextRight,
-          //           borderRadius: BorderRadius.all(Radius.circular(20))
-          //       ),
-          //     ),
-          //     onTap: colorTextRightEdit,
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Background Color...',
-          //       style: kSettingsTextStyle,
-          //     ),
-          //     trailing: Container(
-          //       width: 30.0,
-          //       height: 30.0,
-          //       decoration: BoxDecoration(
-          //           color: _newColorBackgroundRight,
-          //           borderRadius: BorderRadius.all(Radius.circular(20))
-          //       ),
-          //     ),
-          //     onTap: colorBackgroundRightEdit,
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Done.',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     //trailing: new Icon(Icons.done),
-          //     onTap: onDone as void Function()?,
-          //   ),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Force Landscape.',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(engine.forceLandscape ? Icons.check_box : Icons.check_box_outline_blank),
-          //     onTap: onForceLandscapeChanged,
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Last Point Marker.',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(engine.lastPointEnabled ? Icons.check_box : Icons.check_box_outline_blank),
-          //     onTap: onLastPointChanged,
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Notify at 7.',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(engine.notify7Enabled ? Icons.check_box : Icons.check_box_outline_blank),
-          //     onTap: onNotify7EnabledChanged,
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Notify at 8.',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(engine.notify8Enabled ? Icons.check_box : Icons.check_box_outline_blank),
-          //     onTap: onNotify8EnabledChanged,
-          //   ),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Track Earned Points.',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(engine.earnedEnabled ? Icons.check_box : Icons.check_box_outline_blank),
-          //     onTap: onEarnedEnabledChanged,
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Show Earned Points.',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(engine.earnedVisible ? Icons.check_box : Icons.check_box_outline_blank),
-          //     onTap: onEarnedVisibleChanged,
-          //   ),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Change Fonts...',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     onTap: onFontChange,
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       fontString,
-          //       style: fontStyle.copyWith(fontSize: kSettingsTextStyle_fontSize),
-          //     ),
-          //     onTap: onFontChange,
-          //   ),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Version: 0.1',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //   ),
-          //   new ListTile(
-          //     title: new Text(
-          //       'Help...',
-          //       style: kSettingsTextEditStyle,
-          //     ),
-          //     trailing: new Icon(Icons.help),
-          //     onTap: onHelp,
-          //   ),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          //   Divider(),
-          ],
-        ),
+        //   //   Divider(),
+        //   //   new ListTile(
+        //   //       leading: null,
+        //   //     title: new TextFormField(
+        //   //       decoration: new InputDecoration.collapsed(
+        //   //           hintText: 'Team Name'
+        //   //       ),
+        //   //       autofocus: false,
+        //   //       initialValue: engine.labelRight,
+        //   //       onChanged: (text) => engine.newLabelRight = text,
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(Icons.edit),
+        //   //  ),
+        //   //   new ListTile(
+        //   //     leading: null,
+        //   //     title: new TextFormField(
+        //   //       decoration: new InputDecoration.collapsed(
+        //   //           hintText: 'Team Score'
+        //   //       ),
+        //   //       autofocus: false,
+        //   //       keyboardType: TextInputType.number,
+        //   //       initialValue: engine.valueRight.toString(),
+        //   //       onChanged: (text) => engine.newValueRightString = text,
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(Icons.edit),
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Text Color...',
+        //   //       style: kSettingsTextStyle,
+        //   //     ),
+        //   //     trailing: Container(
+        //   //       width: 30.0,
+        //   //       height: 30.0,
+        //   //       decoration: BoxDecoration(
+        //   //           color: _newColorTextRight,
+        //   //           borderRadius: BorderRadius.all(Radius.circular(20))
+        //   //       ),
+        //   //     ),
+        //   //     onTap: colorTextRightEdit,
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Background Color...',
+        //   //       style: kSettingsTextStyle,
+        //   //     ),
+        //   //     trailing: Container(
+        //   //       width: 30.0,
+        //   //       height: 30.0,
+        //   //       decoration: BoxDecoration(
+        //   //           color: _newColorBackgroundRight,
+        //   //           borderRadius: BorderRadius.all(Radius.circular(20))
+        //   //       ),
+        //   //     ),
+        //   //     onTap: colorBackgroundRightEdit,
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Done.',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     //trailing: new Icon(Icons.done),
+        //   //     onTap: onDone as void Function()?,
+        //   //   ),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Force Landscape.',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(engine.forceLandscape ? Icons.check_box : Icons.check_box_outline_blank),
+        //   //     onTap: onForceLandscapeChanged,
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Last Point Marker.',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(engine.lastPointEnabled ? Icons.check_box : Icons.check_box_outline_blank),
+        //   //     onTap: onLastPointChanged,
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Notify at 7.',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(engine.notify7Enabled ? Icons.check_box : Icons.check_box_outline_blank),
+        //   //     onTap: onNotify7EnabledChanged,
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Notify at 8.',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(engine.notify8Enabled ? Icons.check_box : Icons.check_box_outline_blank),
+        //   //     onTap: onNotify8EnabledChanged,
+        //   //   ),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Track Earned Points.',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(engine.earnedEnabled ? Icons.check_box : Icons.check_box_outline_blank),
+        //   //     onTap: onEarnedEnabledChanged,
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Show Earned Points.',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(engine.earnedVisible ? Icons.check_box : Icons.check_box_outline_blank),
+        //   //     onTap: onEarnedVisibleChanged,
+        //   //   ),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Change Fonts...',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     onTap: onFontChange,
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       fontString,
+        //   //       style: fontStyle.copyWith(fontSize: kSettingsTextStyle_fontSize),
+        //   //     ),
+        //   //     onTap: onFontChange,
+        //   //   ),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Version: 0.1',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //   ),
+        //   //   new ListTile(
+        //   //     title: new Text(
+        //   //       'Help...',
+        //   //       style: kSettingsTextEditStyle,
+        //   //     ),
+        //   //     trailing: new Icon(Icons.help),
+        //   //     onTap: onHelp,
+        //   //   ),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   //   Divider(),
+        //   ],
+        // ),
       ),
     );
   }

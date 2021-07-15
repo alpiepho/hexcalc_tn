@@ -16,7 +16,9 @@ const kMainColumnWidthLandscape = 80.0;
 
 
 
-const kSettingsModalBackgroundColor = Colors.black45;
+const kSettingsModalBackgroundColor = Colors.black12;
+
+const kSettingsSizedBoxHeight = 20.0;
 
 const kSettingsTextStyle_fontSize = 18.0;
 
