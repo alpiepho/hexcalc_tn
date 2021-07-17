@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 // ignore: must_be_immutable
@@ -316,10 +316,10 @@ class _SettingsModal extends State<SettingsModal> {
   // }
 
 
-  // void onHelp() async {
-  //   launch('https://github.com/alpiepho/hexcalc_tn/blob/master/README.md');
-  //   Navigator.of(context).pop();
-  // }
+  void onHelp() async {
+    launch('https://github.com/alpiepho/hexcalc_tn/blob/master/README.md');
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -374,10 +374,168 @@ class _SettingsModal extends State<SettingsModal> {
                 ),
                 new SizedBox(height: kSettingsSizedBoxHeight),
 
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new SizedBox(width: 70),
+                    Expanded(
+                      child: new Text(
+                        "Key Click", 
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      flex: 1,
+                    ),
+                    new SizedBox(width: 50),
+                    Expanded(
+                      child: new Text(
+                        "OOOOOO", 
+                      ),
+                      flex: 1,
+                    ),
+                  ],
+                ),
+                new SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new SizedBox(width: 70),
+                    Expanded(
+                      child: new Text(
+                        "Sounds", 
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      flex: 1,
+                    ),
+                    new SizedBox(width: 50),
+                    Expanded(
+                      child: new Text(
+                        "OOOOOO", 
+                      ),
+                      flex: 1,
+                    ),
+                  ],
+                ),
+                new SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new SizedBox(width: 70),
+                    Expanded(
+                      child: new Text(
+                        "CE as Backspace", 
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      flex: 1,
+                    ),
+                    new SizedBox(width: 50),
+                    Expanded(
+                      child: new Text(
+                        "OOOOOO", 
+                      ),
+                      flex: 1,
+                    ),
+                  ],
+                ),
+                new SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new SizedBox(width: 70),
+                    Expanded(
+                      child: new Text(
+                        "Enable Dozenal (Base 12)", 
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      flex: 1,
+                    ),
+                    new SizedBox(width: 50),
+                    Expanded(
+                      child: new Text(
+                        "OOOOOO", 
+                      ),
+                      flex: 1,
+                    ),
+                  ],
+                ),
+                new SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new SizedBox(width: 70),
+                    Expanded(
+                      child: new Text(
+                        "Operator Precedence", 
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      flex: 1,
+                    ),
+                    new SizedBox(width: 50),
+                    Expanded(
+                      child: new Text(
+                        "OOOOOO", 
+                      ),
+                      flex: 1,
+                    ),
+                  ],
+                ),
+
+                Divider(),
+                new Text(
+                  "If operator precedence is enabled", 
+                  textAlign: TextAlign.center,
+                ),
+                new SizedBox(height: 10),
+                new Text(
+                  "1 + 2 x 3 = 7 (instead of 9)", 
+                  textAlign: TextAlign.center,
+                ),
+                Divider(
+                  height: 20.0,
+                  thickness: 2.0,
+                ),
+                new Text(
+                  "Swipe left/right = Copy to Clipboard", 
+                  textAlign: TextAlign.center,
+                ),
+                new SizedBox(height: 10),
+                new Text(
+                  "Double Tap = Paste", 
+                  textAlign: TextAlign.center,
+                ),
+                Divider(
+                  height: 20.0,
+                  thickness: 2.0,
+                ),
 
                 new Text(
-                  "UNDER CONSTRUCTION:  see https://github.com/alpiepho/hexcalc_tn", 
+                  "UNDER CONSTRUCTION:", 
                   textAlign: TextAlign.center,
+                ),
+                new SizedBox(height: 10),
+                GestureDetector(
+                  child: new Text(
+                    "https://github.com/alpiepho/hexcalc_tn", 
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  onTap: onHelp,
                 ),
                 new SizedBox(height: kSettingsSizedBoxHeight),
 
