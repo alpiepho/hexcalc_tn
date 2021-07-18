@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:toggle_switch/toggle_switch.dart';
 
 // ignore: must_be_immutable
 class SettingsModal extends StatefulWidget {
@@ -315,6 +315,46 @@ class _SettingsModal extends State<SettingsModal> {
   //   this.onDone();
   // }
 
+  void onBitsToggle(int index) {
+      switch (index) {
+        case 0:  this.engine.numberBits = 8; break;
+        case 1:  this.engine.numberBits = 12; break;
+        case 2:  this.engine.numberBits = 16; break;
+        case 3:  this.engine.numberBits = 24; break;
+        case 4:  this.engine.numberBits = 32; break;
+        case 5:  this.engine.numberBits = 48; break;
+        default:  
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false, // user must tap button!
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('WARNING'),
+                content: new Text("64 bit not supported, will revert to 32"),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('Done'),
+                    onPressed: () {
+                      this.engine.numberBits = 32;
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          break;
+      }
+  }
+
+  void onSignedToggle(int index) {
+      switch (index) {
+        case 1:  this.engine.numberSigned = true; break;
+        default:  this.engine.numberSigned = false; break;
+      }
+  }
+
 
   void onHelp() async {
     launch('https://github.com/alpiepho/hexcalc_tn/blob/master/README.md');
@@ -323,15 +363,21 @@ class _SettingsModal extends State<SettingsModal> {
 
   @override
   Widget build(BuildContext context) {
-    // var fontString = getFontString(engine.fontType);
-    // var fontStyle = getLabelFont(engine.fontType);
-
-    var dividers = <Widget>[
-            Divider(),
-            Divider(),
-            Divider(),
-            Divider(),
-    ];
+    var bitIndex = 4;
+    switch (this.engine.numberBits) {
+      case 8: bitIndex = 0; break;
+      case 12: bitIndex = 1; break;
+      case 16: bitIndex = 2; break;
+      case 24: bitIndex = 3; break;
+      case 32: bitIndex = 4; break;
+      case 48: bitIndex = 5; break;
+      case 64: bitIndex = 6; break;
+    }
+    var signedIndex = 0;
+    switch (this.engine.numberSigned) {
+      case false: signedIndex = 0; break;
+      case true: signedIndex = 1; break;
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -363,14 +409,44 @@ class _SettingsModal extends State<SettingsModal> {
                   textAlign: TextAlign.center,
                 ),
                 new SizedBox(height: 20),
-                new Text(
-                  "[ 8 | 12 | 16 | 24 | 32 | 48 | 64 ]", 
-                  textAlign: TextAlign.center,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new SizedBox(width: 50),
+                    ToggleSwitch(
+                      minWidth: 50.0,
+                      minHeight: 30.0,
+                      fontSize: 10.0,
+                      initialLabelIndex: bitIndex,
+                      activeBgColor: [ Colors.grey.shade400 ],
+                      activeFgColor: Colors.white,
+                      inactiveBgColor: Colors.grey,
+                      inactiveFgColor: Colors.white,
+                      totalSwitches: 7,
+                      labels: ['8', '12', '16', '24', '32', '48', '64'],
+                      onToggle: onBitsToggle,
+                    ),
+                  ],
                 ),
                 new SizedBox(height: kSettingsSizedBoxHeight),
-                new Text(
-                  "[ UnSigned | Signed ]", 
-                  textAlign: TextAlign.center,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new SizedBox(width: 50),
+                    ToggleSwitch(
+                      minWidth: 100.0,
+                      minHeight: 30.0,
+                      fontSize: 10.0,
+                      initialLabelIndex: bitIndex,
+                      activeBgColor: [ Colors.grey.shade400 ],
+                      activeFgColor: Colors.white,
+                      inactiveBgColor: Colors.grey,
+                      inactiveFgColor: Colors.white,
+                      totalSwitches: 2,
+                      labels: ['UnSigned', 'Signed'],
+                      onToggle: onSignedToggle,
+                    ),
+                  ],
                 ),
                 new SizedBox(height: kSettingsSizedBoxHeight),
 

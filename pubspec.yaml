@@ -37,6 +37,8 @@ dependencies:
 
   url_launcher: ^6.0.3
 
+  toggle_switch: ^1.2.0
+
   # flutter_colorpicker: ^0.4.0
   # google_fonts: ^2.0.0
 
