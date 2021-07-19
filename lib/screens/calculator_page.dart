@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hexcalc_tn/components/calc_button.dart';
 import 'package:hexcalc_tn/components/settings_modal.dart';
-// import 'package:hexcalc_tn/components/settings_button.dart';
-// import 'package:hexcalc_tn/components/settings_modal.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
-
-// GlobalKey _keyPortraitLeft = GlobalKey();
-// GlobalKey _keyPortraitRight = GlobalKey();
-// GlobalKey _keyLandscapeLeft = GlobalKey();
-// GlobalKey _keyLandscapeRight = GlobalKey();
-
 class CalculatorPage extends StatefulWidget {
   @override
   _CalculatorPageState createState() => _CalculatorPageState();
@@ -274,80 +266,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
   //   }
   // }
 
-  // void _notify7() async {
-  //   if (this._engine.notify7()) {
-  //     showDialog<void>(
-  //       context: context,
-  //       barrierDismissible: false, // user must tap button!
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text('At 7 Points'),
-  //           content: SingleChildScrollView(
-  //             child: ListBody(
-  //               children: <Widget>[
-  //                 Text('Would you swap teams?'),
-  //               ],
-  //             ),
-  //           ),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               child: Text('Cancel'),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //             TextButton(
-  //               child: Text('Swap'),
-  //               onPressed: () {
-  //                 this._engine.swapTeams();
-  //                 _fromEngine();
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
-
-  // void _notify8() async {
-  //   if (this._engine.notify8()) {
-  //     showDialog<void>(
-  //       context: context,
-  //       barrierDismissible: false, // user must tap button!
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text('At 8 Points'),
-  //           content: SingleChildScrollView(
-  //             child: ListBody(
-  //               children: <Widget>[
-  //                 Text('Would you swap teams?'),
-  //               ],
-  //             ),
-  //           ),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               child: Text('Cancel'),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //             TextButton(
-  //               child: Text('Swap'),
-  //               onPressed: () {
-  //                 this._engine.swapTeams();
-  //                 _fromEngine();
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
-
   void _notifyEngine(int x, int y) async {
     this._engine.processKey(x, y);
     _fromEngine();
@@ -361,12 +279,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TextStyle labelTextStyle = kLabelTextStyle_system;
-    // TextStyle numberTextStyle = kNumberTextStyle_system;
-
-    // labelTextStyle = getLabelFont(_fontType);
-    // numberTextStyle = kNumberTextStyle_system; //getNumberFont(_fontType);
-
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     var forcePortrait = isPortrait;
 
@@ -441,25 +353,25 @@ class _CalculatorPageState extends State<CalculatorPage> {
         }
         if (flex > 0) {
           rowWidgets.add(new Expanded(
-                          child: CalcButton(
-                            onPress: onPress,
-                            color: background,
-                            margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
-                            portrait: forcePortrait,
-                            gradient: gradient,
-                            disabled: disabled,
-                            cardChild: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  label,
-                                  style: style,
-                                ),
-                              ],
-                            ),
-                          ),
-                          flex: flex,
-                        ),
+            child: CalcButton(
+                onPress: onPress,
+                color: background,
+                margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
+                portrait: forcePortrait,
+                gradient: gradient,
+                disabled: disabled,
+                cardChild: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      label,
+                      style: style,
+                    ),
+                  ],
+                ),
+              ),
+              flex: flex,
+            ),
           );
         }
       }
@@ -488,99 +400,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
       );
     // }
     // else {
-    //   return Scaffold(
-    //     backgroundColor: kInputPageBackgroundColor,
-    //     body: Center(
-    //       child: Container(
-    //         width: kMainContainerWidthLandscape,
-    //         child: Row(
-    //           crossAxisAlignment: CrossAxisAlignment.stretch,
-    //           children: <Widget>[
-    //             Expanded(
-    //               child: Row(
-    //                 children: <Widget>[
-    //                   Expanded(
-    //                     child: CalcButton(
-    //                       //onPress: _incrementLeft,
-    //                       //onPan: _panUpdateLeft,
-    //                       color: _colorBackgroundLeft,
-    //                       margin: EdgeInsets.fromLTRB(0, 0, 2, 0),
-    //                       portrait: forcePortrait,
-    //                       cardChild: Column(
-    //                         mainAxisAlignment: MainAxisAlignment.center,
-    //                         children: <Widget>[
-    //                           // Text(
-    //                           //   _labelLeft,
-    //                           //   style: labelTextStyle.copyWith(color: _colorTextLeft),
-    //                           // ),
-    //                           Text(
-    //                             (_valueLeft).toString(),
-    //                             style: numberTextStyle.copyWith(color: _colorTextLeft),
-    //                           ),
-    //                           // Text(
-    //                           //   "earned: " + (_earnedLeft).toString(),
-    //                           //   style: labelTextStyle.copyWith(color: (_earnedVisible ? _colorTextLeft : _colorBackgroundLeft), fontSize: 30),
-    //                           //   key: _keyLandscapeLeft,
-    //                           // ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                   ),
-    //                   Expanded(
-    //                     child: CalcButton(
-    //                       //onPress: _incrementRight,
-    //                       //onPan: _panUpdateRight,
-    //                       color: _colorBackgroundRight,
-    //                       margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
-    //                       portrait: forcePortrait,
-    //                       cardChild: Column(
-    //                         mainAxisAlignment: MainAxisAlignment.center,
-    //                         children: <Widget>[
-    //                           // Text(
-    //                           //   _labelRight,
-    //                           //   style: labelTextStyle.copyWith(color: _colorTextRight),
-    //                           // ),
-    //                           Text(
-    //                             (_valueRight).toString(),
-    //                             style: numberTextStyle.copyWith(color: _colorTextRight),
-    //                           ),
-    //                           // Text(
-    //                           //   "earned: " + (_earnedRight).toString(),
-    //                           //   style: labelTextStyle.copyWith(color: (_earnedVisible ? _colorTextRight : _colorBackgroundRight), fontSize: 30),
-    //                           //   key: _keyLandscapeRight,
-    //                           // ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //     // floatingActionButton: SettingsButton(
-    //     //     onPress: () {
-    //     //       this._engine.setNew();
-    //     //       showModalBottomSheet(
-    //     //           context: context,
-    //     //           builder: (BuildContext bc) {
-    //     //             return SettingsModal(
-    //     //               context,
-    //     //               this._engine,
-    //     //               _onReset,
-    //     //               _onClear,
-    //     //               _onSwap,
-    //     //               _onDone,
-    //     //             );
-    //     //           },
-    //     //           isScrollControlled: true,
-    //     //       );
-    //     //     }
-    //     // ),
-    //     // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    //   );
     // }
   }
 }

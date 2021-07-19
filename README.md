@@ -36,13 +36,13 @@ Also want this to be a PWA.
 - engine: process operations
 
 - settings: number lines, 1 or 4
-- settings: number bits, 8,12,16,24,32,48,64
-- settings: signed/unsigned
-- settings: key click
-- settings: sounds
-- settings: CE as backspace
-- settings: dozenal (base 12)
-- settings: operator prcedences
+- [done] settings: number bits, 8,12,16,24,32,48,64
+- [done] settings: signed/unsigned
+- [done] settings: key click
+- [done] settings: sounds
+- [done] settings: CE as backspace
+- [done] settings: dozenal (base 12)
+- [done] settings: operator prcedences
 - results: copy
 - results: paste
 
