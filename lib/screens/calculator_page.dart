@@ -3,6 +3,7 @@ import 'package:hexcalc_tn/components/calc_button.dart';
 import 'package:hexcalc_tn/components/settings_modal.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
+
 // import 'package:shared_preferences/shared_preferences.dart';
 class CalculatorPage extends StatefulWidget {
   @override
@@ -10,7 +11,6 @@ class CalculatorPage extends StatefulWidget {
 }
 
 class _CalculatorPageState extends State<CalculatorPage> {
-
   //
   // for display
   //
@@ -56,13 +56,12 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   void _fromEngine() async {
     setState(() {
-
-    var index = 0;
-    _result0 = this._engine.stack[index++];
-    _result1 = this._engine.stack[index++];
-    _result2 = this._engine.stack[index++];
-    _result3 = this._engine.stack[index++];
-    _resultLines = this._engine.resultLines;
+      var index = 0;
+      _result0 = this._engine.stack[index++];
+      _result1 = this._engine.stack[index++];
+      _result2 = this._engine.stack[index++];
+      _result3 = this._engine.stack[index++];
+      _resultLines = this._engine.resultLines;
 
       // _labelLeft  = this._engine.getLabelLeft();
       // _labelRight = this._engine.getLabelRight();
@@ -229,7 +228,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   // }
 
   void _onDone() async {
-  //   //this._engine.saveBoth();
+    this._engine.applyMode();
     _fromEngine();
     Navigator.of(context).pop();
   }
@@ -318,9 +317,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
     ));
 
     // build the buttons
-    for (var i=0; i < this._engine.getRows(); i++) {
+    for (var i = 0; i < this._engine.getRows(); i++) {
       var rowWidgets = <Widget>[];
-      for (var j=0; j < this._engine.getCols(); j++) {
+      for (var j = 0; j < this._engine.getCols(); j++) {
         var label = this._engine.getLabel(i, j);
         var style = this._engine.getStyle(i, j);
         var disabled = this._engine.grid[i][j].disabled;
@@ -331,31 +330,32 @@ class _CalculatorPageState extends State<CalculatorPage> {
         var gradient = this._engine.grid[i][j].gradient;
         var flex = this._engine.grid[i][j].flex;
         // build onpress function that calls engine with closure
-        var onPress = () { 
+        var onPress = () {
           _notifyEngine(i, j);
         };
         if (label == "?") {
           // replace press onPress with settings page call
-            onPress = () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext bc) {
-                    return SettingsModal(
-                      context,
-                      this._engine,
-                      // _onReset,
-                      // _onClear,
-                      // _onSwap,
-                      _onDone,
-                    );
-                  },
-                  isScrollControlled: true,
-              );
-            };
+          onPress = () {
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext bc) {
+                return SettingsModal(
+                  context,
+                  this._engine,
+                  // _onReset,
+                  // _onClear,
+                  // _onSwap,
+                  _onDone,
+                );
+              },
+              isScrollControlled: true,
+            );
+          };
         }
         if (flex > 0) {
-          rowWidgets.add(new Expanded(
-            child: CalcButton(
+          rowWidgets.add(
+            new Expanded(
+              child: CalcButton(
                 onPress: onPress,
                 color: background,
                 margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
@@ -379,27 +379,27 @@ class _CalculatorPageState extends State<CalculatorPage> {
       }
       var row = new Row(children: rowWidgets);
       var container = new Container(
-        height: (this._engine.grid[i][0].halfHeight ? kMainColumnHeightPortrait/2 : kMainColumnHeightPortrait),
+        height: (this._engine.grid[i][0].halfHeight
+            ? kMainColumnHeightPortrait / 2
+            : kMainColumnHeightPortrait),
         child: row,
       );
       colWidgets.add(container);
     }
 
-
-
     // if (isPortrait) {
-      return Scaffold(
-        backgroundColor: kInputPageBackgroundColor,
-        body: Center(
-          child: Container(
-            width: kMainContainerWidthPortrait,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: colWidgets,
-            ),
+    return Scaffold(
+      backgroundColor: kInputPageBackgroundColor,
+      body: Center(
+        child: Container(
+          width: kMainContainerWidthPortrait,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: colWidgets,
           ),
         ),
-      );
+      ),
+    );
     // }
     // else {
     // }

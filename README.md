@@ -41,24 +41,27 @@ Also want this to be a PWA.
 - [done] settings: number lines, 1 or 4
 - [done] settings: for rpn
 - [done] settings: for float
+- [done] settings: warning when not supported
 
 - engine/ui: buttons based on rpn and float
+- engine/ui: parse buttons adjust
 
 - results: copy
 - results: paste
 
 - engine: process operations
+- engine: add rpn
+- engine: add decimal point and support for float
+- engine: add parens for non-rpn
+- engine: features from settings screen
 
-- engine: refactor ops as function pointers
 
 - cleanup commented out code
 - look for refactor opportunies
 - save preferences
 
-- duplicate features from settings screen
-- add rpn
-- add decimal point and support for float
-- add parens for non-rpn
+- engine: refactor ops as function pointers
+
 
 - finish hex/dec/oct/bin outline
 - fix InkWell splash, ink is plashed behind the decoration/gradient

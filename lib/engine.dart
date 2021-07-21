@@ -494,6 +494,7 @@ class Engine {
       case "OR":
       case "+":
       case "=":
+      case "enter":
         result = true;
         break;
       default:
@@ -708,6 +709,7 @@ class Engine {
   void processEquals(String key) {
     // TODO finish processEquals
     if (key == "=" && lastOp != "") {}
+    if (key == "enter") {}
     lastOp = "";
   }
 
@@ -737,6 +739,10 @@ class Engine {
   }
 
   void applyMode() {
+    int equalX = -1;
+    int equalY = -1;
+    int zerozeroX = -1;
+    int zerozeroY = -1;
     for (int x = 0; x < grid.length; x++) {
       for (int y = 0; y < grid[0].length; y++) {
         var key = grid[x][y].label;
@@ -776,8 +782,22 @@ class Engine {
             grid[x][y].disabled = false;
           else if (mode == "BIN" && isBinKey(key)) grid[x][y].disabled = false;
         }
+
+        // get x,y for special keys
+        if (key == "=" || key == "enter") {
+          equalX = x;
+          equalY = y;
+        }
+        if (key == "00" || key == ".") {
+          zerozeroX = x;
+          zerozeroY = y;
+        }
       }
     }
+
+    // based on rpn and float, adjust labels (will need to parse for these labels)
+    grid[equalX][equalY].label = (rpn ? "enter" : "=");
+    grid[zerozeroX][zerozeroY].label = (floatingPoint ? "." : "00");
   }
 
   void processMode(String key) {

@@ -190,6 +190,26 @@ class _SettingsModal extends State<SettingsModal> {
     setState(() {
       this._rpnIndex = index;
     });
+    if (index == 1) {
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('WARNING'),
+            content: new Text("RPN is not supported yet, ignored"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void floatingToggle(int index) {
@@ -204,6 +224,26 @@ class _SettingsModal extends State<SettingsModal> {
     setState(() {
       this._floatingIndex = index;
     });
+    if (index == 1) {
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('WARNING'),
+            content: new Text("Floating is not supported yet, ignored"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void onHelp() async {
