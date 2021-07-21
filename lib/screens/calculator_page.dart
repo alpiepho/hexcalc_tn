@@ -38,6 +38,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   String _result2 = "0";
   String _result1 = "0";
   String _result0 = "0";
+  int _resultLines = 4;
 
   Engine _engine = Engine();
 
@@ -61,6 +62,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
     _result1 = this._engine.stack[index++];
     _result2 = this._engine.stack[index++];
     _result3 = this._engine.stack[index++];
+    _resultLines = this._engine.resultLines;
 
       // _labelLeft  = this._engine.getLabelLeft();
       // _labelRight = this._engine.getLabelRight();
@@ -285,21 +287,21 @@ class _CalculatorPageState extends State<CalculatorPage> {
     var colWidgets = <Widget>[];
 
     // build the result lines from last N lines of stack
-    if (this._engine.linesShown >= 4) {
+    if (_resultLines >= 4) {
       colWidgets.add(Text(
         _result3,
         style: kResultTextStyle,
         textAlign: TextAlign.end,
       ));
     }
-    if (this._engine.linesShown >= 3) {
+    if (_resultLines >= 3) {
       colWidgets.add(Text(
         _result2,
         style: kResultTextStyle,
         textAlign: TextAlign.end,
       ));
     }
-    if (this._engine.linesShown >= 2) {
+    if (_resultLines >= 2) {
       colWidgets.add(Text(
         _result1,
         style: kResultTextStyle,

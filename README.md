@@ -31,11 +31,6 @@ Also want this to be a PWA.
 - [done] engine: process CE
 - [done] engine: process HEX,DEC,BIN,OCT
 - [done] engine: process unary SHL,SHR,ROL,ROR,NEG,NOT
-
-
-- engine: process operations
-
-- settings: number lines, 1 or 4
 - [done] settings: number bits, 8,12,16,24,32,48,64
 - [done] settings: signed/unsigned
 - [done] settings: key click
@@ -43,8 +38,16 @@ Also want this to be a PWA.
 - [done] settings: CE as backspace
 - [done] settings: dozenal (base 12)
 - [done] settings: operator prcedences
+- [done] settings: number lines, 1 or 4
+
+- settings: for rpn
+- settings: for float
+- engine/ui: buttons based on rpn and float
+
 - results: copy
 - results: paste
+
+- engine: process operations
 
 - engine: refactor ops as function pointers
 

@@ -42,7 +42,7 @@ class Engine {
   var dozonal = false; // base12
   var operatorPrec = true; // 1+2x3=7 instead of 9
 
-  var linesShown = 4;
+  var resultLines = 4;
 
   Engine() {
     for (int i = 0; i < stack.length; i++) {
@@ -241,7 +241,7 @@ class Engine {
     result += dozonal.toString() + ";";
     result += operatorPrec.toString() + ";";
 
-    result += linesShown.toString() + ";";
+    result += resultLines.toString() + ";";
     return result;
   }
 
@@ -263,7 +263,7 @@ class Engine {
     dozonal = parts[index++] == "true";
     operatorPrec = parts[index++] == "true";
 
-    linesShown = int.parse(parts[index++]);
+    resultLines = int.parse(parts[index++]);
   }
 
 // case "HEX":

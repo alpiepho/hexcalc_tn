@@ -54,6 +54,10 @@ class _SettingsModal extends State<SettingsModal> {
   late var selectedRate;
   late List<String> allRates;
 
+  void resultLinesToggle(int index) {
+    this.engine.resultLines = index + 1;
+  }
+
   void onBitsToggle(int index) {
       switch (index) {
         case 0:  this.engine.numberBits = 8; break;
@@ -151,6 +155,9 @@ class _SettingsModal extends State<SettingsModal> {
 
   @override
   Widget build(BuildContext context) {
+
+    var rowsIndex = this.engine.resultLines -1;
+
     var bitIndex = 4;
     switch (this.engine.numberBits) {
       case 8: bitIndex = 0; break;
@@ -161,6 +168,7 @@ class _SettingsModal extends State<SettingsModal> {
       case 48: bitIndex = 5; break;
       case 64: bitIndex = 6; break;
     }
+
     var signedIndex = 0;
     switch (this.engine.numberSigned) {
       case false: signedIndex = 0; break;
@@ -201,21 +209,48 @@ class _SettingsModal extends State<SettingsModal> {
         toolbarHeight: 50,
         titleSpacing: 20,
         title: Text("Settings"),
-        actions: [
-          Container(
-            width: 50,
-            child: GestureDetector(
-              //onTap: onDone as void Function()?,
-              child: Icon(Icons.done),
-            ),
-          ),
-        ],
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back),
+          onPressed: onDone as void Function()?,
+        ),
       ),
       body: Container(
         width: kMainContainerWidthPortrait,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+
+                new SizedBox(height: kSettingsSizedBoxHeight),
+                new Text(
+                  "Result Lines", 
+                  textAlign: TextAlign.center,
+                ),
+                new SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new SizedBox(width: 50),
+                    ToggleSwitch(
+                      minWidth: 50.0,
+                      minHeight: 30.0,
+                      fontSize: 10.0,
+                      initialLabelIndex: rowsIndex,
+                      activeBgColor: [ Colors.grey.shade400 ],
+                      activeFgColor: Colors.white,
+                      inactiveBgColor: Colors.grey,
+                      inactiveFgColor: Colors.white,
+                      totalSwitches: 4,
+                      labels: ['1', '2', '3', '4'],
+                      onToggle: resultLinesToggle,
+                    ),
+                  ],
+                ),
+
+                Divider(
+                  height: 20.0,
+                  thickness: 2.0,
+                ),
+
 
                 new SizedBox(height: kSettingsSizedBoxHeight),
                 new Text(
