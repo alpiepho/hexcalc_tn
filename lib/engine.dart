@@ -43,6 +43,8 @@ class Engine {
   var operatorPrec = true; // 1+2x3=7 instead of 9
 
   var resultLines = 4;
+  var rpn = false;
+  var floatingPoint = false;
 
   Engine() {
     for (int i = 0; i < stack.length; i++) {
@@ -242,6 +244,8 @@ class Engine {
     result += operatorPrec.toString() + ";";
 
     result += resultLines.toString() + ";";
+    result += rpn.toString() + ";";
+    result += floatingPoint.toString() + ";";
     return result;
   }
 
@@ -264,6 +268,8 @@ class Engine {
     operatorPrec = parts[index++] == "true";
 
     resultLines = int.parse(parts[index++]);
+    rpn = parts[index++] == "true";
+    floatingPoint = parts[index++] == "true";
   }
 
 // case "HEX":

@@ -39,9 +39,9 @@ Also want this to be a PWA.
 - [done] settings: dozenal (base 12)
 - [done] settings: operator prcedences
 - [done] settings: number lines, 1 or 4
+- [done] settings: for rpn
+- [done] settings: for float
 
-- settings: for rpn
-- settings: for float
 - engine/ui: buttons based on rpn and float
 
 - results: copy

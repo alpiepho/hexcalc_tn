@@ -30,6 +30,8 @@ class _SettingsModal extends State<SettingsModal> {
     this._backspaceIndex = 0;
     this._dozenalIndex = 0;
     this._precedenceIndex = 0;
+    this._rpnIndex = 0;
+    this._floatingIndex = 0;
   }
 
   late BuildContext context;
@@ -40,6 +42,8 @@ class _SettingsModal extends State<SettingsModal> {
   late int _backspaceIndex;
   late int _dozenalIndex;
   late int _precedenceIndex;
+  late int _rpnIndex;
+  late int _floatingIndex;
 
   late var selectedRate;
   late List<String> allRates;
@@ -174,6 +178,34 @@ class _SettingsModal extends State<SettingsModal> {
     });
   }
 
+  void rpnToggle(int index) {
+    switch (index) {
+      case 1:
+        this.engine.rpn = true;
+        break;
+      default:
+        this.engine.rpn = false;
+        break;
+    }
+    setState(() {
+      this._rpnIndex = index;
+    });
+  }
+
+  void floatingToggle(int index) {
+    switch (index) {
+      case 1:
+        this.engine.floatingPoint = true;
+        break;
+      default:
+        this.engine.floatingPoint = false;
+        break;
+    }
+    setState(() {
+      this._floatingIndex = index;
+    });
+  }
+
   void onHelp() async {
     launch('https://github.com/alpiepho/hexcalc_tn/blob/master/README.md');
     Navigator.of(context).pop();
@@ -263,6 +295,24 @@ class _SettingsModal extends State<SettingsModal> {
         break;
     }
 
+    switch (this.engine.rpn) {
+      case false:
+        this._rpnIndex = 0;
+        break;
+      case true:
+        this._rpnIndex = 1;
+        break;
+    }
+
+    switch (this.engine.floatingPoint) {
+      case false:
+        this._floatingIndex = 0;
+        break;
+      case true:
+        this._floatingIndex = 1;
+        break;
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kSettingsModalBackgroundColor,
@@ -287,7 +337,7 @@ class _SettingsModal extends State<SettingsModal> {
               "    Result Lines",
               textAlign: TextAlign.left,
             ),
-            new SizedBox(height: 20),
+            new SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -307,8 +357,99 @@ class _SettingsModal extends State<SettingsModal> {
                 ),
               ],
             ),
+            new SizedBox(height: kSettingsSizedBoxHeight),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: new Text(
+                    "    Post Fix (RPN)",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  flex: 3,
+                ),
+                Expanded(
+                  child: new SizedBox(width: 70),
+                  flex: 1,
+                ),
+                Expanded(
+                  child: ToggleSwitch(
+                    minWidth: 30.0,
+                    minHeight: 30.0,
+                    cornerRadius: 20.0,
+                    activeBgColors: [
+                      [Colors.white],
+                      [Colors.white]
+                    ],
+                    activeFgColor: Colors.white,
+                    inactiveBgColor:
+                        ((this._rpnIndex == 1) ? Colors.green : Colors.grey),
+                    inactiveFgColor: Colors.white,
+                    initialLabelIndex: this._rpnIndex,
+                    totalSwitches: 2,
+                    labels: [' ', ' '],
+                    radiusStyle: true,
+                    onToggle: rpnToggle,
+                  ),
+                  flex: 1,
+                ),
+                Expanded(
+                  child: new SizedBox(width: 70),
+                  flex: 2,
+                ),
+              ],
+            ),
+            new SizedBox(height: 10),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: new Text(
+                    "    Floating Point",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  flex: 3,
+                ),
+                Expanded(
+                  child: new SizedBox(width: 70),
+                  flex: 1,
+                ),
+                Expanded(
+                  child: ToggleSwitch(
+                    minWidth: 30.0,
+                    minHeight: 30.0,
+                    cornerRadius: 20.0,
+                    activeBgColors: [
+                      [Colors.white],
+                      [Colors.white]
+                    ],
+                    activeFgColor: Colors.white,
+                    inactiveBgColor: ((this._floatingIndex == 1)
+                        ? Colors.green
+                        : Colors.grey),
+                    inactiveFgColor: Colors.white,
+                    initialLabelIndex: this._floatingIndex,
+                    totalSwitches: 2,
+                    labels: [' ', ' '],
+                    radiusStyle: true,
+                    onToggle: floatingToggle,
+                  ),
+                  flex: 1,
+                ),
+                Expanded(
+                  child: new SizedBox(width: 70),
+                  flex: 2,
+                ),
+              ],
+            ),
             Divider(
-              height: 20.0,
+              height: 10.0,
               thickness: 2.0,
             ),
             new SizedBox(height: kSettingsSizedBoxHeight),
@@ -316,7 +457,7 @@ class _SettingsModal extends State<SettingsModal> {
               "    Number of Bits",
               textAlign: TextAlign.left,
             ),
-            new SizedBox(height: 20),
+            new SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -368,7 +509,7 @@ class _SettingsModal extends State<SettingsModal> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  flex: 4,
+                  flex: 3,
                 ),
                 Expanded(
                   child: new SizedBox(width: 70),
@@ -414,7 +555,7 @@ class _SettingsModal extends State<SettingsModal> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  flex: 4,
+                  flex: 3,
                 ),
                 Expanded(
                   child: new SizedBox(width: 70),
@@ -451,10 +592,6 @@ class _SettingsModal extends State<SettingsModal> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Expanded(
-                //   child: new SizedBox(width: 70),
-                //   flex: 2,
-                // ),
                 Expanded(
                   child: new Text(
                     "    CE as Backspace",
@@ -463,7 +600,7 @@ class _SettingsModal extends State<SettingsModal> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  flex: 4,
+                  flex: 3,
                 ),
                 Expanded(
                   child: new SizedBox(width: 70),
@@ -501,10 +638,6 @@ class _SettingsModal extends State<SettingsModal> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Expanded(
-                //   child: new SizedBox(width: 70),
-                //   flex: 2,
-                // ),
                 Expanded(
                   child: new Text(
                     "    Dozenal (Base 12)",
@@ -513,7 +646,7 @@ class _SettingsModal extends State<SettingsModal> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  flex: 4,
+                  flex: 3,
                 ),
                 Expanded(
                   child: new SizedBox(width: 70),
@@ -551,10 +684,6 @@ class _SettingsModal extends State<SettingsModal> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Expanded(
-                //   child: new SizedBox(width: 70),
-                //   flex: 2,
-                // ),
                 Expanded(
                   child: new Text(
                     "    Operator Precedence",
@@ -563,7 +692,7 @@ class _SettingsModal extends State<SettingsModal> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  flex: 4,
+                  flex: 3,
                 ),
                 Expanded(
                   child: new SizedBox(width: 1),
