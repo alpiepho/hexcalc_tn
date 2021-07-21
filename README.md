@@ -42,9 +42,8 @@ Also want this to be a PWA.
 - [done] settings: for rpn
 - [done] settings: for float
 - [done] settings: warning when not supported
-
-- engine/ui: buttons based on rpn and float
-- engine/ui: parse buttons adjust
+- [done] engine/ui: buttons based on rpn and float
+- [done] engine/ui: parse buttons adjust
 
 - results: copy
 - results: paste
@@ -55,6 +54,7 @@ Also want this to be a PWA.
 - engine: add parens for non-rpn
 - engine: features from settings screen
 
+- engine/ui: additional scientific functions
 
 - cleanup commented out code
 - look for refactor opportunies
