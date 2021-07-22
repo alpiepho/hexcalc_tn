@@ -44,10 +44,12 @@ Also want this to be a PWA.
 - [done] settings: warning when not supported
 - [done] engine/ui: buttons based on rpn and float
 - [done] engine/ui: parse buttons adjust
+- [done] cleanup commented out code
+- [done] results: copy
 
-- results: copy
 - results: paste
 
+- engine: fix NEG (as +/-)
 - engine: process operations
 - engine: add rpn
 - engine: add decimal point and support for float
@@ -56,11 +58,11 @@ Also want this to be a PWA.
 
 - engine/ui: additional scientific functions
 
-- cleanup commented out code
 - look for refactor opportunies
 - save preferences
 
 - engine: refactor ops as function pointers
+- results: use clipboard?
 
 
 - finish hex/dec/oct/bin outline

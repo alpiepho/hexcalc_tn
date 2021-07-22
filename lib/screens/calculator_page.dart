@@ -11,28 +11,12 @@ class CalculatorPage extends StatefulWidget {
 }
 
 class _CalculatorPageState extends State<CalculatorPage> {
-  //
-  // for display
-  //
-  // Color _colorTextLeft = Colors.black;
-  // Color _colorBackgroundLeft = Colors.grey;
-  // Color _colorTextRight = Colors.black;
-  // Color _colorBackgroundRight = Colors.blueAccent;
-
-  // String _labelLeft = "Away";
-  // String _labelRight = "Home";
-  // int _valueLeft = 0;
-  // int _valueRight = 0;
-  // int _earnedLeft = 0;
-  // int _earnedRight = 0;
-  // bool _earnedEnabled = false;
-  // bool _earnedVisible = false;
-
-  // FontTypes _fontType = FontTypes.system;
-
-  // for increment/decrement swiping
-  // double _panPositionYLeft = 0.0;
-  // double _panPositionYRight = 0.0;
+  // for results copy
+  double _panPositionXResult4 = 0.0;
+  double _panPositionXResult3 = 0.0;
+  double _panPositionXResult2 = 0.0;
+  double _panPositionXResult1 = 0.0;
+  String _copyValue = "";
 
   String _result3 = "0";
   String _result2 = "0";
@@ -62,170 +46,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
       _result2 = this._engine.stack[index++];
       _result3 = this._engine.stack[index++];
       _resultLines = this._engine.resultLines;
-
-      // _labelLeft  = this._engine.getLabelLeft();
-      // _labelRight = this._engine.getLabelRight();
-      // _valueLeft = this._engine.valueLeft;
-      // _valueRight = this._engine.valueRight;
-      // _earnedLeft = this._engine.earnedLeft;
-      // _earnedRight = this._engine.earnedRight;
-      // //_earnedEnabled = this._engine.earnedEnabled;
-      // _earnedVisible = this._engine.earnedVisible;
-
-      // _colorTextLeft = this._engine.colorTextLeft;
-      // _colorBackgroundLeft = this._engine.colorBackgroundLeft;
-      // _colorTextRight = this._engine.colorTextRight;
-      // _colorBackgroundRight = this._engine.colorBackgroundRight;
-
-      // _fontType = this._engine.fontType;
-
       _saveEngine();
     });
   }
-
-  // bool _hitEarned(TapUpDetails details, BuildContext? c) {
-  //   if (c != null) {
-  //     RenderBox rb = c.findRenderObject() as RenderBox;
-  //     if(rb.size != Size.zero) {
-  //       Offset centerPtInWidgetSpace = Offset(rb.size.width/2, rb.size.height/2);
-  //       Offset centerPtInScreenSpace = rb.localToGlobal(centerPtInWidgetSpace);
-  //       double dx = 1.2*(rb.size.width/2);
-  //       double dy = 1.2*(rb.size.height/2);
-  //       if ((details.globalPosition.dx >= (centerPtInScreenSpace.dx - dx)) &&
-  //           (details.globalPosition.dx <= (centerPtInScreenSpace.dx + dx)) &&
-  //           (details.globalPosition.dy >= (centerPtInScreenSpace.dy - dy)) &&
-  //           (details.globalPosition.dy <= (centerPtInScreenSpace.dy + dy))
-  //       ) {
-  //         return true;
-  //       }
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  // bool _hitEarnedLeft(TapUpDetails details) {
-  //   if (_hitEarned(details, _keyPortraitLeft.currentContext)) {
-  //     return true;
-  //   }
-  //   if (_hitEarned(details, _keyLandscapeLeft.currentContext)) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // bool _hitEarnedRight(TapUpDetails details) {
-  //   if (_hitEarned(details, _keyPortraitRight.currentContext)) {
-  //     return true;
-  //   }
-  //   if (_hitEarned(details, _keyLandscapeRight.currentContext)) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // void _incrementLeft(TapUpDetails details) async {
-  //   bool earned = _hitEarnedLeft(details);
-  //   this._engine.incrementLeft(earned);
-  //   _fromEngine();
-  //   _notify7();
-  //   _notify8();
-  // }
-
-  // void _decrementLeft() async {
-  //   this._engine.decrementLeft(true);
-  //   _fromEngine();
-  // }
-
-  // void _incrementRight(TapUpDetails details) async {
-  //   bool earned = _hitEarnedRight(details);
-  //   this._engine.incrementRight(earned);
-  //   _fromEngine();
-  //   _notify7();
-  //   _notify8();
-  // }
-
-  // void _decrementRight() async {
-  //   this._engine.decrementRight(true);
-  //   _fromEngine();
-  // }
-
-  // void _onClear() async {
-  //   showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Clear Scores'),
-  //         content: SingleChildScrollView(
-  //           child: ListBody(
-  //             children: <Widget>[
-  //               Text('Would you clear scores?'),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: Text('Cancel'),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: Text('Clear'),
-  //             onPressed: () {
-  //               this._engine.clearBoth();
-  //               _fromEngine();
-  //               Navigator.of(context).pop();
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  // void _onReset() async {
-  //   showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Reset All'),
-  //         content: SingleChildScrollView(
-  //           child: ListBody(
-  //             children: <Widget>[
-  //               Text('Would you reset everything?'),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: Text('Cancel'),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: Text('Reset'),
-  //             onPressed: () {
-  //               this._engine.resetBoth();
-  //               _fromEngine();
-  //               Navigator.of(context).pop();
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  // void _onSwap() async {
-  //   this._engine.swapTeams();
-  //   _fromEngine();
-  //   Navigator.of(context).pop();
-  // }
 
   void _onDone() async {
     this._engine.applyMode();
@@ -233,39 +56,35 @@ class _CalculatorPageState extends State<CalculatorPage> {
     Navigator.of(context).pop();
   }
 
-  // void _panUpdateLeft(DragUpdateDetails details) async {
-  //   // use swipe to adjust score
-  //   if (details.delta.dy.abs() > 1) {
-  //     _panPositionYLeft += details.delta.dy;
-  //     if (_panPositionYLeft < -100) {
-  //       _panPositionYLeft = 0.0;
-  //       this._engine.incrementLeft(false);
-  //       _fromEngine();
-  //     } else if (_panPositionYLeft > 100) {
-  //       _panPositionYLeft = 0.0;
-  //       _decrementLeft();
-  //     }
-  //   } else {
-  //     _panPositionYLeft = 0.0;
-  //   }
-  // }
+  void _clearPan() {
+      _panPositionXResult4 = 0.0;
+      _panPositionXResult3 = 0.0;
+      _panPositionXResult2 = 0.0;
+      _panPositionXResult1 = 0.0;
+  }
 
-  // void _panUpdateRight(DragUpdateDetails details) async {
-  //   // use swipe to adjust score
-  //   if (details.delta.dy.abs() > 1) {
-  //     _panPositionYRight += details.delta.dy;
-  //     if (_panPositionYRight < -100) {
-  //       _panPositionYRight = 0.0;
-  //       this._engine.incrementRight(false);
-  //       _fromEngine();
-  //     } else if (_panPositionYRight > 100) {
-  //       _panPositionYRight = 0.0;
-  //       _decrementRight();
-  //     }
-  //   } else {
-  //     _panPositionYRight = 0.0;
-  //   }
-  // }
+  void _onResult1Swipe(DragUpdateDetails details) async {
+    if (details.delta.dx.abs() > 1) {
+      _panPositionXResult1 += details.delta.dx;
+      if (_panPositionXResult1 < -30) {
+        _copyValue = this._engine.processCopy1();
+        _clearPan();
+      } else if (_panPositionXResult4 > 30) {
+        _copyValue = this._engine.processCopy1();
+        _clearPan();
+      }
+    } else {
+      _clearPan();
+    }
+  }
+
+  void _onResult1DoubleTap() {
+    print("double tap");
+    print(_copyValue);
+    this._engine.processPaste(_copyValue);
+    _copyValue = "";
+    _fromEngine();
+  }
 
   void _notifyEngine(int x, int y) async {
     this._engine.processKey(x, y);
@@ -307,10 +126,14 @@ class _CalculatorPageState extends State<CalculatorPage> {
         textAlign: TextAlign.end,
       ));
     }
-    colWidgets.add(Text(
-      _result0,
-      style: kResultTextStyle,
-      textAlign: TextAlign.end,
+    colWidgets.add(GestureDetector(
+      onPanUpdate: _onResult1Swipe,
+      onDoubleTap: _onResult1DoubleTap,
+      child: Text(
+        _result0,
+        style: kResultTextStyle,
+        textAlign: TextAlign.end,
+      ),
     ));
     colWidgets.add(SizedBox(
       height: 10,
@@ -342,9 +165,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 return SettingsModal(
                   context,
                   this._engine,
-                  // _onReset,
-                  // _onClear,
-                  // _onSwap,
                   _onDone,
                 );
               },

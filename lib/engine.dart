@@ -738,6 +738,14 @@ class Engine {
     }
   }
 
+  String processCopy1() {
+    return stack[stackPointer];
+  }
+
+  void processPaste(String value) {
+    if (value.length > 0) stack[stackPointer] = value;
+  }
+
   void applyMode() {
     int equalX = -1;
     int equalY = -1;
