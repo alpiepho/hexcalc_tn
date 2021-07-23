@@ -18,10 +18,10 @@ class _CalculatorPageState extends State<CalculatorPage> {
   double _panPositionXResult1 = 0.0;
   String _copyValue = "";
 
+  String _result4 = "0";
   String _result3 = "0";
   String _result2 = "0";
   String _result1 = "0";
-  String _result0 = "0";
   int _resultLines = 4;
 
   Engine _engine = Engine();
@@ -41,10 +41,10 @@ class _CalculatorPageState extends State<CalculatorPage> {
   void _fromEngine() async {
     setState(() {
       var index = 0;
-      _result0 = this._engine.stack[index++];
       _result1 = this._engine.stack[index++];
       _result2 = this._engine.stack[index++];
       _result3 = this._engine.stack[index++];
+      _result4 = this._engine.stack[index++];
       _resultLines = this._engine.resultLines;
       _saveEngine();
     });
@@ -63,13 +63,58 @@ class _CalculatorPageState extends State<CalculatorPage> {
       _panPositionXResult1 = 0.0;
   }
 
+  void _onResult4Swipe(DragUpdateDetails details) async {
+    if (details.delta.dx.abs() > 1) {
+      _panPositionXResult4 += details.delta.dx;
+      if (_panPositionXResult4 < -30) {
+        _copyValue = this._engine.processCopy4();
+        _clearPan();
+      } else if (_panPositionXResult4 > 30) {
+        _copyValue = this._engine.processCopy4();
+        _clearPan();
+      }
+    } else {
+      _clearPan();
+    }
+  }
+
+  void _onResult3Swipe(DragUpdateDetails details) async {
+    if (details.delta.dx.abs() > 1) {
+      _panPositionXResult3 += details.delta.dx;
+      if (_panPositionXResult3 < -30) {
+        _copyValue = this._engine.processCopy3();
+        _clearPan();
+      } else if (_panPositionXResult3 > 30) {
+        _copyValue = this._engine.processCopy3();
+        _clearPan();
+      }
+    } else {
+      _clearPan();
+    }
+  }
+
+  void _onResult2Swipe(DragUpdateDetails details) async {
+    if (details.delta.dx.abs() > 1) {
+      _panPositionXResult2 += details.delta.dx;
+      if (_panPositionXResult2 < -30) {
+        _copyValue = this._engine.processCopy2();
+        _clearPan();
+      } else if (_panPositionXResult2 > 30) {
+        _copyValue = this._engine.processCopy2();
+        _clearPan();
+      }
+    } else {
+      _clearPan();
+    }
+  }
+
   void _onResult1Swipe(DragUpdateDetails details) async {
     if (details.delta.dx.abs() > 1) {
       _panPositionXResult1 += details.delta.dx;
       if (_panPositionXResult1 < -30) {
         _copyValue = this._engine.processCopy1();
         _clearPan();
-      } else if (_panPositionXResult4 > 30) {
+      } else if (_panPositionXResult1 > 30) {
         _copyValue = this._engine.processCopy1();
         _clearPan();
       }
@@ -106,31 +151,40 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     // build the result lines from last N lines of stack
     if (_resultLines >= 4) {
-      colWidgets.add(Text(
-        _result3,
-        style: kResultTextStyle,
-        textAlign: TextAlign.end,
+      colWidgets.add(GestureDetector(
+        onPanUpdate: _onResult4Swipe,
+        child: Text(
+          _result4,
+          style: kResultTextStyle,
+          textAlign: TextAlign.end,
+        ),
       ));
     }
     if (_resultLines >= 3) {
-      colWidgets.add(Text(
-        _result2,
-        style: kResultTextStyle,
-        textAlign: TextAlign.end,
+      colWidgets.add(GestureDetector(
+        onPanUpdate: _onResult3Swipe,
+        child: Text(
+          _result3,
+          style: kResultTextStyle,
+          textAlign: TextAlign.end,
+        ),
       ));
     }
     if (_resultLines >= 2) {
-      colWidgets.add(Text(
-        _result1,
-        style: kResultTextStyle,
-        textAlign: TextAlign.end,
+      colWidgets.add(GestureDetector(
+        onPanUpdate: _onResult2Swipe,
+        child: Text(
+          _result2,
+          style: kResultTextStyle,
+          textAlign: TextAlign.end,
+        ),
       ));
     }
     colWidgets.add(GestureDetector(
       onPanUpdate: _onResult1Swipe,
       onDoubleTap: _onResult1DoubleTap,
       child: Text(
-        _result0,
+        _result1,
         style: kResultTextStyle,
         textAlign: TextAlign.end,
       ),

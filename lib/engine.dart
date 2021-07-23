@@ -49,6 +49,7 @@ class Engine {
   Engine() {
     for (int i = 0; i < stack.length; i++) {
       stack[i] = "0";
+      stack[i] = i.toString();
     }
     int row = 0;
     int col = 0;
@@ -736,6 +737,18 @@ class Engine {
         stack[stackPointer] = "0";
       }
     }
+  }
+
+  String processCopy4() {
+    return stack[stackPointer+3];
+  }
+
+  String processCopy3() {
+    return stack[stackPointer+2];
+  }
+
+  String processCopy2() {
+    return stack[stackPointer+1];
   }
 
   String processCopy1() {

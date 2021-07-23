@@ -48,6 +48,7 @@ Also want this to be a PWA.
 - [done] results: copy
 
 - results: paste
+- results: double check stack logic
 
 - engine: fix NEG (as +/-)
 - engine: process operations
@@ -60,6 +61,7 @@ Also want this to be a PWA.
 
 - look for refactor opportunies
 - save preferences
+- no landscape
 
 - engine: refactor ops as function pointers
 - results: use clipboard?
