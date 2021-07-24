@@ -4,13 +4,27 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "e1782c8f57bce99b9e9e5e58e25d865d",
-"index.html": "791c397cf72d3e11835f92e9c21a8cff",
-"/": "791c397cf72d3e11835f92e9c21a8cff",
-"main.dart.js": "9337e2f157aaaafbd03709530dea42c0",
-"favicon.png": "5dcef449791fa27946b3d35ad8803796",
-"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"manifest.json": "4d80b3e4a56b83522d0b8b50fb550c8d",
+"index.html": "bc170a03abfe56180922086b1fa767b6",
+"/": "bc170a03abfe56180922086b1fa767b6",
+"main.dart.js": "a98776470d41bddada6b541417d650f3",
+"favicon.png": "96e05329b6559aac88bc6d5b0010cf7d",
+"icons/1024.png": "96e05329b6559aac88bc6d5b0010cf7d",
+"icons/60.png": "bf02df13a9bf0e3eb385f296031b9462",
+"icons/64.png": "8daa5768b765977e311871fd5f995890",
+"icons/58.png": "7c14bd85bf2159a0b1be52fa77663e58",
+"icons/29.png": "12e4c72e35533fb5e62fd43b1cbc847f",
+"icons/114.png": "56ff80124fd91ea3fa54d4387e349735",
+"icons/128.png": "3f6c2a897e7a1b18c4f3e79eac1b8d38",
+"icons/16.png": "dd8e776431040373c330dd50411ebf33",
+"icons/120.png": "3f02123104f07b31d0a5ca5c87436e09",
+"icons/256.png": "f32891e9c4ea282863a4dad8a279d86e",
+"icons/32.png": "3c599fee038bb6cc3de96c8ea2b79d3f",
+"icons/180.png": "471ef965703ef497fd3fa6e9a7f5c0fd",
+"icons/57.png": "6705733dcb0f247af2ae046b293fc422",
+"icons/80.png": "1a1a5a0d58f5b08006e4fd3747e05f57",
+"icons/40.png": "7ab8e556078bffddfa0a9fa4ffdc2e8f",
+"icons/87.png": "1c521a2b5c64ad558830da035bcfd47f",
+"manifest.json": "8245f8c68c04017138e2dc055cfd2b87",
 "assets/AssetManifest.json": "e26ab0f0a9ebee8025260de29a88a4ca",
 "assets/NOTICES": "83ed1506ae85ac462be9f0202f54515f",
 "assets/FontManifest.json": "3ddd9b2ab1c2ae162d46e3cc7b78ba88",
@@ -23,12 +37,12 @@ const RESOURCES = {
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = [
-  "https://alpiepho.github.io/hexcalc_tn/",
-"https://alpiepho.github.io/hexcalc_tn/main.dart.js",
-"https://alpiepho.github.io/hexcalc_tn/index.html",
-"https://alpiepho.github.io/hexcalc_tn/assets/NOTICES",
-"https://alpiepho.github.io/hexcalc_tn/assets/AssetManifest.json",
-"https://alpiepho.github.io/hexcalc_tn/assets/FontManifest.json"];
+  "/",
+"main.dart.js",
+"index.html",
+"assets/NOTICES",
+"assets/AssetManifest.json",
+"assets/FontManifest.json"];
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
   self.skipWaiting();
