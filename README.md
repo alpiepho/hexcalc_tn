@@ -49,30 +49,37 @@ Also want this to be a PWA.
 - [done] results: paste
 - [done] no landscape
 - [done] favicon
+- [done] review constants
+- [done] from settings: ce as backspace
 
-- results: double check stack logic
+- review stack display
+- add mem functions
 
 - engine: fix NEG (as +/-)
 - engine: process operations
-- engine: add rpn
-- engine: add decimal point and support for float
 - engine: add parens for non-rpn
-- engine: features from settings screen
 
-- engine/ui: additional scientific functions
+- from settings: number bits
+- from settings: unsigned
+- from settings: key clicks
+- from settings: sounds
+- from settings: dozenal
+- from settings: precidence
+- from settings: rpm
+- from settings: floating point
 
-- look for refactor opportunies
+
 - save preferences
 
-- engine: refactor ops as function pointers
+
+- refactor duplicate code
+- refactor ops as function pointers
+- how to support 64 bit in pwa?
 - results: use clipboard?
-
-
+- engine/ui: additional scientific functions
 - finish hex/dec/oct/bin outline
 - fix InkWell splash, ink is plashed behind the decoration/gradient
-- how to support 64 bit in pwa?
 
-- review constants
 - update README
 
 

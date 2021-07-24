@@ -49,7 +49,6 @@ class Engine {
   Engine() {
     for (int i = 0; i < stack.length; i++) {
       stack[i] = "0";
-      stack[i] = i.toString();
     }
     int row = 0;
     int col = 0;
