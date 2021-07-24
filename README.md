@@ -46,8 +46,10 @@ Also want this to be a PWA.
 - [done] engine/ui: parse buttons adjust
 - [done] cleanup commented out code
 - [done] results: copy
+- [done] results: paste
+- [done] no landscape
+- [done] favicon
 
-- results: paste
 - results: double check stack logic
 
 - engine: fix NEG (as +/-)
@@ -61,7 +63,6 @@ Also want this to be a PWA.
 
 - look for refactor opportunies
 - save preferences
-- no landscape
 
 - engine: refactor ops as function pointers
 - results: use clipboard?
@@ -73,5 +74,5 @@ Also want this to be a PWA.
 
 - review constants
 - update README
-- get devide symbol?
+
 

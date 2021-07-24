@@ -253,6 +253,28 @@ class _SettingsModal extends State<SettingsModal> {
 
   @override
   Widget build(BuildContext context) {
+    var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    if (!isPortrait) {
+      return Scaffold(
+        backgroundColor: kInputPageBackgroundColor,
+        body: Center(
+          child: Container(
+            width: kMainContainerWidthPortrait,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                new Text(
+                  "Landscape mode is not supported.",
+                  style: kResultTextStyle,
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     var rowsIndex = this.engine.resultLines - 1;
 
     var bitIndex = 4;

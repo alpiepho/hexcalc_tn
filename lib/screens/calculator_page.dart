@@ -145,7 +145,27 @@ class _CalculatorPageState extends State<CalculatorPage> {
   @override
   Widget build(BuildContext context) {
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    var forcePortrait = isPortrait;
+    if (!isPortrait) {
+      return Scaffold(
+        backgroundColor: kInputPageBackgroundColor,
+        body: Center(
+          child: Container(
+            width: kMainContainerWidthPortrait,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                new Text(
+                  "Landscape mode is not supported.",
+                  style: kResultTextStyle,
+
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     var colWidgets = <Widget>[];
 
@@ -233,7 +253,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 onPress: onPress,
                 color: background,
                 margin: EdgeInsets.fromLTRB(0, 0, 2, 2),
-                portrait: forcePortrait,
+                portrait: true,
                 gradient: gradient,
                 disabled: disabled,
                 cardChild: Column(
@@ -261,7 +281,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
       colWidgets.add(container);
     }
 
-    // if (isPortrait) {
     return Scaffold(
       backgroundColor: kInputPageBackgroundColor,
       body: Center(
@@ -274,8 +293,5 @@ class _CalculatorPageState extends State<CalculatorPage> {
         ),
       ),
     );
-    // }
-    // else {
-    // }
   }
 }

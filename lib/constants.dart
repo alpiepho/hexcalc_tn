@@ -41,6 +41,14 @@ const kResultTextStyle = TextStyle(
   height: 1.2,
 );
 
+const kNoLandscapeTextStyle = TextStyle(
+  fontSize: 30,
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+  backgroundColor: kInputPageBackgroundColor,
+  height: 1.2,
+);
+
 const kBlueColor = Color(0xFF637D9E);
 const kRedColor = Color(0xFFC30000);
 const kGreenColor = Color(0xFF00B02B);
