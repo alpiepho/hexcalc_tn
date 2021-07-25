@@ -157,7 +157,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
               children: [
                 new Text(
                   "Landscape mode is not supported.",
-                  style: kResultTextStyle,
+                  style: kLanscapeWarningTextStyle,
 
                 )
               ],
@@ -168,6 +168,10 @@ class _CalculatorPageState extends State<CalculatorPage> {
     }
 
     var colWidgets = <Widget>[];
+
+    var mainColumnHeightPortrait = kMainColumnHeightPortrait;
+    var deviceSize = MediaQuery.of(context).size;
+    if (deviceSize.height < 700) mainColumnHeightPortrait = kMainColumnHeightPortrait2;
 
     // build the result lines from last N lines of stack
     if (_resultLines >= 4) {
@@ -274,8 +278,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
       var row = new Row(children: rowWidgets);
       var container = new Container(
         height: (this._engine.grid[i][0].halfHeight
-            ? kMainColumnHeightPortrait / 2
-            : kMainColumnHeightPortrait),
+            ? mainColumnHeightPortrait / 2
+            : mainColumnHeightPortrait),
         child: row,
       );
       colWidgets.add(container);

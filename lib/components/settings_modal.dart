@@ -182,9 +182,11 @@ class _SettingsModal extends State<SettingsModal> {
     switch (index) {
       case 1:
         this.engine.rpn = true;
+        this.engine.resultLines = 4;
         break;
       default:
         this.engine.rpn = false;
+        this.engine.resultLines = 1;
         break;
     }
     setState(() {
@@ -266,7 +268,7 @@ class _SettingsModal extends State<SettingsModal> {
               children: [
                 new Text(
                   "Landscape mode is not supported.",
-                  style: kResultTextStyle,
+                  style: kLanscapeWarningTextStyle,
                 )
               ],
             ),

@@ -51,9 +51,10 @@ Also want this to be a PWA.
 - [done] favicon
 - [done] review constants
 - [done] from settings: ce as backspace
-
-- review stack display
-- add mem functions
+- [done] review stack display
+- [done] add yellow text for op pending
+- [done] add mem functions
+- [done] add yellow text for mem active
 
 - engine: fix NEG (as +/-)
 - engine: process operations

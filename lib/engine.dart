@@ -9,6 +9,7 @@ class Cell {
   bool gradient;
   int flex;
   bool disabled;
+  bool active;
 
   Cell({
     this.label = '',
@@ -18,6 +19,7 @@ class Cell {
     this.gradient = true,
     this.flex = 1,
     this.disabled = false,
+    this.active = false,
   });
 }
 
@@ -27,8 +29,8 @@ class Engine {
   var lastOp = "";
   var inputLimit = 20;
 
-  var stack = List.generate(10, (index) => "0");
-  int stackPointer = 0;
+  var stack = List.generate(4, (index) => "0");
+  var memory = "";
 
   var grid = List.generate(9, (i) => List.generate(5, (index) => Cell()),
       growable: false);
@@ -42,7 +44,7 @@ class Engine {
   var dozonal = false; // base12
   var operatorPrec = true; // 1+2x3=7 instead of 9
 
-  var resultLines = 4;
+  var resultLines = 1;
   var rpn = false;
   var floatingPoint = false;
 
@@ -185,7 +187,7 @@ class Engine {
     col++;
     grid[row][col] = new Cell(label: "AND", style: kLabelTextStyle);
     col++;
-    grid[row][col] = new Cell(label: "x");
+    grid[row][col] = new Cell(label: "x", style: kLabelTextStyle);
     col++;
     row++;
     col = 0;
@@ -233,7 +235,6 @@ class Engine {
     for (var value in stack) {
       result += value + ";";
     }
-    result += stackPointer.toString() + ";";
     result += mode + ";";
     result += numberBits.toString() + ";";
     result += numberSigned.toString() + ";";
@@ -257,7 +258,6 @@ class Engine {
     for (int i = 0; i < stack.length; i++) {
       stack[i] = parts[index++];
     }
-    stackPointer = int.parse(parts[index++]);
     numberBits = int.parse(parts[index++]);
     mode = parts[index++];
     numberSigned = parts[index++] == "true";
@@ -493,6 +493,18 @@ class Engine {
       case "-":
       case "OR":
       case "+":
+        result = true;
+        break;
+      default:
+        result = false;
+        break;
+    }
+    return result;
+  }
+
+  bool isEqual(String key) {
+    bool result;
+    switch (key) {
       case "=":
       case "enter":
         result = true;
@@ -642,9 +654,31 @@ class Engine {
     return temp;
   }
 
+  void setActive(String key) {
+    for (int x = 0; x < grid.length; x++) {
+      for (int y = 0; y < grid[0].length; y++) {
+        if (key == grid[x][y].label) {
+          grid[x][y].active = true;
+        }
+      }
+    }
+    lastOp = "";  
+  }
+
+  void clearActive(String key) {
+    for (int x = 0; x < grid.length; x++) {
+      for (int y = 0; y < grid[0].length; y++) {
+        if (key == grid[x][y].label) {
+          grid[x][y].active = false;
+        }
+      }
+    }
+    lastOp = "";  
+  }
+
   void processEdit(String key) {
     if (isNumKey(key)) {
-      var current = stack[stackPointer];
+      var current = stack[0];
       if (current.length < inputLimit) {
         if (current.length == 1 && current[0] == '0') {
           current = key;
@@ -652,20 +686,27 @@ class Engine {
           current = current + key;
         }
       }
-      stack[stackPointer] = current;
+      stack[0] = current;
     }
   }
 
   void processOps(String key) {
     if (isOp(key)) {
       lastOp = key;
+      for (int x = 0; x < grid.length; x++) {
+        for (int y = 0; y < grid[0].length; y++) {
+          if (key == grid[x][y].label) {
+            grid[x][y].active = true;
+          }
+        }
+      }
     }
   }
 
   void processOpUnary() {
     int temp;
     if (isUnaryOp(lastOp)) {
-      int value = lineToValue(stack[stackPointer]);
+      int value = lineToValue(stack[0]);
       switch (lastOp) {
         case "SHL":
           value = value << 1;
@@ -692,6 +733,7 @@ class Engine {
           value = value & get0xFF();
           break;
         case "NEG":
+          // TODO fix neg
           value = -1 * value;
           value = value & get0xFF();
           break;
@@ -700,17 +742,19 @@ class Engine {
           value = value & get0xFF();
           break;
       }
-      lastOp = "";
+      clearActive(lastOp);
       print(value);
-      stack[stackPointer] = valueToLine(value);
+      stack[0] = valueToLine(value);
     }
   }
 
   void processEquals(String key) {
     // TODO finish processEquals
-    if (key == "=" && lastOp != "") {}
+    if (key == "=" && lastOp != "") {
+      clearActive(lastOp);
+    }
     if (key == "enter") {}
-    lastOp = "";
+
   }
 
   void processAC(String key) {
@@ -718,44 +762,43 @@ class Engine {
       for (int i = 0; i < stack.length; i++) {
         stack[i] = "0";
       }
-      stackPointer = 0;
     }
   }
 
   void processCE(String key) {
     if (key == "CE") {
       if (backspaceCE) {
-        var current = stack[stackPointer];
+        var current = stack[0];
         if (current.length == 1) {
           current = "0";
         } else {
           current = current.substring(0, current.length - 1);
         }
-        stack[stackPointer] = current;
+        stack[0] = current;
       } else {
-        stack[stackPointer] = "0";
+        stack[0] = "0";
       }
     }
   }
 
   String processCopy4() {
-    return stack[stackPointer+3];
+    return stack[3];
   }
 
   String processCopy3() {
-    return stack[stackPointer+2];
+    return stack[2];
   }
 
   String processCopy2() {
-    return stack[stackPointer+1];
+    return stack[1];
   }
 
   String processCopy1() {
-    return stack[stackPointer];
+    return stack[0];
   }
 
   void processPaste(String value) {
-    if (value.length > 0) stack[stackPointer] = value;
+    if (value.length > 0) stack[0] = value;
   }
 
   void applyMode() {
@@ -848,7 +891,31 @@ class Engine {
 
   void processMem(String key) {
     if (isMemKey(key)) {
-      // TODO: finish processMem
+      switch (key) {
+        case "M+":
+          int value1 = lineToValue(memory);
+          int value2 = lineToValue(stack[0]);
+          value1 += value2;
+          memory = valueToLine(value1);
+          break;
+        case "M-":
+          int value1 = lineToValue(memory);
+          int value2 = lineToValue(stack[0]);
+          value1 -= value2;
+          memory = valueToLine(value1);
+          break;
+        case "M in":
+          memory = stack[0];
+          setActive("MR");
+          break;
+        case "MR":
+        if (memory.length > 0) stack[0] = memory;
+          break;
+        case "MC":
+          memory = "";
+          clearActive("MR");
+          break;
+      }
     }
   }
 
@@ -869,7 +936,11 @@ class Engine {
   }
 
   TextStyle getStyle(int x, int y) {
-    return grid[x][y].style;
+    var style = grid[x][y].style;
+    if (grid[x][y].active) {
+      style = grid[x][y].style.copyWith(color: Colors.yellow);
+    }
+    return style;
   }
 
   void processKey(int x, int y) {
