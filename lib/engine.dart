@@ -798,6 +798,7 @@ class Engine {
   }
 
   void processPaste(String value) {
+    // TODO verify paste is number based on current mode
     if (value.length > 0) stack[0] = value;
   }
 

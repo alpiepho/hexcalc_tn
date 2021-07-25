@@ -55,10 +55,10 @@ Also want this to be a PWA.
 - [done] add yellow text for op pending
 - [done] add mem functions
 - [done] add yellow text for mem active
+- [done] results: use clipboard?
 
 - engine: fix NEG (as +/-)
 - engine: process operations
-- engine: add parens for non-rpn
 
 - from settings: number bits
 - from settings: unsigned
@@ -76,7 +76,6 @@ Also want this to be a PWA.
 - refactor duplicate code
 - refactor ops as function pointers
 - how to support 64 bit in pwa?
-- results: use clipboard?
 - engine/ui: additional scientific functions
 - finish hex/dec/oct/bin outline
 - fix InkWell splash, ink is plashed behind the decoration/gradient

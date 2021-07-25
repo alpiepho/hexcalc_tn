@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcalc_tn/components/calc_button.dart';
 import 'package:hexcalc_tn/components/settings_modal.dart';
 import 'package:hexcalc_tn/constants.dart';
@@ -16,7 +17,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
   double _panPositionXResult3 = 0.0;
   double _panPositionXResult2 = 0.0;
   double _panPositionXResult1 = 0.0;
-  String _copyValue = "";
 
   String _result4 = "0";
   String _result3 = "0";
@@ -66,11 +66,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
   void _onResult4Swipe(DragUpdateDetails details) async {
     if (details.delta.dx.abs() > 1) {
       _panPositionXResult4 += details.delta.dx;
-      if (_panPositionXResult4 < -30) {
-        _copyValue = this._engine.processCopy4();
-        _clearPan();
-      } else if (_panPositionXResult4 > 30) {
-        _copyValue = this._engine.processCopy4();
+      if (_panPositionXResult4.abs() > 30) {
+        var value = this._engine.processCopy4();
+        await Clipboard.setData(ClipboardData(text: value));
         _clearPan();
       }
     } else {
@@ -81,11 +79,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
   void _onResult3Swipe(DragUpdateDetails details) async {
     if (details.delta.dx.abs() > 1) {
       _panPositionXResult3 += details.delta.dx;
-      if (_panPositionXResult3 < -30) {
-        _copyValue = this._engine.processCopy3();
-        _clearPan();
-      } else if (_panPositionXResult3 > 30) {
-        _copyValue = this._engine.processCopy3();
+      if (_panPositionXResult3.abs() > 30) {
+        var value = this._engine.processCopy3();
+        await Clipboard.setData(ClipboardData(text: value));
         _clearPan();
       }
     } else {
@@ -96,11 +92,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
   void _onResult2Swipe(DragUpdateDetails details) async {
     if (details.delta.dx.abs() > 1) {
       _panPositionXResult2 += details.delta.dx;
-      if (_panPositionXResult2 < -30) {
-        _copyValue = this._engine.processCopy2();
-        _clearPan();
-      } else if (_panPositionXResult2 > 30) {
-        _copyValue = this._engine.processCopy2();
+      if (_panPositionXResult2.abs() > 30) {
+        var value = this._engine.processCopy2();
+        await Clipboard.setData(ClipboardData(text: value));
         _clearPan();
       }
     } else {
@@ -111,11 +105,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
   void _onResult1Swipe(DragUpdateDetails details) async {
     if (details.delta.dx.abs() > 1) {
       _panPositionXResult1 += details.delta.dx;
-      if (_panPositionXResult1 < -30) {
-        _copyValue = this._engine.processCopy1();
-        _clearPan();
-      } else if (_panPositionXResult1 > 30) {
-        _copyValue = this._engine.processCopy1();
+      if (_panPositionXResult1.abs() > 30) {
+        var value = this._engine.processCopy1();
+        await Clipboard.setData(ClipboardData(text: value));
         _clearPan();
       }
     } else {
@@ -123,12 +115,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
     }
   }
 
-  void _onResult1DoubleTap() {
+  Future<void> _onResult1DoubleTap() async {
     print("double tap");
-    print(_copyValue);
-    this._engine.processPaste(_copyValue);
-    _copyValue = "";
-    _fromEngine();
+    Clipboard.getData(Clipboard.kTextPlain).then((value) {
+      var newValue = value!.text!;
+      this._engine.processPaste(newValue);
+      _fromEngine();
+    });
   }
 
   void _notifyEngine(int x, int y) async {
