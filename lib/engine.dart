@@ -272,59 +272,6 @@ class Engine {
     floatingPoint = parts[index++] == "true";
   }
 
-// case "HEX":
-// case "DEC":
-// case "OCT":
-// case "BIN":
-// case "?"
-
-// case "M+":
-// case "M-":
-// case "M in":
-// case "MR":
-// case "MC":
-
-// case "SHL":
-// case "SHR":
-// case "ROL":
-// case "ROR":
-// case "MOD":
-
-// case "D":
-// case "E":
-// case "F":
-// case "NEG":
-// case "AC":
-
-// case "A":
-// case "B":
-// case "C":
-// case "NOT":
-// case "/":
-
-// case "7":
-// case "8":
-// case "9":
-// case "AND":
-// case "x":
-
-// case "4":
-// case "5":
-// case "6":
-// case "XOR":
-// case "-":
-
-// case "1":
-// case "2":
-// case "3":
-// case "OR":
-// case "+":
-
-// case "CE":
-// case "0":
-// case "00":
-// case "=":
-
   bool isModeKey(String key) {
     bool result;
     switch (key) {
@@ -572,6 +519,74 @@ class Engine {
     return result;
   }
 
+  int get0xFF() {
+    var temp = 0xffffffff;
+    switch (numberBits) {
+      case 8:
+        temp = 0xff;
+        break;
+      case 12:
+        temp = 0xfff;
+        break;
+      case 16:
+        temp = 0xffff;
+        break;
+      case 24:
+        temp = 0xffffff;
+        break;
+      case 32:
+        temp = 0xffffffff;
+        break;
+      case 48:
+        temp = 0xffffffffffff;
+        break;
+      // case 64:
+      //   temp = 0xffffffffffffffff;
+      //   break;
+    }
+    return temp;
+  }
+
+  int get0x7F() {
+    var temp = 0x7fffffff;
+    switch (numberBits) {
+      case 8:
+        temp = 0x7f;
+        break;
+      case 12:
+        temp = 0x7ff;
+        break;
+      case 16:
+        temp = 0x7fff;
+        break;
+      case 24:
+        temp = 0x7fffff;
+        break;
+      case 32:
+        temp = 0x7fffffff;
+        break;
+      case 48:
+        temp = 0x7fffffffffff;
+        break;
+      // case 64:
+      //   temp = 0x7fffffffffffffff;
+      //   break;
+    }
+    return temp;
+  }
+
+  int get0x80() {
+    // 8 bit -> 0x100 = 1 << (8-1)
+    var temp = (1 << (numberBits - 1));
+    return temp;
+  }
+
+  int get0x100() {
+    // 8 bit -> 0x100 = 1 << 8
+    var temp = (1 << (numberBits));
+    return temp;
+  }
+
   int lineToValue(String line) {
     int result = 0;
 
@@ -601,57 +616,27 @@ class Engine {
 
     switch (mode) {
       case "HEX":
-        result = value.toRadixString(16);
+        result = BigInt.from(value).toUnsigned(numberBits).toRadixString(16);
         break;
       case "DOZ":
-        result = value.toRadixString(12);
+        result = BigInt.from(value).toUnsigned(numberBits).toRadixString(12);
         break;
       case "DEC":
-        result = value.toRadixString(10);
+        if (numberSigned)
+          result = BigInt.from(value).toSigned(numberBits).toRadixString(10);
+        else
+          result = BigInt.from(value).toUnsigned(numberBits).toRadixString(10);
         break;
       case "OCT":
-        result = value.toRadixString(8);
+        result = BigInt.from(value).toUnsigned(numberBits).toRadixString(8);
         break;
       case "BIN":
-        result = value.toRadixString(2);
+        result = BigInt.from(value).toUnsigned(numberBits).toRadixString(2);
         break;
     }
     result = result.toUpperCase();
 
     return result;
-  }
-
-  int get0xFF() {
-    var temp = 0xffffffff;
-    switch (numberBits) {
-      case 8:
-        temp = 0xff;
-        break;
-      case 12:
-        temp = 0xfff;
-        break;
-      case 16:
-        temp = 0xffff;
-        break;
-      case 24:
-        temp = 0xffffff;
-        break;
-      case 32:
-        temp = 0xffffffff;
-        break;
-      case 48:
-        temp = 0xffffffffffff;
-        break;
-      // case 64:
-      //   temp = 0xffffffffffffffff;
-      //   break;
-    }
-    return temp;
-  }
-
-  int get0x10() {
-    var temp = (1 << (numberBits - 1));
-    return temp;
   }
 
   void setActive(String key) {
@@ -718,7 +703,7 @@ class Engine {
           break;
         case "ROL":
           temp = value & get0xFF();
-          temp = temp & get0x10();
+          temp = temp & get0x80();
           temp = temp >> (numberBits - 1);
           value = value << 1;
           value = value & get0xFF();
@@ -733,7 +718,6 @@ class Engine {
           value = value & get0xFF();
           break;
         case "NEG":
-          // TODO fix neg
           value = -1 * value;
           value = value & get0xFF();
           break;
@@ -797,9 +781,16 @@ class Engine {
     return stack[0];
   }
 
-  void processPaste(String value) {
-    // TODO verify paste is number based on current mode
-    if (value.length > 0) stack[0] = value;
+  bool processPaste(String svalue) {
+    try {
+      if (svalue.length > 0) {
+        lineToValue(svalue);
+        stack[0] = svalue;
+      }
+    } catch (exception) {
+      return false;
+    }
+    return true;
   }
 
   void applyMode() {

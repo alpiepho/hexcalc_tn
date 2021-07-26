@@ -116,11 +116,30 @@ class _CalculatorPageState extends State<CalculatorPage> {
   }
 
   Future<void> _onResult1DoubleTap() async {
-    print("double tap");
     Clipboard.getData(Clipboard.kTextPlain).then((value) {
       var newValue = value!.text!;
-      this._engine.processPaste(newValue);
-      _fromEngine();
+      if (this._engine.processPaste(newValue)) {
+        _fromEngine();
+      } else {
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('ERROR'),
+              content: new Text("'" + newValue + "' is not a number."),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );        
+      }
     });
   }
 
@@ -162,9 +181,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     var colWidgets = <Widget>[];
 
-    var mainColumnHeightPortrait = kMainColumnHeightPortrait;
     var deviceSize = MediaQuery.of(context).size;
-    if (deviceSize.height < 700) mainColumnHeightPortrait = kMainColumnHeightPortrait2;
+    var mainColumnHeightPortrait = kMainColumnHeightPortrait;
+    var resultStyle = kResultTextStyle;
+    if (deviceSize.height < 700) {
+      mainColumnHeightPortrait = kMainColumnHeightPortrait2;
+      resultStyle = kResultTextStyle.copyWith(fontSize: 30);
+    }
 
     // build the result lines from last N lines of stack
     if (_resultLines >= 4) {
@@ -172,7 +195,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
         onPanUpdate: _onResult4Swipe,
         child: Text(
           _result4,
-          style: kResultTextStyle,
+          style: resultStyle,
           textAlign: TextAlign.end,
         ),
       ));
@@ -182,7 +205,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
         onPanUpdate: _onResult3Swipe,
         child: Text(
           _result3,
-          style: kResultTextStyle,
+          style: resultStyle,
           textAlign: TextAlign.end,
         ),
       ));
@@ -192,7 +215,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
         onPanUpdate: _onResult2Swipe,
         child: Text(
           _result2,
-          style: kResultTextStyle,
+          style: resultStyle,
           textAlign: TextAlign.end,
         ),
       ));
@@ -202,7 +225,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
       onDoubleTap: _onResult1DoubleTap,
       child: Text(
         _result1,
-        style: kResultTextStyle,
+        style: resultStyle,
         textAlign: TextAlign.end,
       ),
     ));

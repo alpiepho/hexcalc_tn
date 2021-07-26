@@ -21,7 +21,7 @@ const kLanscapeWarningTextStyle = TextStyle(
 );
 
 const kResultTextStyle = TextStyle(
-  fontSize: 36,
+  fontSize: 40,
   color: Colors.white,
   fontWeight: FontWeight.bold,
   height: 1.2,
