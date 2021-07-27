@@ -48,6 +48,8 @@ class Engine {
   var rpn = false;
   var floatingPoint = false;
 
+  var editing = false;
+
   Engine() {
     for (int i = 0; i < stack.length; i++) {
       stack[i] = "0";
@@ -662,8 +664,16 @@ class Engine {
   }
 
   void processEdit(String key) {
+
     if (isNumKey(key)) {
       var current = stack[0];
+      if (!editing) {
+        // push stack
+        stack[1] = stack[0];
+        current = "";
+      }
+      editing = true;
+
       if (current.length < inputLimit) {
         if (current.length == 1 && current[0] == '0') {
           current = key;
@@ -673,18 +683,8 @@ class Engine {
       }
       stack[0] = current;
     }
-  }
-
-  void processOps(String key) {
-    if (isOp(key)) {
-      lastOp = key;
-      for (int x = 0; x < grid.length; x++) {
-        for (int y = 0; y < grid[0].length; y++) {
-          if (key == grid[x][y].label) {
-            grid[x][y].active = true;
-          }
-        }
-      }
+    else {
+      editing = false;
     }
   }
 
@@ -727,15 +727,75 @@ class Engine {
           break;
       }
       clearActive(lastOp);
-      print(value);
       stack[0] = valueToLine(value);
     }
   }
 
+  void processLastOp() {
+    int temp;
+    int value1 = lineToValue(stack[1]);
+    int value0 = lineToValue(stack[0]);
+    switch (lastOp) {
+      case "MOD":
+        value0 = value1 % value0;
+        value0 = value0 & get0xFF();
+        break;
+      case "AND":
+        value0 = value1 & value0;
+        value0 = value0 & get0xFF();
+        break;
+      case "OR":
+        value0 = value1 | value0;
+        value0 = value0 & get0xFF();
+        break;
+      case "XOR":
+        value0 = value1 ^ value0;
+        value0 = value0 & get0xFF();
+        break;
+      case "/":
+        value0 = value1 ~/ value0;
+        value0 = value0 & get0xFF();
+        break;
+      case "x":
+        value0 = value1 * value0;
+        value0 = value0 & get0xFF();
+        break;
+      case "+":
+        value0 = value1 + value0;
+        value0 = value0 & get0xFF();
+        break;
+      case "-":
+        value0 = value1 - value0;
+        value0 = value0 & get0xFF();
+        break;
+      default:
+        break;
+    }
+    clearActive(lastOp);
+    print(value0);
+    stack[0] = valueToLine(value0);
+  }
+
+  void processOps(String key) {
+    if (isOp(key)) {
+      if (lastOp.length > 0) {
+        // this is !precidence or 1+2x3=7, or (1+2)x3, instead of 1+2x3=9
+        processLastOp();
+      }
+      lastOp = key;
+      for (int x = 0; x < grid.length; x++) {
+        for (int y = 0; y < grid[0].length; y++) {
+          if (key == grid[x][y].label) {
+            grid[x][y].active = true;
+          }
+        }
+      }
+    }
+  }
+
   void processEquals(String key) {
-    // TODO finish processEquals
     if (key == "=" && lastOp != "") {
-      clearActive(lastOp);
+      processLastOp();
     }
     if (key == "enter") {}
 
@@ -757,6 +817,8 @@ class Engine {
           current = "0";
         } else {
           current = current.substring(0, current.length - 1);
+          if (current[0] == '-')
+            current = "0";
         }
         stack[0] = current;
       } else {

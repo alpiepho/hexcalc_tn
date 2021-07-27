@@ -56,26 +56,26 @@ Also want this to be a PWA.
 - [done] add mem functions
 - [done] add yellow text for mem active
 - [done] results: use clipboard?
+- [done] engine: fix NEG (as +/-)
+- [done] from settings: number bits
+- [done] from settings: unsigned
+- [done] engine: process operations
 
-- engine: fix NEG (as +/-)
-- engine: process operations
+- from settings: precidence
 
-- from settings: number bits
-- from settings: unsigned
 - from settings: key clicks
 - from settings: sounds
 - from settings: dozenal
-- from settings: precidence
 - from settings: rpm
 - from settings: floating point
 
 
 - save preferences
 
+- engine: does BitInt have bit ops?
 
 - refactor duplicate code
-- refactor ops as function pointers
-- how to support 64 bit in pwa?
+- how to support 64 bit?
 - engine/ui: additional scientific functions
 - finish hex/dec/oct/bin outline
 - fix InkWell splash, ink is plashed behind the decoration/gradient

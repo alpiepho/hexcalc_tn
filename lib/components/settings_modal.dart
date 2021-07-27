@@ -176,7 +176,26 @@ class _SettingsModal extends State<SettingsModal> {
     setState(() {
       this._precedenceIndex = index;
     });
-  }
+    if (index == 1) {
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('WARNING'),
+            content: new Text("Precidence is not supported yet, ignored"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }  }
 
   void rpnToggle(int index) {
     switch (index) {
