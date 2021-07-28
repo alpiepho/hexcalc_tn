@@ -5,14 +5,44 @@ GH-Pages site: https://alpiepho.github.io/hexcalc_tn/
 
 ## hexcalc_tn
 
+This is my version of a hexcalc as a PWA (prgressive web app), written in Flutter.
 
-Goal:<br>
-semi-duplicate hexcalc from [cp hexcalc](https://www.fileviewer.com/cphexcalc/), 
-then modify for RPN (reverse polish notation) and other features I want.
+I like the look and feel of [cp hexcalc](https://www.fileviewer.com/cphexcalc/) that is available for IOS.
+But there are other features I would like:
+- Deploy as a PWA for multiple platforms
+- Allow showing multiple lines
+- Allow for RPN (reverse polish notation, "enter" instead of "=")
+- Allow for entering text expressions
+- Allow for some scientific operations
 
-My intent is to practice with Flutter, not steal a design.  This will not be offered as a product.
+So my goal is to build a Flutter Web app modeled after "cp hexcalc", then expand the features.
 
-Also want this to be a PWA.
+## Operation
+
+Most of the opeartion should be self evident, but we should clarify a few things:
+- select mode from top keys, digit keys will change
+- enter setting page using 'i' button
+- setting persist (for next start of app) upon the back button ("<-")
+- hopefully settings are self evident
+- memory functions:
+- "M+" - add current value to MEM value
+- "M-" - subract current value to MEM value
+- "Min" - set internal MEM value
+- "MR" - MEM recall
+- "MC" = MEM clear
+
+
+## Learnings
+- Flutter is fun
+- Composed tree of widgets can get long and duplicate sections quickly
+- Found some original features difficult to implement in Flutter, so deferred
+- Found success doing small changes and deploying (using script run_peanut.sh)
+- Like Flutter in VSCode
+- Found my TODO list below to be good to track progress
+- Found scattered TODO items in code distracting
+
+
+## Ongoing Progress
 
 - BASIC IMPLEMENTATION
 - [done] copy/modify lib/components from scoreboard_tn
@@ -63,14 +93,17 @@ Also want this to be a PWA.
 - [done] engine: process operations
 - [done] from settings: dozenal
 - [done] save preferences
+- [done] update README
+
 - refactor duplicate code
-- update README
 
 - EXAPNDED IMPLEMENTATION
 - from settings: rpm
-- from settings: floating point
 - engine/ui: rpm, stack (keys: push,pop,rot)
+
 - engine/ui: non-rpm expression instead of precedence (keys: push,pop,rot (, ) )
+
+- from settings: floating point
 - engine/ui: additional scientific functions
 
 - BUGS
@@ -79,7 +112,7 @@ Also want this to be a PWA.
 - fix InkWell splash, ink is behind the decoration/gradient
 - fix setting HEX->DOZ not auto change keys after settings
 
-- FUTURE
+- DEVIATION FROM EXAMPLE
 - from settings: key clicks
 - from settings: sounds
 - from settings: precedence

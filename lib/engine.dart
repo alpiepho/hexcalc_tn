@@ -734,7 +734,6 @@ class Engine {
   }
 
   void processLastOp() {
-    int temp;
     int value1 = lineToValue(stack[1]);
     int value0 = lineToValue(stack[0]);
     switch (lastOp) {
