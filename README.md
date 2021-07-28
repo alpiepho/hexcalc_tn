@@ -77,7 +77,7 @@ Also want this to be a PWA.
 - engine: unit testing
 - fix 64 bit (BigInt for 64 and bitwise?)
 - fix InkWell splash, ink is behind the decoration/gradient
-- fix setting HEX->DOZ not auto change after settings
+- fix setting HEX->DOZ not auto change keys after settings
 
 - FUTURE
 - from settings: key clicks

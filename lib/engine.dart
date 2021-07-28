@@ -24,8 +24,6 @@ class Cell {
 }
 
 class Engine {
-  static const KEY_HEX = "HEX";
-
   var lastOp = "";
   var inputLimit = 20;
 
@@ -274,6 +272,8 @@ class Engine {
     resultLines = int.parse(parts[index++]);
     rpn = parts[index++] == "true";
     floatingPoint = parts[index++] == "true";
+
+    applyMode();
   }
 
   bool isModeKey(String key) {
@@ -874,18 +874,18 @@ class Engine {
           if (key == mode) {
             grid[x][y].style = kDarkLabelTextStyle;
             grid[x][y].background = kBlueColor;
-          } else if (key == mode) {
+          } else if (key == "HEX" && mode == "DOZ") {
             grid[x][y].style = kDarkLabelTextStyle;
             grid[x][y].background = kBlueColor;
-          } else if (key == mode) {
-            grid[x][y].style = kDarkLabelTextStyle;
-            grid[x][y].background = kBlueColor;
-          } else if (key == mode) {
-            grid[x][y].style = kDarkLabelTextStyle;
-            grid[x][y].background = kBlueColor;
-          } else if (key == mode) {
-            grid[x][y].style = kDarkLabelTextStyle;
-            grid[x][y].background = kBlueColor;
+          // } else if (key == mode) {
+          //   grid[x][y].style = kDarkLabelTextStyle;
+          //   grid[x][y].background = kBlueColor;
+          // } else if (key == mode) {
+          //   grid[x][y].style = kDarkLabelTextStyle;
+          //   grid[x][y].background = kBlueColor;
+          // } else if (key == mode) {
+          //   grid[x][y].style = kDarkLabelTextStyle;
+          //   grid[x][y].background = kBlueColor;
           }
         }
 
