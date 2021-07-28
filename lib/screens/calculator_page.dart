@@ -4,8 +4,7 @@ import 'package:hexcalc_tn/components/calc_button.dart';
 import 'package:hexcalc_tn/components/settings_modal.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
-
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class CalculatorPage extends StatefulWidget {
   @override
   _CalculatorPageState createState() => _CalculatorPageState();
@@ -27,15 +26,15 @@ class _CalculatorPageState extends State<CalculatorPage> {
   Engine _engine = Engine();
 
   void _loadEngine() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // var packed = prefs.getString('engine') ?? "";
-    // _engine.unpack(packed);
+    final prefs = await SharedPreferences.getInstance();
+    var packed = prefs.getString('engine') ?? "";
+    _engine.unpack(packed);
     _fromEngine();
   }
 
   void _saveEngine() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // prefs.setString('engine', _engine.pack());
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('engine', _engine.pack());
   }
 
   void _fromEngine() async {

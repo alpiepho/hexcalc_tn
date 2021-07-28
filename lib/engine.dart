@@ -237,6 +237,7 @@ class Engine {
     for (var value in stack) {
       result += value + ";";
     }
+    result += memory + ";";
     result += mode + ";";
     result += numberBits.toString() + ";";
     result += numberSigned.toString() + ";";
@@ -260,8 +261,9 @@ class Engine {
     for (int i = 0; i < stack.length; i++) {
       stack[i] = parts[index++];
     }
-    numberBits = int.parse(parts[index++]);
+    memory = parts[index++];
     mode = parts[index++];
+    numberBits = int.parse(parts[index++]);
     numberSigned = parts[index++] == "true";
     keyClick = parts[index++] == "true";
     sounds = parts[index++] == "true";
@@ -856,6 +858,8 @@ class Engine {
   }
 
   void applyMode() {
+    int hexX = -1;
+    int hexY = -1;
     int equalX = -1;
     int equalY = -1;
     int zerozeroX = -1;
@@ -901,6 +905,10 @@ class Engine {
         }
 
         // get x,y for special keys
+        if (key == "HEX" || key == "DOZ") {
+          hexX = x;
+          hexY = y;
+        }
         if (key == "=" || key == "enter") {
           equalX = x;
           equalY = y;
@@ -913,6 +921,7 @@ class Engine {
     }
 
     // based on rpn and float, adjust labels (will need to parse for these labels)
+    grid[hexX][hexY].label = (dozonal ? "DOZ" : "HEX");
     grid[equalX][equalY].label = (rpn ? "enter" : "=");
     grid[zerozeroX][zerozeroY].label = (floatingPoint ? "." : "00");
   }
@@ -938,8 +947,6 @@ class Engine {
       var temp = get0xFF();
       var line = valueToLine(temp);
       inputLimit = line.length;
-      //print(line);
-      //print(inputLimit);
     }
   }
 
@@ -998,15 +1005,17 @@ class Engine {
   }
 
   void processKey(int x, int y) {
-    var key = grid[x][y].label;
-    processEdit(key);
-    processOps(key);
-    processOpUnary();
-    processEquals(key);
-    processAC(key);
-    processCE(key);
-    processMem(key);
-    processMode(key);
+    if (x < grid.length && y < grid[0].length) {
+      var key = grid[x][y].label;
+      processEdit(key);
+      processOps(key);
+      processOpUnary();
+      processEquals(key);
+      processAC(key);
+      processCE(key);
+      processMem(key);
+      processMode(key);
+    }
     applyMode();
   }
 }

@@ -581,96 +581,96 @@ class _SettingsModal extends State<SettingsModal> {
               ],
             ),
             new SizedBox(height: kSettingsSizedBoxHeight),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: new Text(
-                    "    Key Click",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  flex: 3,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: ToggleSwitch(
-                    minWidth: 30.0,
-                    minHeight: 30.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Colors.white],
-                      [Colors.white]
-                    ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: ((this._keyClickIndex == 1)
-                        ? Colors.green
-                        : Colors.grey),
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex: this._keyClickIndex,
-                    totalSwitches: 2,
-                    labels: [' ', ' '],
-                    radiusStyle: true,
-                    onToggle: keyClickToggle,
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 2,
-                ),
-              ],
-            ),
-            new SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: new Text(
-                    "    Sounds",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  flex: 3,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: ToggleSwitch(
-                    minWidth: 30.0,
-                    minHeight: 30.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Colors.white],
-                      [Colors.white]
-                    ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor:
-                        ((this._soundsIndex == 1) ? Colors.green : Colors.grey),
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex: this._soundsIndex,
-                    totalSwitches: 2,
-                    labels: [' ', ' '],
-                    radiusStyle: true,
-                    onToggle: soundToggle,
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 2,
-                ),
-              ],
-            ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Expanded(
+            //       child: new Text(
+            //         "    Key Click",
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       flex: 3,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: ToggleSwitch(
+            //         minWidth: 30.0,
+            //         minHeight: 30.0,
+            //         cornerRadius: 20.0,
+            //         activeBgColors: [
+            //           [Colors.white],
+            //           [Colors.white]
+            //         ],
+            //         activeFgColor: Colors.white,
+            //         inactiveBgColor: ((this._keyClickIndex == 1)
+            //             ? Colors.green
+            //             : Colors.grey),
+            //         inactiveFgColor: Colors.white,
+            //         initialLabelIndex: this._keyClickIndex,
+            //         totalSwitches: 2,
+            //         labels: [' ', ' '],
+            //         radiusStyle: true,
+            //         onToggle: keyClickToggle,
+            //       ),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 2,
+            //     ),
+            //   ],
+            // ),
+            // new SizedBox(height: 10),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Expanded(
+            //       child: new Text(
+            //         "    Sounds",
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       flex: 3,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: ToggleSwitch(
+            //         minWidth: 30.0,
+            //         minHeight: 30.0,
+            //         cornerRadius: 20.0,
+            //         activeBgColors: [
+            //           [Colors.white],
+            //           [Colors.white]
+            //         ],
+            //         activeFgColor: Colors.white,
+            //         inactiveBgColor:
+            //             ((this._soundsIndex == 1) ? Colors.green : Colors.grey),
+            //         inactiveFgColor: Colors.white,
+            //         initialLabelIndex: this._soundsIndex,
+            //         totalSwitches: 2,
+            //         labels: [' ', ' '],
+            //         radiusStyle: true,
+            //         onToggle: soundToggle,
+            //       ),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 2,
+            //     ),
+            //   ],
+            // ),
             new SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -723,7 +723,7 @@ class _SettingsModal extends State<SettingsModal> {
               children: [
                 Expanded(
                   child: new Text(
-                    "    Dozenal (Base 12)",
+                    "    Dozenal\n    (Base 12 vs 16)",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -763,62 +763,62 @@ class _SettingsModal extends State<SettingsModal> {
                 ),
               ],
             ),
-            new SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: new Text(
-                    "    Operator Precedence",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  flex: 3,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 1),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: ToggleSwitch(
-                    minWidth: 30.0,
-                    minHeight: 30.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Colors.white],
-                      [Colors.white]
-                    ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: ((this._precedenceIndex == 1)
-                        ? Colors.green
-                        : Colors.grey),
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex: this._precedenceIndex,
-                    totalSwitches: 2,
-                    labels: [' ', ' '],
-                    radiusStyle: true,
-                    onToggle: precedenceToggle,
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 2,
-                ),
-              ],
-            ),
-            Divider(),
-            new Text(
-              "If operator precedence is enabled",
-              textAlign: TextAlign.center,
-            ),
-            new SizedBox(height: 10),
-            new Text(
-              "1 + 2 x 3 = 7 (instead of 9)",
-              textAlign: TextAlign.center,
-            ),
+            // new SizedBox(height: 10),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Expanded(
+            //       child: new Text(
+            //         "    Operator\n    Precedence",
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       flex: 3,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 1),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: ToggleSwitch(
+            //         minWidth: 30.0,
+            //         minHeight: 30.0,
+            //         cornerRadius: 20.0,
+            //         activeBgColors: [
+            //           [Colors.white],
+            //           [Colors.white]
+            //         ],
+            //         activeFgColor: Colors.white,
+            //         inactiveBgColor: ((this._precedenceIndex == 1)
+            //             ? Colors.green
+            //             : Colors.grey),
+            //         inactiveFgColor: Colors.white,
+            //         initialLabelIndex: this._precedenceIndex,
+            //         totalSwitches: 2,
+            //         labels: [' ', ' '],
+            //         radiusStyle: true,
+            //         onToggle: precedenceToggle,
+            //       ),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 2,
+            //     ),
+            //   ],
+            // ),
+            // Divider(),
+            // new Text(
+            //   "If operator precedence is enabled",
+            //   textAlign: TextAlign.center,
+            // ),
+            // new SizedBox(height: 10),
+            // new Text(
+            //   "1 + 2 x 3 = 7 (instead of 9)",
+            //   textAlign: TextAlign.center,
+            // ),
             Divider(
               height: 20.0,
               thickness: 2.0,

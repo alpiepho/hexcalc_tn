@@ -14,6 +14,7 @@ My intent is to practice with Flutter, not steal a design.  This will not be off
 
 Also want this to be a PWA.
 
+- BASIC IMPLEMENTATION
 - [done] copy/modify lib/components from scoreboard_tn
 - [done] copy lib/consts
 - [done] copy lib/engine
@@ -60,26 +61,29 @@ Also want this to be a PWA.
 - [done] from settings: number bits
 - [done] from settings: unsigned
 - [done] engine: process operations
+- [done] from settings: dozenal
+- [done] save preferences
+- refactor duplicate code
+- update README
 
-- from settings: precidence
-
-- from settings: key clicks
-- from settings: sounds
-- from settings: dozenal
+- EXAPNDED IMPLEMENTATION
 - from settings: rpm
 - from settings: floating point
-
-
-- save preferences
-
-- engine: does BitInt have bit ops?
-
-- refactor duplicate code
-- how to support 64 bit?
+- engine/ui: rpm, stack (keys: push,pop,rot)
+- engine/ui: non-rpm expression instead of precedence (keys: push,pop,rot (, ) )
 - engine/ui: additional scientific functions
-- finish hex/dec/oct/bin outline
-- fix InkWell splash, ink is plashed behind the decoration/gradient
 
-- update README
+- BUGS
+- engine: unit testing
+- fix 64 bit (BigInt for 64 and bitwise?)
+- fix InkWell splash, ink is behind the decoration/gradient
+- fix setting HEX->DOZ not auto change after settings
+
+- FUTURE
+- from settings: key clicks
+- from settings: sounds
+- from settings: precedence
+- finish hex/dec/oct/bin outline
+
 
 
