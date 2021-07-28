@@ -4,9 +4,9 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "e1782c8f57bce99b9e9e5e58e25d865d",
-"index.html": "0eb9473201dfca46ac6c932af519fc1b",
-"/": "0eb9473201dfca46ac6c932af519fc1b",
-"main.dart.js": "59c7c7db8ec94c6f3668a02e703241c8",
+"index.html": "d7519d3359c41cc561fee845693a68d7",
+"/": "d7519d3359c41cc561fee845693a68d7",
+"main.dart.js": "4b1e0f779a1a3a42ee54936b96981382",
 "favicon.png": "96e05329b6559aac88bc6d5b0010cf7d",
 "icons/1024.png": "96e05329b6559aac88bc6d5b0010cf7d",
 "icons/60.png": "bf02df13a9bf0e3eb385f296031b9462",
@@ -37,12 +37,12 @@ const RESOURCES = {
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = [
-  "https://alpiepho.github.io/hexcalc_tn/",
-"https://alpiepho.github.io/hexcalc_tn/main.dart.js",
-"https://alpiepho.github.io/hexcalc_tn/index.html",
-"https://alpiepho.github.io/hexcalc_tn/assets/NOTICES",
-"https://alpiepho.github.io/hexcalc_tn/assets/AssetManifest.json",
-"https://alpiepho.github.io/hexcalc_tn/assets/FontManifest.json"];
+  "/",
+"main.dart.js",
+"index.html",
+"assets/NOTICES",
+"assets/AssetManifest.json",
+"assets/FontManifest.json"];
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
   self.skipWaiting();
