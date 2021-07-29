@@ -27,7 +27,7 @@ class Engine {
   var lastOp = "";
   var inputLimit = 20;
 
-  var stack = List.generate(10, (index) => "0");
+  var stack = List.generate(4, (index) => "0");
   var memory = "";
 
   var grid = List.generate(9, (i) => List.generate(5, (index) => Cell()),
@@ -231,7 +231,7 @@ class Engine {
   // pack/unpack
   //
   String pack() {
-    String result = "";
+    String result = "VER2;";
     for (var value in stack) {
       result += value + ";";
     }
@@ -255,12 +255,9 @@ class Engine {
     if (packed.length == 0) return;
 
     var parts = packed.split(";");
-
-    mode = parts[stack.length];
-    var modes = ["HEX", "DOZ", "DEC", "OCT", "BIN"];
-    if (!modes.contains(mode)) return; // changed stack size?
-
     int index = 0;
+    if (parts[index++] != "VER2") return;
+
     for (int i = 0; i < stack.length; i++) {
       stack[i] = parts[index++];
     }
