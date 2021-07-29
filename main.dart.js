@@ -13840,8 +13840,8 @@ C4:function C4(){},
 C5:function C5(){},
 C6:function C6(){},
 C7:function C7(){},
-a8Z:function(){var s,r,q,p,o,n=J.a2q(10,t.N)
-for(s=0;s<10;++s)n[s]="0"
+a8Z:function(){var s,r,q,p,o,n=J.a2q(4,t.N)
+for(s=0;s<4;++s)n[s]="0"
 r=J.a2p(9,t.k5)
 for(q=t.ve,p=0;p<9;++p){o=H.a(new Array(5),q)
 for(s=0;s<5;++s)o[s]=new O.al("",C.B,!1,C.o,!0,1,!1)
@@ -46320,15 +46320,13 @@ J.ah(s[8],2,new O.al("00",C.B,!1,C.o,!0,1,!1))
 J.ah(s[8],3,new O.al("=",C.B,!1,C.m5,!0,2,!1))
 J.ah(s[8],4,new O.al("",C.B,!1,C.o,!0,0,!1))},
 QM:function(){var s,r,q,p,o=this
-for(s=o.c,r=s.length,q="",p=0;p<s.length;s.length===r||(0,H.K)(s),++p)q+=J.Zg(s[p],";")
+for(s=o.c,r=s.length,q="VER2;",p=0;p<s.length;s.length===r||(0,H.K)(s),++p)q+=J.Zg(s[p],";")
 return q+(o.d+";")+(o.f+";")+(C.f.h(o.r)+";")+(String(o.x)+";")+(String(o.y)+";")+(String(o.z)+";")+(String(o.Q)+";")+(String(o.ch)+";")+(String(o.cx)+";")+(C.f.h(o.cy)+";")+(String(o.db)+";")+(String(o.dx)+";")},
 RT:function(a){var s,r,q,p,o,n,m=this,l="true"
 if(a.length===0)return
 s=a.split(";")
-r=m.c
-m.f=s[r.length]
-if(!C.b.w(H.a(["HEX","DOZ","DEC","OCT","BIN"],t.s),m.f))return
-for(q=r.length,p=0,o=0;o<q;++o,p=n){n=p+1
+if(!J.e(s[0],"VER2"))return
+for(r=m.c,q=r.length,p=1,o=0;o<q;++o,p=n){n=p+1
 r[o]=s[p]}n=p+1
 m.d=s[p]
 p=n+1
