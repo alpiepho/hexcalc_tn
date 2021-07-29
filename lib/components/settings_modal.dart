@@ -25,11 +25,11 @@ class _SettingsModal extends State<SettingsModal> {
     this.context = context;
     this.engine = engine;
     this.onDone = onDone;
-    this._keyClickIndex = 0;
-    this._soundsIndex = 0;
+    //this._keyClickIndex = 0;
+    //this._soundsIndex = 0;
     this._backspaceIndex = 0;
     this._dozenalIndex = 0;
-    this._precedenceIndex = 0;
+    //this._precedenceIndex = 0;
     this._rpnIndex = 0;
     this._floatingIndex = 0;
   }
@@ -37,11 +37,11 @@ class _SettingsModal extends State<SettingsModal> {
   late BuildContext context;
   late Engine engine;
   late Function onDone;
-  late int _keyClickIndex;
-  late int _soundsIndex;
+  //late int _keyClickIndex;
+  //late int _soundsIndex;
   late int _backspaceIndex;
   late int _dozenalIndex;
-  late int _precedenceIndex;
+  //late int _precedenceIndex;
   late int _rpnIndex;
   late int _floatingIndex;
 
@@ -108,33 +108,33 @@ class _SettingsModal extends State<SettingsModal> {
     }
   }
 
-  void keyClickToggle(int index) {
-    switch (index) {
-      case 1:
-        this.engine.keyClick = true;
-        break;
-      default:
-        this.engine.keyClick = false;
-        break;
-    }
-    setState(() {
-      this._keyClickIndex = index;
-    });
-  }
+  // void keyClickToggle(int index) {
+  //   switch (index) {
+  //     case 1:
+  //       this.engine.keyClick = true;
+  //       break;
+  //     default:
+  //       this.engine.keyClick = false;
+  //       break;
+  //   }
+  //   setState(() {
+  //     this._keyClickIndex = index;
+  //   });
+  // }
 
-  void soundToggle(int index) {
-    switch (index) {
-      case 1:
-        this.engine.sounds = true;
-        break;
-      default:
-        this.engine.sounds = false;
-        break;
-    }
-    setState(() {
-      this._soundsIndex = index;
-    });
-  }
+  // void soundToggle(int index) {
+  //   switch (index) {
+  //     case 1:
+  //       this.engine.sounds = true;
+  //       break;
+  //     default:
+  //       this.engine.sounds = false;
+  //       break;
+  //   }
+  //   setState(() {
+  //     this._soundsIndex = index;
+  //   });
+  // }
 
   void backspaceToggle(int index) {
     switch (index) {
@@ -164,38 +164,38 @@ class _SettingsModal extends State<SettingsModal> {
     });
   }
 
-  void precedenceToggle(int index) {
-    switch (index) {
-      case 1:
-        this.engine.operatorPrec = true;
-        break;
-      default:
-        this.engine.operatorPrec = false;
-        break;
-    }
-    setState(() {
-      this._precedenceIndex = index;
-    });
-    if (index == 1) {
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('WARNING'),
-            content: new Text("Precidence is not supported yet, ignored"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }  }
+  // void precedenceToggle(int index) {
+  //   switch (index) {
+  //     case 1:
+  //       this.engine.operatorPrec = true;
+  //       break;
+  //     default:
+  //       this.engine.operatorPrec = false;
+  //       break;
+  //   }
+  //   setState(() {
+  //     this._precedenceIndex = index;
+  //   });
+  //   if (index == 1) {
+  //     showDialog<void>(
+  //       context: context,
+  //       barrierDismissible: false, // user must tap button!
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: const Text('WARNING'),
+  //           content: new Text("Precidence is not supported yet, ignored"),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: const Text('Ok'),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }  }
 
   void rpnToggle(int index) {
     switch (index) {
@@ -333,23 +333,23 @@ class _SettingsModal extends State<SettingsModal> {
         break;
     }
 
-    switch (this.engine.keyClick) {
-      case false:
-        this._keyClickIndex = 0;
-        break;
-      case true:
-        this._keyClickIndex = 1;
-        break;
-    }
+    // switch (this.engine.keyClick) {
+    //   case false:
+    //     this._keyClickIndex = 0;
+    //     break;
+    //   case true:
+    //     this._keyClickIndex = 1;
+    //     break;
+    // }
 
-    switch (this.engine.sounds) {
-      case false:
-        this._soundsIndex = 0;
-        break;
-      case true:
-        this._soundsIndex = 1;
-        break;
-    }
+    // switch (this.engine.sounds) {
+    //   case false:
+    //     this._soundsIndex = 0;
+    //     break;
+    //   case true:
+    //     this._soundsIndex = 1;
+    //     break;
+    // }
 
     switch (this.engine.backspaceCE) {
       case false:
@@ -369,14 +369,14 @@ class _SettingsModal extends State<SettingsModal> {
         break;
     }
 
-    switch (this.engine.operatorPrec) {
-      case false:
-        this._precedenceIndex = 0;
-        break;
-      case true:
-        this._precedenceIndex = 1;
-        break;
-    }
+    // switch (this.engine.operatorPrec) {
+    //   case false:
+    //     this._precedenceIndex = 0;
+    //     break;
+    //   case true:
+    //     this._precedenceIndex = 1;
+    //     break;
+    // }
 
     switch (this.engine.rpn) {
       case false:

@@ -27,7 +27,7 @@ class Engine {
   var lastOp = "";
   var inputLimit = 20;
 
-  var stack = List.generate(4, (index) => "0");
+  var stack = List.generate(10, (index) => "0");
   var memory = "";
 
   var grid = List.generate(9, (i) => List.generate(5, (index) => Cell()),
@@ -255,6 +255,11 @@ class Engine {
     if (packed.length == 0) return;
 
     var parts = packed.split(";");
+
+    mode = parts[stack.length];
+    var modes = ["HEX", "DOZ", "DEC", "OCT", "BIN"];
+    if (!modes.contains(mode)) return; // changed stack size?
+
     int index = 0;
     for (int i = 0; i < stack.length; i++) {
       stack[i] = parts[index++];
@@ -273,7 +278,7 @@ class Engine {
     rpn = parts[index++] == "true";
     floatingPoint = parts[index++] == "true";
 
-    applyMode();
+    applyMode("HEX"); // HACK: force update
   }
 
   bool isModeKey(String key) {
@@ -665,17 +670,34 @@ class Engine {
     lastOp = "";  
   }
 
+  void pushStack(String value) {
+    stack[3] = stack[2];
+    stack[2] = stack[1];
+    stack[1] = stack[0];
+    stack[0] = value;
+  }
+
+  String popStack() {
+    var result = stack[0];
+    stack[0] = stack[1];
+    stack[1] = stack[2];
+    stack[3] = "0";
+    return result;
+  }
+
   void processEdit(String key) {
 
     if (isNumKey(key)) {
       var current = stack[0];
       if (!editing) {
-        // push stack
-        stack[1] = stack[0];
         current = "";
+        pushStack(current);
       }
       editing = true;
 
+      // print(key);
+      // print(inputLimit);
+      // print("---");
       if (current.length < inputLimit) {
         if (current.length == 1 && current[0] == '0') {
           current = key;
@@ -734,8 +756,8 @@ class Engine {
   }
 
   void processLastOp() {
-    int value1 = lineToValue(stack[1]);
-    int value0 = lineToValue(stack[0]);
+    int value0 = lineToValue(popStack());
+    int value1 = lineToValue(popStack());
     switch (lastOp) {
       case "MOD":
         value0 = value1 % value0;
@@ -754,8 +776,10 @@ class Engine {
         value0 = value0 & get0xFF();
         break;
       case "/":
-        value0 = value1 ~/ value0;
-        value0 = value0 & get0xFF();
+        if (value0 != 0) {
+          value0 = value1 ~/ value0;
+          value0 = value0 & get0xFF();
+        }
         break;
       case "x":
         value0 = value1 * value0;
@@ -774,7 +798,7 @@ class Engine {
     }
     clearActive(lastOp);
     print(value0);
-    stack[0] = valueToLine(value0);
+    pushStack(valueToLine(value0));
   }
 
   void processOps(String key) {
@@ -856,7 +880,12 @@ class Engine {
     return true;
   }
 
-  void applyMode() {
+  void applyMode(String currentKey) {
+    // optimize numbers
+    if (isNumKey(currentKey) || isOp(currentKey)) {
+      return;
+    }
+
     int hexX = -1;
     int hexY = -1;
     int equalX = -1;
@@ -1004,17 +1033,15 @@ class Engine {
   }
 
   void processKey(int x, int y) {
-    if (x < grid.length && y < grid[0].length) {
-      var key = grid[x][y].label;
-      processEdit(key);
-      processOps(key);
-      processOpUnary();
-      processEquals(key);
-      processAC(key);
-      processCE(key);
-      processMem(key);
-      processMode(key);
-    }
-    applyMode();
+    var key = grid[x][y].label;
+    processEdit(key);
+    processOps(key);
+    processOpUnary();
+    processEquals(key);
+    processAC(key);
+    processCE(key);
+    processMem(key);
+    processMode(key);
+    applyMode(key);
   }
 }

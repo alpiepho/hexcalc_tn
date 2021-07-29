@@ -50,7 +50,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   }
 
   void _onDone() async {
-    this._engine.applyMode();
+    this._engine.applyMode("HEX");  // HACK: force update
     _fromEngine();
     Navigator.of(context).pop();
   }
