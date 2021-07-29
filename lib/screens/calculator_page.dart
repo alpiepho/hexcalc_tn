@@ -12,15 +12,9 @@ class CalculatorPage extends StatefulWidget {
 
 class _CalculatorPageState extends State<CalculatorPage> {
   // for results copy
-  double _panPositionXResult4 = 0.0;
-  double _panPositionXResult3 = 0.0;
-  double _panPositionXResult2 = 0.0;
-  double _panPositionXResult1 = 0.0;
+  var _panPositionXResult = [0.0, 0.0, 0.0, 0.0];
 
-  String _result4 = "0";
-  String _result3 = "0";
-  String _result2 = "0";
-  String _result1 = "0";
+  var _results = ["0", "0", "0", "0"];
   int _resultLines = 4;
 
   Engine _engine = Engine();
@@ -40,10 +34,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
   void _fromEngine() async {
     setState(() {
       var index = 0;
-      _result1 = this._engine.stack[index++];
-      _result2 = this._engine.stack[index++];
-      _result3 = this._engine.stack[index++];
-      _result4 = this._engine.stack[index++];
+      while (index < _results.length) {
+        _results[index] = this._engine.stack[index++];
+      }
       _resultLines = this._engine.resultLines;
       _saveEngine();
     });
@@ -56,56 +49,16 @@ class _CalculatorPageState extends State<CalculatorPage> {
   }
 
   void _clearPan() {
-      _panPositionXResult4 = 0.0;
-      _panPositionXResult3 = 0.0;
-      _panPositionXResult2 = 0.0;
-      _panPositionXResult1 = 0.0;
-  }
-
-  void _onResult4Swipe(DragUpdateDetails details) async {
-    if (details.delta.dx.abs() > 1) {
-      _panPositionXResult4 += details.delta.dx;
-      if (_panPositionXResult4.abs() > 30) {
-        var value = this._engine.processCopy4();
-        await Clipboard.setData(ClipboardData(text: value));
-        _clearPan();
+      for (int i = 0; i < _panPositionXResult.length; i++) {
+        _panPositionXResult[i] = 0.0;
       }
-    } else {
-      _clearPan();
-    }
   }
 
-  void _onResult3Swipe(DragUpdateDetails details) async {
+  void _onResultSwipe(int lineNum, DragUpdateDetails details) async {
     if (details.delta.dx.abs() > 1) {
-      _panPositionXResult3 += details.delta.dx;
-      if (_panPositionXResult3.abs() > 30) {
-        var value = this._engine.processCopy3();
-        await Clipboard.setData(ClipboardData(text: value));
-        _clearPan();
-      }
-    } else {
-      _clearPan();
-    }
-  }
-
-  void _onResult2Swipe(DragUpdateDetails details) async {
-    if (details.delta.dx.abs() > 1) {
-      _panPositionXResult2 += details.delta.dx;
-      if (_panPositionXResult2.abs() > 30) {
-        var value = this._engine.processCopy2();
-        await Clipboard.setData(ClipboardData(text: value));
-        _clearPan();
-      }
-    } else {
-      _clearPan();
-    }
-  }
-
-  void _onResult1Swipe(DragUpdateDetails details) async {
-    if (details.delta.dx.abs() > 1) {
-      _panPositionXResult1 += details.delta.dx;
-      if (_panPositionXResult1.abs() > 30) {
-        var value = this._engine.processCopy1();
+      _panPositionXResult[lineNum-1] += details.delta.dx;
+      if (_panPositionXResult[lineNum-1].abs() > 30) {
+        var value = this._engine.processCopy(lineNum);
         await Clipboard.setData(ClipboardData(text: value));
         _clearPan();
       }
@@ -191,9 +144,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
     // build the result lines from last N lines of stack
     if (_resultLines >= 4) {
       colWidgets.add(GestureDetector(
-        onPanUpdate: _onResult4Swipe,
+        onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(4, details)},
         child: Text(
-          _result4,
+          _results[3],
           style: resultStyle,
           textAlign: TextAlign.end,
         ),
@@ -201,9 +154,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
     }
     if (_resultLines >= 3) {
       colWidgets.add(GestureDetector(
-        onPanUpdate: _onResult3Swipe,
+        onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(3, details)},
         child: Text(
-          _result3,
+          _results[2],
           style: resultStyle,
           textAlign: TextAlign.end,
         ),
@@ -211,19 +164,19 @@ class _CalculatorPageState extends State<CalculatorPage> {
     }
     if (_resultLines >= 2) {
       colWidgets.add(GestureDetector(
-        onPanUpdate: _onResult2Swipe,
+        onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(2, details)},
         child: Text(
-          _result2,
+          _results[1],
           style: resultStyle,
           textAlign: TextAlign.end,
         ),
       ));
     }
     colWidgets.add(GestureDetector(
-      onPanUpdate: _onResult1Swipe,
+      onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(1, details)},
       onDoubleTap: _onResult1DoubleTap,
       child: Text(
-        _result1,
+        _results[0],
         style: resultStyle,
         textAlign: TextAlign.end,
       ),

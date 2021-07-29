@@ -52,6 +52,30 @@ class _SettingsModal extends State<SettingsModal> {
     this.engine.resultLines = index + 1;
   }
 
+  void showWarningDialog(String message, int popCount) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('WARNING'),
+          content: new Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                this.engine.numberBits = 32;
+                for (int i = 0; i < popCount; i++) {
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void onBitsToggle(int index) {
     switch (index) {
       case 0:
@@ -73,197 +97,68 @@ class _SettingsModal extends State<SettingsModal> {
         this.engine.numberBits = 48;
         break;
       default:
-        showDialog<void>(
-          context: context,
-          barrierDismissible: false, // user must tap button!
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('WARNING'),
-              content: new Text("64 bit not supported, will revert to 32"),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Done'),
-                  onPressed: () {
-                    this.engine.numberBits = 32;
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        showWarningDialog("64 bit not supported, will revert to 32", 2);
         break;
     }
   }
 
   void onSignedToggle(int index) {
-    switch (index) {
-      case 1:
-        this.engine.numberSigned = true;
-        break;
-      default:
-        this.engine.numberSigned = false;
-        break;
-    }
+    this.engine.numberSigned = (index == 1);
   }
 
   // void keyClickToggle(int index) {
-  //   switch (index) {
-  //     case 1:
-  //       this.engine.keyClick = true;
-  //       break;
-  //     default:
-  //       this.engine.keyClick = false;
-  //       break;
-  //   }
-  //   setState(() {
-  //     this._keyClickIndex = index;
-  //   });
+  //  this.engine.keyClick = (index == 1);
   // }
 
   // void soundToggle(int index) {
-  //   switch (index) {
-  //     case 1:
-  //       this.engine.sounds = true;
-  //       break;
-  //     default:
-  //       this.engine.sounds = false;
-  //       break;
-  //   }
+  //  this.engine.sounds = (index == 1);
   //   setState(() {
   //     this._soundsIndex = index;
   //   });
   // }
 
   void backspaceToggle(int index) {
-    switch (index) {
-      case 1:
-        this.engine.backspaceCE = true;
-        break;
-      default:
-        this.engine.backspaceCE = false;
-        break;
-    }
+    this.engine.backspaceCE = (index == 1);
     setState(() {
       this._backspaceIndex = index;
     });
   }
 
   void dozenalToggle(int index) {
-    switch (index) {
-      case 1:
-        this.engine.dozonal = true;
-        break;
-      default:
-        this.engine.dozonal = false;
-        break;
-    }
+    this.engine.dozonal = (index == 1);
     setState(() {
       this._dozenalIndex = index;
     });
   }
 
   // void precedenceToggle(int index) {
-  //   switch (index) {
-  //     case 1:
-  //       this.engine.operatorPrec = true;
-  //       break;
-  //     default:
-  //       this.engine.operatorPrec = false;
-  //       break;
-  //   }
+  //   this.engine.operatorPrec = (index == 1);
   //   setState(() {
   //     this._precedenceIndex = index;
   //   });
   //   if (index == 1) {
-  //     showDialog<void>(
-  //       context: context,
-  //       barrierDismissible: false, // user must tap button!
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: const Text('WARNING'),
-  //           content: new Text("Precidence is not supported yet, ignored"),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               child: const Text('Ok'),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }  }
+  //     showWarningDialog("Precidence is not supported yet, ignored", 1);
+  //   }
+  // }
 
   void rpnToggle(int index) {
-    switch (index) {
-      case 1:
-        this.engine.rpn = true;
-        this.engine.resultLines = 4;
-        break;
-      default:
-        this.engine.rpn = false;
-        this.engine.resultLines = 1;
-        break;
-    }
+    this.engine.rpn = (index == 1);
+    this.engine.resultLines = ((index == 1) ? 4 : 1);
     setState(() {
       this._rpnIndex = index;
     });
     if (index == 1) {
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('WARNING'),
-            content: new Text("RPN is not supported yet, ignored"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      showWarningDialog("RPN is not supported yet, ignored", 1);
     }
   }
 
   void floatingToggle(int index) {
-    switch (index) {
-      case 1:
-        this.engine.floatingPoint = true;
-        break;
-      default:
-        this.engine.floatingPoint = false;
-        break;
-    }
+    this.engine.floatingPoint = (index == 1);
     setState(() {
       this._floatingIndex = index;
     });
     if (index == 1) {
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('WARNING'),
-            content: new Text("Floating is not supported yet, ignored"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      showWarningDialog("Floating is not supported yet, ignored", 1);
     }
   }
 
@@ -323,78 +218,14 @@ class _SettingsModal extends State<SettingsModal> {
         break;
     }
 
-    var signedIndex = 0;
-    switch (this.engine.numberSigned) {
-      case false:
-        signedIndex = 0;
-        break;
-      case true:
-        signedIndex = 1;
-        break;
-    }
-
-    // switch (this.engine.keyClick) {
-    //   case false:
-    //     this._keyClickIndex = 0;
-    //     break;
-    //   case true:
-    //     this._keyClickIndex = 1;
-    //     break;
-    // }
-
-    // switch (this.engine.sounds) {
-    //   case false:
-    //     this._soundsIndex = 0;
-    //     break;
-    //   case true:
-    //     this._soundsIndex = 1;
-    //     break;
-    // }
-
-    switch (this.engine.backspaceCE) {
-      case false:
-        this._backspaceIndex = 0;
-        break;
-      case true:
-        this._backspaceIndex = 1;
-        break;
-    }
-
-    switch (this.engine.dozonal) {
-      case false:
-        this._dozenalIndex = 0;
-        break;
-      case true:
-        this._dozenalIndex = 1;
-        break;
-    }
-
-    // switch (this.engine.operatorPrec) {
-    //   case false:
-    //     this._precedenceIndex = 0;
-    //     break;
-    //   case true:
-    //     this._precedenceIndex = 1;
-    //     break;
-    // }
-
-    switch (this.engine.rpn) {
-      case false:
-        this._rpnIndex = 0;
-        break;
-      case true:
-        this._rpnIndex = 1;
-        break;
-    }
-
-    switch (this.engine.floatingPoint) {
-      case false:
-        this._floatingIndex = 0;
-        break;
-      case true:
-        this._floatingIndex = 1;
-        break;
-    }
+    var signedIndex = (this.engine.numberSigned ? 1 : 0);
+    // this._keyClickIndex = (this.engine.keyClick ? 1 : 0);
+    // this._soundsIndex = (this.engine.sounds ? 1 : 0);
+    this._backspaceIndex = (this.engine.backspaceCE ? 1 : 0);
+    this._dozenalIndex = (this.engine.dozonal ? 1 : 0);
+    // this._precedenceIndex = (this.engine.operatorPrec ? 1 : 0);
+    this._rpnIndex = (this.engine.rpn ? 1 : 0);
+    this._floatingIndex = (this.engine.floatingPoint ? 1 : 0);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

@@ -96,6 +96,8 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] update README
 
 - refactor duplicate code
+settings 1,2,3,4 toggle switch
+settings off/on toggle switch
 
 - EXAPNDED IMPLEMENTATION
 - from settings: rpm

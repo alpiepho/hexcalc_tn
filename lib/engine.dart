@@ -849,6 +849,10 @@ class Engine {
     }
   }
 
+  String processCopy(int lineNum) {
+    return stack[lineNum-1];
+  }
+
   String processCopy4() {
     return stack[3];
   }
