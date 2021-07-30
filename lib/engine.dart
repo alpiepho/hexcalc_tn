@@ -637,11 +637,11 @@ class Engine {
     }
   }
 
-  void processOpUnary() {
+  void processOpUnary(String key) {
     int temp;
-    if (isUnaryOp(lastOp)) {
+    if (isUnaryOp(key)) {
       int value = lineToValue(stack[0]);
-      switch (lastOp) {
+      switch (key) {
         case "SHL":
           value = value << 1;
           value = value & get0xFF();
@@ -958,8 +958,8 @@ class Engine {
   void processKey(int x, int y) {
     var key = grid[x][y].label;
     processEdit(key);
+    processOpUnary(key);
     processOps(key);
-    processOpUnary();
     processEquals(key);
     processAC(key);
     processCE(key);
