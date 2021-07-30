@@ -313,20 +313,6 @@ class Engine {
   bool isModeKey(String key) {
     var labels = ["HEX", "DOZ", "DEC", "OCT", "BIN"];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "HEX":
-    //   case "DOZ":
-    //   case "DEC":
-    //   case "OCT":
-    //   case "BIN":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isHexKey(String key) {
@@ -350,32 +336,6 @@ class Engine {
       "00"
     ];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "F":
-    //   case "E":
-    //   case "D":
-    //   case "C":
-    //   case "B":
-    //   case "A":
-    //   case "9":
-    //   case "8":
-    //   case "7":
-    //   case "6":
-    //   case "5":
-    //   case "4":
-    //   case "3":
-    //   case "2":
-    //   case "1":
-    //   case "0":
-    //   case "00":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isDozKey(String key) {
@@ -395,93 +355,21 @@ class Engine {
       "00"
     ];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "B":
-    //   case "A":
-    //   case "9":
-    //   case "8":
-    //   case "7":
-    //   case "6":
-    //   case "5":
-    //   case "4":
-    //   case "3":
-    //   case "2":
-    //   case "1":
-    //   case "0":
-    //   case "00":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isDecKey(String key) {
     var labels = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "0", "00"];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "9":
-    //   case "8":
-    //   case "7":
-    //   case "6":
-    //   case "5":
-    //   case "4":
-    //   case "3":
-    //   case "2":
-    //   case "1":
-    //   case "0":
-    //   case "00":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
-  }
+ }
 
   bool isOctKey(String key) {
     var labels = ["7", "6", "5", "4", "3", "2", "1", "0", "00"];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "7":
-    //   case "6":
-    //   case "5":
-    //   case "4":
-    //   case "3":
-    //   case "2":
-    //   case "1":
-    //   case "0":
-    //   case "00":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isBinKey(String key) {
     var labels = ["1", "0", "00"];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "1":
-    //   case "0":
-    //   case "00":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isNumKey(String key) {
@@ -491,24 +379,10 @@ class Engine {
   bool isMemKey(String key) {
     var labels = ["M+", "M-", "M in", "MR", "MC"];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "M+":
-    //   case "M-":
-    //   case "M in":
-    //   case "MR":
-    //   case "MC":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isStackKey(String key) {
-    var labels = ["PUSH", "POP", "ROT"];
+    var labels = ["PUSH", "DROP", "ROT", "SWAP"];
     return labels.contains(key);
   }
 
@@ -530,65 +404,16 @@ class Engine {
       "+"
     ];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "SHL":
-    //   case "SHR":
-    //   case "ROL":
-    //   case "ROR":
-    //   case "MOD":
-    //   case "NEG":
-    //   case "NOT":
-    //   case "/":
-    //   case "AND":
-    //   case "x":
-    //   case "XOR":
-    //   case "-":
-    //   case "OR":
-    //   case "+":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isEqual(String key) {
     var labels = ["=", "enter"];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "=":
-    //   case "enter":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isUnaryOp(String key) {
     var labels = ["SHL", "SHR", "ROL", "ROR", "NEG", "NOT"];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "SHL":
-    //   case "SHR":
-    //   case "ROL":
-    //   case "ROR":
-    //   case "NEG":
-    //   case "NOT":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isBitOp(String key) {
@@ -605,43 +430,11 @@ class Engine {
       "OR"
     ];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "SHL":
-    //   case "SHR":
-    //   case "ROL":
-    //   case "ROR":
-    //   case "MOD":
-    //   case "NEG":
-    //   case "NOT":
-    //   case "AND":
-    //   case "XOR":
-    //   case "OR":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   bool isMathOp(String key) {
     var labels = ["/", "x", "-", "+"];
     return labels.contains(key);
-    // bool result;
-    // switch (key) {
-    //   case "/":
-    //   case "x":
-    //   case "-":
-    //   case "+":
-    //     result = true;
-    //     break;
-    //   default:
-    //     result = false;
-    //     break;
-    // }
-    // return result;
   }
 
   int get0xFF() {
@@ -792,10 +585,6 @@ class Engine {
       stack[i] = stack[i-1];
     }
     stack[i] = value;
-    // stack[3] = stack[2];
-    // stack[2] = stack[1];
-    // stack[1] = stack[0];
-    // stack[0] = value;
   }
 
   String popStack() {
@@ -806,12 +595,6 @@ class Engine {
     }
     stack[i] = "0";
     return result;
-    // var result = stack[0];
-    // stack[0] = stack[1];
-    // stack[1] = stack[2];
-    // stack[2] = stack[3];
-    // stack[3] = "0";
-    // return result;
   }
 
   void rotateStack() {
@@ -821,11 +604,12 @@ class Engine {
       stack[i] = stack[i+1];
     }
     stack[i] = temp;
-    // var temp = stack[0];
-    // stack[0] = stack[1];
-    // stack[1] = stack[2];
-    // stack[2] = stack[3];
-    // stack[3] = temp;
+  }
+
+  void swapStack() {
+    var temp = stack[0];
+    stack[0] = stack[1];
+    stack[1] = temp;
   }
 
   void processEdit(String key) {
@@ -944,15 +728,20 @@ class Engine {
 
   void processOps(String key) {
     if (isOp(key)) {
-      if (lastOp.length > 0) {
-        // this is !precidence or 1+2x3=7, or (1+2)x3, instead of 1+2x3=9
+      if (rpn) {
+        lastOp = key;
         processLastOp();
-      }
-      lastOp = key;
-      for (int x = 0; x < grid.length; x++) {
-        for (int y = 0; y < grid[0].length; y++) {
-          if (key == grid[x][y].label) {
-            grid[x][y].active = true;
+      } else {
+        if (lastOp.length > 0) {
+          // this is !precidence or 1+2x3=7, or (1+2)x3, instead of 1+2x3=9
+          processLastOp();
+        }
+        lastOp = key;
+        for (int x = 0; x < grid.length; x++) {
+          for (int y = 0; y < grid[0].length; y++) {
+            if (key == grid[x][y].label) {
+              grid[x][y].active = true;
+            }
           }
         }
       }
@@ -963,7 +752,9 @@ class Engine {
     if (key == "=" && lastOp != "") {
       processLastOp();
     }
-    if (key == "enter") {}
+    if (key == "enter") {
+      pushStack(stack[0]);
+    }
   }
 
   void processAC(String key) {
@@ -1066,9 +857,9 @@ class Engine {
     grid[hexX][hexY].label = (dozonal ? "DOZ" : "HEX");
     grid[equalX][equalY].label = (rpn ? "enter" : "=");
     grid[mplusX][mplusY].label = (rpn ? "PUSH" : "M+");
-    grid[mminusX][mminusY].label = (rpn ? "POP" : "M-");
+    grid[mminusX][mminusY].label = (rpn ? "DROP" : "M-");
     grid[minX][minY].label = (rpn ? "ROT" : "M in");
-    grid[mrX][mrY].label = (rpn ? " " : "MR");
+    grid[mrX][mrY].label = (rpn ? "SWAP" : "MR");
     grid[mcX][mcY].label = (rpn ? " " : "MC");
 
     grid[zerozeroX][zerozeroY].label = (floatingPoint ? "." : "00");
@@ -1132,13 +923,16 @@ class Engine {
      if (isStackKey(key)) {
       switch (key) {
         case "PUSH":
-          pushStack("0");
+          pushStack(stack[0]);
           break;
-        case "POP":
+        case "DROP":
           popStack();
           break;
         case "ROT":
           rotateStack();
+          break;
+        case "SWAP":
+          swapStack();
           break;
       }
     }

@@ -97,10 +97,10 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] refactor duplicate code
 - [done] refactor settings 1,2,3,4 toggle switch
 - [done] refactor settings off/on toggle switch
+- [done] from settings: rpm
+- [done] engine/ui: rpm, stack (keys: push,pop,rot)
 
 - EXAPNDED IMPLEMENTATION
-- from settings: rpm
-- engine/ui: rpm, stack (keys: push,pop,rot)
 
 - engine/ui: non-rpm expression instead of precedence (keys: push,pop,rot (, ) )
 

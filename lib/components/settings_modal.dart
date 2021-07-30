@@ -148,9 +148,9 @@ class _SettingsModal extends State<SettingsModal> {
     setState(() {
       this._rpnIndex = index;
     });
-    if (index == 1) {
-      showWarningDialog("RPN is not supported yet, ignored", 1);
-    }
+    // if (index == 1) {
+    //   showWarningDialog("RPN is not supported yet, ignored", 1);
+    // }
   }
 
   void floatingToggle(int index) {
