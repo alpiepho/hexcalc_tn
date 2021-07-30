@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
+import 'package:hexcalc_tn/components/toggle_choice.dart';
+import 'package:hexcalc_tn/components/toggle_row.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -252,116 +254,132 @@ class _SettingsModal extends State<SettingsModal> {
               textAlign: TextAlign.left,
             ),
             new SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                new SizedBox(width: 10),
-                ToggleSwitch(
-                  minWidth: 50.0,
-                  minHeight: 30.0,
-                  fontSize: 10.0,
-                  initialLabelIndex: rowsIndex,
-                  activeBgColor: [Colors.grey.shade400],
-                  activeFgColor: Colors.white,
-                  inactiveBgColor: Colors.grey,
-                  inactiveFgColor: Colors.white,
-                  totalSwitches: 4,
-                  labels: ['1', '2', '3', '4'],
-                  onToggle: resultLinesToggle,
-                ),
-              ],
+            ToggleRow(
+              minWidth: 50.0,
+              index: rowsIndex,
+              labels: ['1', '2', '3', '4'],
+              onToggle: resultLinesToggle,
             ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     new SizedBox(width: 10),
+            //     ToggleSwitch(
+            //       minWidth: 50.0,
+            //       minHeight: 30.0,
+            //       fontSize: 10.0,
+            //       initialLabelIndex: rowsIndex,
+            //       activeBgColor: [Colors.grey.shade400],
+            //       activeFgColor: Colors.white,
+            //       inactiveBgColor: Colors.grey,
+            //       inactiveFgColor: Colors.white,
+            //       totalSwitches: 4,
+            //       labels: ['1', '2', '3', '4'],
+            //       onToggle: resultLinesToggle,
+            //     ),
+            //   ],
+            // ),
             new SizedBox(height: kSettingsSizedBoxHeight),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: new Text(
-                    "    Post Fix (RPN)",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  flex: 3,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: ToggleSwitch(
-                    minWidth: 30.0,
-                    minHeight: 30.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Colors.white],
-                      [Colors.white]
-                    ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor:
-                        ((this._rpnIndex == 1) ? Colors.green : Colors.grey),
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex: this._rpnIndex,
-                    totalSwitches: 2,
-                    labels: [' ', ' '],
-                    radiusStyle: true,
-                    onToggle: rpnToggle,
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 2,
-                ),
-              ],
+            ToggleChoice(
+              index: this._rpnIndex,
+              label: "    Post Fix (RPN)",
+              onToggle: rpnToggle,
             ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Expanded(
+            //       child: new Text(
+            //         "    Post Fix (RPN)",
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       flex: 3,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: ToggleSwitch(
+            //         minWidth: 30.0,
+            //         minHeight: 30.0,
+            //         cornerRadius: 20.0,
+            //         activeBgColors: [
+            //           [Colors.white],
+            //           [Colors.white]
+            //         ],
+            //         activeFgColor: Colors.white,
+            //         inactiveBgColor:
+            //             ((this._rpnIndex == 1) ? Colors.green : Colors.grey),
+            //         inactiveFgColor: Colors.white,
+            //         initialLabelIndex: this._rpnIndex,
+            //         totalSwitches: 2,
+            //         labels: [' ', ' '],
+            //         radiusStyle: true,
+            //         onToggle: rpnToggle,
+            //       ),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 2,
+            //     ),
+            //   ],
+            // ),
             new SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: new Text(
-                    "    Floating Point",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  flex: 3,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: ToggleSwitch(
-                    minWidth: 30.0,
-                    minHeight: 30.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Colors.white],
-                      [Colors.white]
-                    ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: ((this._floatingIndex == 1)
-                        ? Colors.green
-                        : Colors.grey),
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex: this._floatingIndex,
-                    totalSwitches: 2,
-                    labels: [' ', ' '],
-                    radiusStyle: true,
-                    onToggle: floatingToggle,
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 2,
-                ),
-              ],
+            ToggleChoice(
+              index: this._floatingIndex,
+              label: "    Floating Point",
+              onToggle: floatingToggle,
             ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Expanded(
+            //       child: new Text(
+            //         "    Floating Point",
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       flex: 3,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: ToggleSwitch(
+            //         minWidth: 30.0,
+            //         minHeight: 30.0,
+            //         cornerRadius: 20.0,
+            //         activeBgColors: [
+            //           [Colors.white],
+            //           [Colors.white]
+            //         ],
+            //         activeFgColor: Colors.white,
+            //         inactiveBgColor: ((this._floatingIndex == 1)
+            //             ? Colors.green
+            //             : Colors.grey),
+            //         inactiveFgColor: Colors.white,
+            //         initialLabelIndex: this._floatingIndex,
+            //         totalSwitches: 2,
+            //         labels: [' ', ' '],
+            //         radiusStyle: true,
+            //         onToggle: floatingToggle,
+            //       ),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 2,
+            //     ),
+            //   ],
+            // ),
             Divider(
               height: 10.0,
               thickness: 2.0,
@@ -372,46 +390,63 @@ class _SettingsModal extends State<SettingsModal> {
               textAlign: TextAlign.left,
             ),
             new SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                new SizedBox(width: 10),
-                ToggleSwitch(
-                  minWidth: 50.0,
-                  minHeight: 30.0,
-                  fontSize: 10.0,
-                  initialLabelIndex: bitIndex,
-                  activeBgColor: [Colors.grey.shade400],
-                  activeFgColor: Colors.white,
-                  inactiveBgColor: Colors.grey,
-                  inactiveFgColor: Colors.white,
-                  totalSwitches: 7,
-                  labels: ['8', '12', '16', '24', '32', '48', '64'],
-                  onToggle: onBitsToggle,
-                ),
-              ],
+            ToggleRow(
+              minWidth: 50.0,
+              index: bitIndex,
+              labels: ['8', '12', '16', '24', '32', '48', '64'],
+              onToggle: onBitsToggle,
             ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     new SizedBox(width: 10),
+            //     ToggleSwitch(
+            //       minWidth: 50.0,
+            //       minHeight: 30.0,
+            //       fontSize: 10.0,
+            //       initialLabelIndex: bitIndex,
+            //       activeBgColor: [Colors.grey.shade400],
+            //       activeFgColor: Colors.white,
+            //       inactiveBgColor: Colors.grey,
+            //       inactiveFgColor: Colors.white,
+            //       totalSwitches: 7,
+            //       labels: ['8', '12', '16', '24', '32', '48', '64'],
+            //       onToggle: onBitsToggle,
+            //     ),
+            //   ],
+            // ),
             new SizedBox(height: kSettingsSizedBoxHeight),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                new SizedBox(width: 10),
-                ToggleSwitch(
-                  minWidth: 100.0,
-                  minHeight: 30.0,
-                  fontSize: 10.0,
-                  initialLabelIndex: signedIndex,
-                  activeBgColor: [Colors.grey.shade400],
-                  activeFgColor: Colors.white,
-                  inactiveBgColor: Colors.grey,
-                  inactiveFgColor: Colors.white,
-                  totalSwitches: 2,
-                  labels: ['UnSigned', 'Signed'],
-                  onToggle: onSignedToggle,
-                ),
-              ],
+            ToggleRow(
+              minWidth: 100.0,
+              index: signedIndex,
+              labels: ['UnSigned', 'Signed'],
+              onToggle: onSignedToggle,
             ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     new SizedBox(width: 10),
+            //     ToggleSwitch(
+            //       minWidth: 100.0,
+            //       minHeight: 30.0,
+            //       fontSize: 10.0,
+            //       initialLabelIndex: signedIndex,
+            //       activeBgColor: [Colors.grey.shade400],
+            //       activeFgColor: Colors.white,
+            //       inactiveBgColor: Colors.grey,
+            //       inactiveFgColor: Colors.white,
+            //       totalSwitches: 2,
+            //       labels: ['UnSigned', 'Signed'],
+            //       onToggle: onSignedToggle,
+            //     ),
+            //   ],
+            // ),
             new SizedBox(height: kSettingsSizedBoxHeight),
+            // ToggleChoice(
+            //   index: this._keyClickIndex,
+            //   label: "    Key Click",
+            //   onToggle: keyClickToggle,
+            // ),
             // Row(
             //   crossAxisAlignment: CrossAxisAlignment.start,
             //   children: [
@@ -458,6 +493,11 @@ class _SettingsModal extends State<SettingsModal> {
             //   ],
             // ),
             // new SizedBox(height: 10),
+            // ToggleChoice(
+            //   index: this._soundsIndex,
+            //   label: "    Sounds",
+            //   onToggle: soundToggle,
+            // ),
             // Row(
             //   crossAxisAlignment: CrossAxisAlignment.start,
             //   children: [
@@ -503,98 +543,113 @@ class _SettingsModal extends State<SettingsModal> {
             //   ],
             // ),
             new SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: new Text(
-                    "    CE as Backspace",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  flex: 3,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: ToggleSwitch(
-                    minWidth: 30.0,
-                    minHeight: 30.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Colors.white],
-                      [Colors.white]
-                    ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: ((this._backspaceIndex == 1)
-                        ? Colors.green
-                        : Colors.grey),
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex: this._backspaceIndex,
-                    totalSwitches: 2,
-                    labels: [' ', ' '],
-                    radiusStyle: true,
-                    onToggle: backspaceToggle,
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 2,
-                ),
-              ],
+            ToggleChoice(
+              index: this._backspaceIndex,
+              label: "    CE as Backspace",
+              onToggle: backspaceToggle,
             ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Expanded(
+            //       child: new Text(
+            //         "    CE as Backspace",
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       flex: 3,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: ToggleSwitch(
+            //         minWidth: 30.0,
+            //         minHeight: 30.0,
+            //         cornerRadius: 20.0,
+            //         activeBgColors: [
+            //           [Colors.white],
+            //           [Colors.white]
+            //         ],
+            //         activeFgColor: Colors.white,
+            //         inactiveBgColor: ((this._backspaceIndex == 1)
+            //             ? Colors.green
+            //             : Colors.grey),
+            //         inactiveFgColor: Colors.white,
+            //         initialLabelIndex: this._backspaceIndex,
+            //         totalSwitches: 2,
+            //         labels: [' ', ' '],
+            //         radiusStyle: true,
+            //         onToggle: backspaceToggle,
+            //       ),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 2,
+            //     ),
+            //   ],
+            // ),
             new SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: new Text(
-                    "    Dozenal\n    (Base 12 vs 16)",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  flex: 3,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 70),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: ToggleSwitch(
-                    minWidth: 30.0,
-                    minHeight: 30.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Colors.white],
-                      [Colors.white]
-                    ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: ((this._dozenalIndex == 1)
-                        ? Colors.green
-                        : Colors.grey),
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex: this._dozenalIndex,
-                    totalSwitches: 2,
-                    labels: [' ', ' '],
-                    radiusStyle: true,
-                    onToggle: dozenalToggle,
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: new SizedBox(width: 1),
-                  flex: 2,
-                ),
-              ],
+            ToggleChoice(
+              index: this._dozenalIndex,
+              label: "    Dozenal\n    (Base 12 vs 16)",
+              onToggle: dozenalToggle,
             ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Expanded(
+            //       child: new Text(
+            //         "    Dozenal\n    (Base 12 vs 16)",
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       flex: 3,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 70),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: ToggleSwitch(
+            //         minWidth: 30.0,
+            //         minHeight: 30.0,
+            //         cornerRadius: 20.0,
+            //         activeBgColors: [
+            //           [Colors.white],
+            //           [Colors.white]
+            //         ],
+            //         activeFgColor: Colors.white,
+            //         inactiveBgColor: ((this._dozenalIndex == 1)
+            //             ? Colors.green
+            //             : Colors.grey),
+            //         inactiveFgColor: Colors.white,
+            //         initialLabelIndex: this._dozenalIndex,
+            //         totalSwitches: 2,
+            //         labels: [' ', ' '],
+            //         radiusStyle: true,
+            //         onToggle: dozenalToggle,
+            //       ),
+            //       flex: 1,
+            //     ),
+            //     Expanded(
+            //       child: new SizedBox(width: 1),
+            //       flex: 2,
+            //     ),
+            //   ],
+            // ),
             // new SizedBox(height: 10),
+            // ToggleChoice(
+            //   index: this._precedenceIndex,
+            //   label: "    Operator\n    Precedence",
+            //   onToggle: precedenceToggle,
+            // ),
             // Row(
             //   crossAxisAlignment: CrossAxisAlignment.start,
             //   children: [
