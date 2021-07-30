@@ -94,10 +94,9 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] from settings: dozenal
 - [done] save preferences
 - [done] update README
-
-- refactor duplicate code
-settings 1,2,3,4 toggle switch
-settings off/on toggle switch
+- [done] refactor duplicate code
+- [done] refactor settings 1,2,3,4 toggle switch
+- [done] refactor settings off/on toggle switch
 
 - EXAPNDED IMPLEMENTATION
 - from settings: rpm

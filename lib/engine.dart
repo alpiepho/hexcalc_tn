@@ -231,7 +231,7 @@ class Engine {
   // pack/unpack
   //
   String pack() {
-    String result = "VER2;";
+    String result = "VER2;"; // match with unpack()
     for (var value in stack) {
       result += value + ";";
     }
@@ -256,7 +256,7 @@ class Engine {
 
     var parts = packed.split(";");
     int index = 0;
-    if (parts[index++] != "VER2") return;
+    if (parts[index++] != "VER2") return; // match with pack()
 
     for (int i = 0; i < stack.length; i++) {
       stack[i] = parts[index++];
@@ -279,133 +279,177 @@ class Engine {
   }
 
   bool isModeKey(String key) {
-    bool result;
-    switch (key) {
-      case "HEX":
-      case "DOZ":
-      case "DEC":
-      case "OCT":
-      case "BIN":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = ["HEX", "DOZ", "DEC", "OCT", "BIN"];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "HEX":
+    //   case "DOZ":
+    //   case "DEC":
+    //   case "OCT":
+    //   case "BIN":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isHexKey(String key) {
-    bool result;
-    switch (key) {
-      case "F":
-      case "E":
-      case "D":
-      case "C":
-      case "B":
-      case "A":
-      case "9":
-      case "8":
-      case "7":
-      case "6":
-      case "5":
-      case "4":
-      case "3":
-      case "2":
-      case "1":
-      case "0":
-      case "00":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = [
+      "F",
+      "E",
+      "D",
+      "C",
+      "B",
+      "A",
+      "9",
+      "8",
+      "7",
+      "6",
+      "5",
+      "4",
+      "3",
+      "2",
+      "1",
+      "0",
+      "00"
+    ];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "F":
+    //   case "E":
+    //   case "D":
+    //   case "C":
+    //   case "B":
+    //   case "A":
+    //   case "9":
+    //   case "8":
+    //   case "7":
+    //   case "6":
+    //   case "5":
+    //   case "4":
+    //   case "3":
+    //   case "2":
+    //   case "1":
+    //   case "0":
+    //   case "00":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isDozKey(String key) {
-    bool result;
-    switch (key) {
-      case "B":
-      case "A":
-      case "9":
-      case "8":
-      case "7":
-      case "6":
-      case "5":
-      case "4":
-      case "3":
-      case "2":
-      case "1":
-      case "0":
-      case "00":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = [
+      "B",
+      "A",
+      "9",
+      "8",
+      "7",
+      "6",
+      "5",
+      "4",
+      "3",
+      "2",
+      "1",
+      "0",
+      "00"
+    ];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "B":
+    //   case "A":
+    //   case "9":
+    //   case "8":
+    //   case "7":
+    //   case "6":
+    //   case "5":
+    //   case "4":
+    //   case "3":
+    //   case "2":
+    //   case "1":
+    //   case "0":
+    //   case "00":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isDecKey(String key) {
-    bool result;
-    switch (key) {
-      case "9":
-      case "8":
-      case "7":
-      case "6":
-      case "5":
-      case "4":
-      case "3":
-      case "2":
-      case "1":
-      case "0":
-      case "00":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "0", "00"];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "9":
+    //   case "8":
+    //   case "7":
+    //   case "6":
+    //   case "5":
+    //   case "4":
+    //   case "3":
+    //   case "2":
+    //   case "1":
+    //   case "0":
+    //   case "00":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isOctKey(String key) {
-    bool result;
-    switch (key) {
-      case "7":
-      case "6":
-      case "5":
-      case "4":
-      case "3":
-      case "2":
-      case "1":
-      case "0":
-      case "00":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = ["7", "6", "5", "4", "3", "2", "1", "0", "00"];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "7":
+    //   case "6":
+    //   case "5":
+    //   case "4":
+    //   case "3":
+    //   case "2":
+    //   case "1":
+    //   case "0":
+    //   case "00":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isBinKey(String key) {
-    bool result;
-    switch (key) {
-      case "1":
-      case "0":
-      case "00":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = ["1", "0", "00"];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "1":
+    //   case "0":
+    //   case "00":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isNumKey(String key) {
@@ -413,116 +457,154 @@ class Engine {
   }
 
   bool isMemKey(String key) {
-    bool result;
-    switch (key) {
-      case "M+":
-      case "M-":
-      case "M in":
-      case "MR":
-      case "MC":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = ["M+", "M-", "M in", "MR", "MC"];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "M+":
+    //   case "M-":
+    //   case "M in":
+    //   case "MR":
+    //   case "MC":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isOp(String key) {
-    bool result;
-    switch (key) {
-      case "SHL":
-      case "SHR":
-      case "ROL":
-      case "ROR":
-      case "MOD":
-      case "NEG":
-      case "NOT":
-      case "/":
-      case "AND":
-      case "x":
-      case "XOR":
-      case "-":
-      case "OR":
-      case "+":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = [
+      "SHL",
+      "SHR",
+      "ROL",
+      "ROR",
+      "MOD",
+      "NEG",
+      "NOT",
+      "/",
+      "AND",
+      "x",
+      "XOR",
+      "-",
+      "OR",
+      "+"
+    ];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "SHL":
+    //   case "SHR":
+    //   case "ROL":
+    //   case "ROR":
+    //   case "MOD":
+    //   case "NEG":
+    //   case "NOT":
+    //   case "/":
+    //   case "AND":
+    //   case "x":
+    //   case "XOR":
+    //   case "-":
+    //   case "OR":
+    //   case "+":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isEqual(String key) {
-    bool result;
-    switch (key) {
-      case "=":
-      case "enter":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = ["=", "enter"];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "=":
+    //   case "enter":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isUnaryOp(String key) {
-    bool result;
-    switch (key) {
-      case "SHL":
-      case "SHR":
-      case "ROL":
-      case "ROR":
-      case "NEG":
-      case "NOT":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = ["SHL", "SHR", "ROL", "ROR", "NEG", "NOT"];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "SHL":
+    //   case "SHR":
+    //   case "ROL":
+    //   case "ROR":
+    //   case "NEG":
+    //   case "NOT":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isBitOp(String key) {
-    bool result;
-    switch (key) {
-      case "SHL":
-      case "SHR":
-      case "ROL":
-      case "ROR":
-      case "MOD":
-      case "NEG":
-      case "NOT":
-      case "AND":
-      case "XOR":
-      case "OR":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = [
+      "SHL",
+      "SHR",
+      "ROL",
+      "ROR",
+      "MOD",
+      "NEG",
+      "NOT",
+      "AND",
+      "XOR",
+      "OR"
+    ];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "SHL":
+    //   case "SHR":
+    //   case "ROL":
+    //   case "ROR":
+    //   case "MOD":
+    //   case "NEG":
+    //   case "NOT":
+    //   case "AND":
+    //   case "XOR":
+    //   case "OR":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   bool isMathOp(String key) {
-    bool result;
-    switch (key) {
-      case "/":
-      case "x":
-      case "-":
-      case "+":
-        result = true;
-        break;
-      default:
-        result = false;
-        break;
-    }
-    return result;
+    var labels = ["/", "x", "-", "+"];
+    return labels.contains(key);
+    // bool result;
+    // switch (key) {
+    //   case "/":
+    //   case "x":
+    //   case "-":
+    //   case "+":
+    //     result = true;
+    //     break;
+    //   default:
+    //     result = false;
+    //     break;
+    // }
+    // return result;
   }
 
   int get0xFF() {
@@ -653,7 +735,7 @@ class Engine {
         }
       }
     }
-    lastOp = "";  
+    lastOp = "";
   }
 
   void clearActive(String key) {
@@ -664,7 +746,7 @@ class Engine {
         }
       }
     }
-    lastOp = "";  
+    lastOp = "";
   }
 
   void pushStack(String value) {
@@ -683,7 +765,6 @@ class Engine {
   }
 
   void processEdit(String key) {
-
     if (isNumKey(key)) {
       var current = stack[0];
       if (!editing) {
@@ -703,8 +784,7 @@ class Engine {
         }
       }
       stack[0] = current;
-    }
-    else {
+    } else {
       editing = false;
     }
   }
@@ -820,7 +900,6 @@ class Engine {
       processLastOp();
     }
     if (key == "enter") {}
-
   }
 
   void processAC(String key) {
@@ -839,8 +918,7 @@ class Engine {
           current = "0";
         } else {
           current = current.substring(0, current.length - 1);
-          if (current[0] == '-')
-            current = "0";
+          if (current[0] == '-') current = "0";
         }
         stack[0] = current;
       } else {
@@ -850,7 +928,7 @@ class Engine {
   }
 
   String processCopy(int lineNum) {
-    return stack[lineNum-1];
+    return stack[lineNum - 1];
   }
 
   String processCopy4() {
@@ -906,15 +984,6 @@ class Engine {
           } else if (key == "HEX" && mode == "DOZ") {
             grid[x][y].style = kDarkLabelTextStyle;
             grid[x][y].background = kBlueColor;
-          // } else if (key == mode) {
-          //   grid[x][y].style = kDarkLabelTextStyle;
-          //   grid[x][y].background = kBlueColor;
-          // } else if (key == mode) {
-          //   grid[x][y].style = kDarkLabelTextStyle;
-          //   grid[x][y].background = kBlueColor;
-          // } else if (key == mode) {
-          //   grid[x][y].style = kDarkLabelTextStyle;
-          //   grid[x][y].background = kBlueColor;
           }
         }
 
@@ -999,7 +1068,7 @@ class Engine {
           setActive("MR");
           break;
         case "MR":
-        if (memory.length > 0) stack[0] = memory;
+          if (memory.length > 0) stack[0] = memory;
           break;
         case "MC":
           memory = "";
@@ -1012,14 +1081,6 @@ class Engine {
   //
   // Public methods
   //
-
-  int getRows() {
-    return grid.length;
-  }
-
-  int getCols() {
-    return grid[0].length;
-  }
 
   String getLabel(int x, int y) {
     return grid[x][y].label;

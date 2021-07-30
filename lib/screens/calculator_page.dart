@@ -186,9 +186,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
     ));
 
     // build the buttons
-    for (var i = 0; i < this._engine.getRows(); i++) {
+    for (var i = 0; i < this._engine.grid.length; i++) {
       var rowWidgets = <Widget>[];
-      for (var j = 0; j < this._engine.getCols(); j++) {
+      for (var j = 0; j < this._engine.grid[0].length; j++) {
         var label = this._engine.getLabel(i, j);
         var style = this._engine.getStyle(i, j);
         var disabled = this._engine.grid[i][j].disabled;

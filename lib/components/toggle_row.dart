@@ -10,7 +10,7 @@ class ToggleRow extends StatelessWidget {
     required this.labels,
     required this.onToggle});
 
-  double minWidth;
+  final double minWidth;
   final int index;
   final List<String> labels;
   final Function(int) onToggle;
