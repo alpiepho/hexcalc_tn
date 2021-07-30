@@ -46550,12 +46550,10 @@ o=""}i.y1=!0
 n=o.length
 if(n<i.b)o=n===1&&o[0]==="0"?h:o+h
 p[0]=o}else i.y1=!1
-i.QG(h)
-p=i.a
-n=t.s
-if(C.b.u(H.a(["SHL","SHR","ROL","ROR","NEG","NOT"],n),p)){p=i.c
-m=i.fo(p[0])
-switch(i.a){case"SHL":m=(m<<1&i.cu())>>>0
+p=t.s
+if(C.b.u(H.a(["SHL","SHR","ROL","ROR","NEG","NOT"],p),h)){n=i.c
+m=i.fo(n[0])
+switch(h){case"SHL":m=(m<<1&i.cu())>>>0
 break
 case"SHR":m=(C.f.cN(m,1)&i.cu())>>>0
 break
@@ -46571,27 +46569,28 @@ case"NEG":m=(-1*m&i.cu())>>>0
 break
 case"NOT":m=(~m&i.cu())>>>0
 break}i.t0(i.a)
-p[0]=i.jL(m)}if(h==="="&&i.a!=="")i.ux()
+n[0]=i.jL(m)}i.QG(h)
+if(h==="="&&i.a!=="")i.ux()
 if(h==="enter")i.oz(i.c[0])
 i.QE(h)
-if(h==="CE"){p=i.c
-if(i.r1){o=p[0]
+if(h==="CE"){n=i.c
+if(i.r1){o=n[0]
 l=o.length
 if(l===1)o="0"
 else{o=C.d.V(o,0,l-1)
-if(o[0]==="-")o="0"}p[0]=o}else p[0]="0"}if(C.b.u(H.a(["M+","M-","M in","MR","MC"],n),h))switch(h){case"M+":i.d=i.jL(i.fo(i.d)+i.fo(i.c[0]))
+if(o[0]==="-")o="0"}n[0]=o}else n[0]="0"}if(C.b.u(H.a(["M+","M-","M in","MR","MC"],p),h))switch(h){case"M+":i.d=i.jL(i.fo(i.d)+i.fo(i.c[0]))
 break
 case"M-":i.d=i.jL(i.fo(i.d)-i.fo(i.c[0]))
 break
 case"M in":i.d=i.c[0]
 i.Dk("MR")
 break
-case"MR":p=i.d
-if(p.length>0)i.c[0]=p
+case"MR":n=i.d
+if(n.length>0)i.c[0]=n
 break
 case"MC":i.d=""
 i.t0("MR")
-break}if(C.b.u(H.a(["PUSH","DROP","ROT","SWAP"],n),h))switch(h){case"PUSH":i.oz(i.c[0])
+break}if(C.b.u(H.a(["PUSH","DROP","ROT","SWAP"],p),h))switch(h){case"PUSH":i.oz(i.c[0])
 break
 case"DROP":i.us()
 break
