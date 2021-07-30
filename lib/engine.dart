@@ -32,6 +32,22 @@ class Engine {
 
   var grid = List.generate(9, (i) => List.generate(5, (index) => Cell()),
       growable: false);
+  int hexX = -1;
+  int hexY = -1;
+  int equalX = -1;
+  int equalY = -1;
+  int zerozeroX = -1;
+  int zerozeroY = -1;
+  int mplusX = -1;
+  int mplusY = -1;
+  int mminusX = -1;
+  int mminusY = -1;
+  int minX = -1;
+  int minY = -1;
+  int mrX = -1;
+  int mrY = -1;
+  int mcX = -1;
+  int mcY = -1;
 
   var mode = "DEC";
   var numberBits = 32; // 8, 12, 16, 24, 32, 48,   not supported in pwa: 64
@@ -61,6 +77,8 @@ class Engine {
         halfHeight: true,
         background: kDarkColor,
         gradient: false);
+    hexX = row;
+    hexY = col;
     col++;
     grid[row][col] = new Cell(
         label: "DEC",
@@ -96,30 +114,40 @@ class Engine {
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    mplusX = row;
+    mplusY = col;
     col++;
     grid[row][col] = new Cell(
         label: "M-",
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    mminusX = row;
+    mminusY = col;
     col++;
     grid[row][col] = new Cell(
         label: "M in",
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    minX = row;
+    minY = col;
     col++;
     grid[row][col] = new Cell(
         label: "MR",
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    mrX = row;
+    mrY = col;
     col++;
     grid[row][col] = new Cell(
         label: "MC",
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    mcX = row;
+    mcY = col;
     col++;
     row++;
     col = 0;
@@ -220,8 +248,12 @@ class Engine {
     grid[row][col] = new Cell(label: "0");
     col++;
     grid[row][col] = new Cell(label: "00");
+    zerozeroX = row;
+    zerozeroY = col;
     col++;
     grid[row][col] = new Cell(label: "=", background: kOrangeColor, flex: 2);
+    equalX = row;
+    equalY = col;
     col++;
     grid[row][col] = new Cell(label: "", flex: 0);
     col++;
@@ -473,6 +505,11 @@ class Engine {
     //     break;
     // }
     // return result;
+  }
+
+  bool isStackKey(String key) {
+    var labels = ["PUSH", "POP", "ROT"];
+    return labels.contains(key);
   }
 
   bool isOp(String key) {
@@ -750,18 +787,45 @@ class Engine {
   }
 
   void pushStack(String value) {
-    stack[3] = stack[2];
-    stack[2] = stack[1];
-    stack[1] = stack[0];
-    stack[0] = value;
+    int i;
+    for (i = stack.length-1; i > 0; i--) {
+      stack[i] = stack[i-1];
+    }
+    stack[i] = value;
+    // stack[3] = stack[2];
+    // stack[2] = stack[1];
+    // stack[1] = stack[0];
+    // stack[0] = value;
   }
 
   String popStack() {
     var result = stack[0];
-    stack[0] = stack[1];
-    stack[1] = stack[2];
-    stack[3] = "0";
+    int i;
+    for (i = 0; i < stack.length - 1; i++) {
+      stack[i] = stack[i+1];
+    }
+    stack[i] = "0";
     return result;
+    // var result = stack[0];
+    // stack[0] = stack[1];
+    // stack[1] = stack[2];
+    // stack[2] = stack[3];
+    // stack[3] = "0";
+    // return result;
+  }
+
+  void rotateStack() {
+    var temp = stack[0];
+    int i;
+    for (i = 0; i < stack.length - 1; i++) {
+      stack[i] = stack[i+1];
+    }
+    stack[i] = temp;
+    // var temp = stack[0];
+    // stack[0] = stack[1];
+    // stack[1] = stack[2];
+    // stack[2] = stack[3];
+    // stack[3] = temp;
   }
 
   void processEdit(String key) {
@@ -965,12 +1029,6 @@ class Engine {
       return;
     }
 
-    int hexX = -1;
-    int hexY = -1;
-    int equalX = -1;
-    int equalY = -1;
-    int zerozeroX = -1;
-    int zerozeroY = -1;
     for (int x = 0; x < grid.length; x++) {
       for (int y = 0; y < grid[0].length; y++) {
         var key = grid[x][y].label;
@@ -1001,26 +1059,18 @@ class Engine {
             grid[x][y].disabled = false;
           else if (mode == "BIN" && isBinKey(key)) grid[x][y].disabled = false;
         }
-
-        // get x,y for special keys
-        if (key == "HEX" || key == "DOZ") {
-          hexX = x;
-          hexY = y;
-        }
-        if (key == "=" || key == "enter") {
-          equalX = x;
-          equalY = y;
-        }
-        if (key == "00" || key == ".") {
-          zerozeroX = x;
-          zerozeroY = y;
-        }
       }
     }
 
     // based on rpn and float, adjust labels (will need to parse for these labels)
     grid[hexX][hexY].label = (dozonal ? "DOZ" : "HEX");
     grid[equalX][equalY].label = (rpn ? "enter" : "=");
+    grid[mplusX][mplusY].label = (rpn ? "PUSH" : "M+");
+    grid[mminusX][mminusY].label = (rpn ? "POP" : "M-");
+    grid[minX][minY].label = (rpn ? "ROT" : "M in");
+    grid[mrX][mrY].label = (rpn ? " " : "MR");
+    grid[mcX][mcY].label = (rpn ? " " : "MC");
+
     grid[zerozeroX][zerozeroY].label = (floatingPoint ? "." : "00");
   }
 
@@ -1078,6 +1128,23 @@ class Engine {
     }
   }
 
+  void processStack(String key) {
+     if (isStackKey(key)) {
+      switch (key) {
+        case "PUSH":
+          pushStack("0");
+          break;
+        case "POP":
+          popStack();
+          break;
+        case "ROT":
+          rotateStack();
+          break;
+      }
+    }
+   
+  }
+
   //
   // Public methods
   //
@@ -1103,6 +1170,7 @@ class Engine {
     processAC(key);
     processCE(key);
     processMem(key);
+    processStack(key);
     processMode(key);
     applyMode(key);
   }
