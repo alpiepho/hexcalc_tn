@@ -154,12 +154,17 @@ class _SettingsModal extends State<SettingsModal> {
   }
 
   void floatingToggle(int index) {
+    // TODO warn user and convert stack
     this.engine.floatingPoint = (index == 1);
+    if (this.engine.floatingPoint) {
+      this.engine.mode = "DEC";
+      this.engine.numberSigned = true;
+    }
     setState(() {
       this._floatingIndex = index;
     });
     if (index == 1) {
-      showWarningDialog("Floating is not supported yet, ignored", 1);
+      showWarningDialog("Floating is not fully supported yet", 1);
     }
   }
 

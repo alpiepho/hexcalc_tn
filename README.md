@@ -99,12 +99,12 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] refactor settings off/on toggle switch
 - [done] from settings: rpm
 - [done] engine/ui: rpm, stack (keys: push,pop,rot)
+- [done] engine/ui: non-rpm expression instead of precedence (keys: push,pop,rot (, ) )
 
 - EXAPNDED IMPLEMENTATION
 
-- engine/ui: non-rpm expression instead of precedence (keys: push,pop,rot (, ) )
-
 - from settings: floating point
+
 - engine/ui: additional scientific functions
 
 - BUGS

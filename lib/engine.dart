@@ -34,6 +34,12 @@ class Engine {
       growable: false);
   int hexX = -1;
   int hexY = -1;
+  int decX = -1;
+  int decY = -1;
+  int octX = -1;
+  int octY = -1;
+  int binX = -1;
+  int binY = -1;
   int equalX = -1;
   int equalY = -1;
   int zerozeroX = -1;
@@ -48,6 +54,26 @@ class Engine {
   int mrY = -1;
   int mcX = -1;
   int mcY = -1;
+  int shlX = -1;
+  int shlY = -1;
+  int shrX = -1;
+  int shrY = -1;
+  int rolX = -1;
+  int rolY = -1;
+  int rorX = -1;
+  int rorY = -1;
+  int modX = -1;
+  int modY = -1;
+  int negX = -1;
+  int negY = -1;
+  int notX = -1;
+  int notY = -1;
+  int andX = -1;
+  int andY = -1;
+  int xorX = -1;
+  int xorY = -1;
+  int orX = -1;
+  int orY = -1;
 
   var mode = "DEC";
   var numberBits = 32; // 8, 12, 16, 24, 32, 48,   not supported in pwa: 64
@@ -86,6 +112,8 @@ class Engine {
         halfHeight: true,
         background: kBlueColor,
         gradient: false);
+    decX = row;
+    decY = col;
     col++;
     grid[row][col] = new Cell(
         label: "OCT",
@@ -93,6 +121,8 @@ class Engine {
         halfHeight: true,
         background: kDarkColor,
         gradient: false);
+    octX = row;
+    octY = col;
     col++;
     grid[row][col] = new Cell(
         label: "BIN",
@@ -100,6 +130,8 @@ class Engine {
         halfHeight: true,
         background: kDarkColor,
         gradient: false);
+    binX = row;
+    binY = col;
     col++;
     grid[row][col] = new Cell(
         label: "?",
@@ -156,30 +188,40 @@ class Engine {
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    shlX = row;
+    shlY = col;
     col++;
     grid[row][col] = new Cell(
         label: "SHR",
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    shrX = row;
+    shrY = col;
     col++;
     grid[row][col] = new Cell(
         label: "ROL",
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    rolX = row;
+    rolY = col;
     col++;
     grid[row][col] = new Cell(
         label: "ROR",
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    rorX = row;
+    rorY = col;
     col++;
     grid[row][col] = new Cell(
         label: "MOD",
         style: kLabelTextStyle,
         halfHeight: true,
         background: kBlueColor);
+    modX = row;
+    modY = col;
     col++;
     row++;
     col = 0;
@@ -190,6 +232,8 @@ class Engine {
     grid[row][col] = new Cell(label: "F", disabled: true);
     col++;
     grid[row][col] = new Cell(label: "NEG", style: kLabelTextStyle);
+    negX = row;
+    negY = col;
     col++;
     grid[row][col] = new Cell(label: "AC", background: kRedColor);
     col++;
@@ -202,6 +246,8 @@ class Engine {
     grid[row][col] = new Cell(label: "C", disabled: true);
     col++;
     grid[row][col] = new Cell(label: "NOT", style: kLabelTextStyle);
+    notX = row;
+    notY = col;
     col++;
     grid[row][col] = new Cell(label: "/");
     col++;
@@ -214,6 +260,8 @@ class Engine {
     grid[row][col] = new Cell(label: "9");
     col++;
     grid[row][col] = new Cell(label: "AND", style: kLabelTextStyle);
+    andX = row;
+    andY = col;
     col++;
     grid[row][col] = new Cell(label: "x", style: kLabelTextStyle);
     col++;
@@ -226,6 +274,8 @@ class Engine {
     grid[row][col] = new Cell(label: "6");
     col++;
     grid[row][col] = new Cell(label: "XOR", style: kLabelTextStyle);
+    xorX = row;
+    xorY = col;
     col++;
     grid[row][col] = new Cell(label: "-");
     col++;
@@ -238,6 +288,8 @@ class Engine {
     grid[row][col] = new Cell(label: "3");
     col++;
     grid[row][col] = new Cell(label: "OR", style: kLabelTextStyle);
+    orX = row;
+    orY = col;
     col++;
     grid[row][col] = new Cell(label: "+");
     col++;
@@ -358,7 +410,7 @@ class Engine {
   }
 
   bool isDecKey(String key) {
-    var labels = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "0", "00"];
+    var labels = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "0", "00", "."];
     return labels.contains(key);
  }
 
@@ -373,7 +425,7 @@ class Engine {
   }
 
   bool isNumKey(String key) {
-    return isHexKey(key);
+    return isHexKey(key) || isDecKey(key);
   }
 
   bool isMemKey(String key) {
@@ -386,15 +438,22 @@ class Engine {
     return labels.contains(key);
   }
 
-  bool isOp(String key) {
+  bool isOp1param(String key) {
     var labels = [
       "SHL",
       "SHR",
       "ROL",
       "ROR",
-      "MOD",
       "NEG",
+      "+/-",
       "NOT",
+    ];
+    return labels.contains(key);
+  }
+
+  bool isOp2params(String key) {
+    var labels = [
+      "MOD",
       "/",
       "AND",
       "x",
@@ -411,11 +470,6 @@ class Engine {
     return labels.contains(key);
   }
 
-  bool isUnaryOp(String key) {
-    var labels = ["SHL", "SHR", "ROL", "ROR", "NEG", "NOT"];
-    return labels.contains(key);
-  }
-
   bool isBitOp(String key) {
     var labels = [
       "SHL",
@@ -424,6 +478,7 @@ class Engine {
       "ROR",
       "MOD",
       "NEG",
+      "+/-",
       "NOT",
       "AND",
       "XOR",
@@ -507,53 +562,79 @@ class Engine {
 
   int lineToValue(String line) {
     int result = 0;
-
-    switch (mode) {
-      case "HEX":
-        result = int.parse(line, radix: 16);
-        break;
-      case "DOZ":
-        result = int.parse(line, radix: 12);
-        break;
-      case "DEC":
-        result = int.parse(line, radix: 10);
-        break;
-      case "OCT":
-        result = int.parse(line, radix: 8);
-        break;
-      case "BIN":
-        result = int.parse(line, radix: 2);
-        break;
+    if (!floatingPoint) {
+      switch (mode) {
+        case "HEX":
+          result = int.parse(line, radix: 16);
+          break;
+        case "DOZ":
+          result = int.parse(line, radix: 12);
+          break;
+        case "DEC":
+          result = int.parse(line, radix: 10);
+          break;
+        case "OCT":
+          result = int.parse(line, radix: 8);
+          break;
+        case "BIN":
+          result = int.parse(line, radix: 2);
+          break;
+      }
     }
-
     return result;
   }
 
   String valueToLine(int value) {
     var result = "";
-
-    switch (mode) {
-      case "HEX":
-        result = BigInt.from(value).toUnsigned(numberBits).toRadixString(16);
-        break;
-      case "DOZ":
-        result = BigInt.from(value).toUnsigned(numberBits).toRadixString(12);
-        break;
-      case "DEC":
-        if (numberSigned)
-          result = BigInt.from(value).toSigned(numberBits).toRadixString(10);
-        else
-          result = BigInt.from(value).toUnsigned(numberBits).toRadixString(10);
-        break;
-      case "OCT":
-        result = BigInt.from(value).toUnsigned(numberBits).toRadixString(8);
-        break;
-      case "BIN":
-        result = BigInt.from(value).toUnsigned(numberBits).toRadixString(2);
-        break;
+    if (!floatingPoint) {
+      switch (mode) {
+        case "HEX":
+          result = BigInt.from(value).toUnsigned(numberBits).toRadixString(16);
+          break;
+        case "DOZ":
+          result = BigInt.from(value).toUnsigned(numberBits).toRadixString(12);
+          break;
+        case "DEC":
+          if (numberSigned)
+            result = BigInt.from(value).toSigned(numberBits).toRadixString(10);
+          else
+            result = BigInt.from(value).toUnsigned(numberBits).toRadixString(10);
+          break;
+        case "OCT":
+          result = BigInt.from(value).toUnsigned(numberBits).toRadixString(8);
+          break;
+        case "BIN":
+          result = BigInt.from(value).toUnsigned(numberBits).toRadixString(2);
+          break;
+      }
+      result = result.toUpperCase();
     }
-    result = result.toUpperCase();
+    return result;
+  }
 
+  double lineToValueFP(String line) {
+    double result = 0;
+    if (floatingPoint && numberSigned) {
+      switch (mode) {
+        case "DEC":
+          result = double.parse(line);
+          break;
+      }
+    }
+    return result;
+  }
+
+  String valueToLineFP(double value) {
+    var result = "";
+    if (floatingPoint && numberSigned) {
+      switch (mode) {
+        case "DEC":
+          if (numberSigned)
+            result = value.toString();
+          break;
+      }
+      result = result.toUpperCase();
+    }
     return result;
   }
 
@@ -639,48 +720,62 @@ class Engine {
 
   void processOpUnary(String key) {
     int temp;
-    if (isUnaryOp(key)) {
-      int value = lineToValue(stack[0]);
-      switch (key) {
-        case "SHL":
-          value = value << 1;
-          value = value & get0xFF();
-          break;
-        case "SHR":
-          value = value >> 1;
-          value = value & get0xFF();
-          break;
-        case "ROL":
-          temp = value & get0xFF();
-          temp = temp & get0x80();
-          temp = temp >> (numberBits - 1);
-          value = value << 1;
-          value = value & get0xFF();
-          value += temp;
-          break;
-        case "ROR":
-          temp = (value & 1);
-          temp = temp << (numberBits - 1);
-          value = value >> 1;
-          value = value & get0xFF();
-          value += temp;
-          value = value & get0xFF();
-          break;
-        case "NEG":
-          value = -1 * value;
-          value = value & get0xFF();
-          break;
-        case "NOT":
-          value = ~value;
-          value = value & get0xFF();
-          break;
+    if (isOp1param(key)) {
+      if (!floatingPoint) {
+        int value = lineToValue(stack[0]);
+        switch (key) {
+          case "SHL":
+            value = value << 1;
+            value = value & get0xFF();
+            break;
+          case "SHR":
+            value = value >> 1;
+            value = value & get0xFF();
+            break;
+          case "ROL":
+            temp = value & get0xFF();
+            temp = temp & get0x80();
+            temp = temp >> (numberBits - 1);
+            value = value << 1;
+            value = value & get0xFF();
+            value += temp;
+            break;
+          case "ROR":
+            temp = (value & 1);
+            temp = temp << (numberBits - 1);
+            value = value >> 1;
+            value = value & get0xFF();
+            value += temp;
+            value = value & get0xFF();
+            break;
+          case "NEG":
+            value = -1 * value;
+            value = value & get0xFF();
+            break;
+          case "NOT":
+            value = ~value;
+            value = value & get0xFF();
+            break;
+        }
+        clearActive(lastOp);
+        stack[0] = valueToLine(value);
       }
-      clearActive(lastOp);
-      stack[0] = valueToLine(value);
+
+      if (floatingPoint) {
+        double value = lineToValueFP(stack[0]);
+        switch (key) {
+          case "+/-":
+            value = -1 * value;
+            break;
+        }
+        clearActive(lastOp);
+        stack[0] = valueToLineFP(value);
+      }
     }
   }
 
   void processLastOp() {
+    if (lastOp.length == 0) return;
     int value0 = lineToValue(popStack());
     int value1 = lineToValue(popStack());
     switch (lastOp) {
@@ -727,7 +822,7 @@ class Engine {
   }
 
   void processOps(String key) {
-    if (isOp(key)) {
+    if (isOp2params(key)) {
       if (rpn) {
         lastOp = key;
         processLastOp();
@@ -806,6 +901,7 @@ class Engine {
     try {
       if (svalue.length > 0) {
         lineToValue(svalue);
+        lineToValueFP(svalue);
         stack[0] = svalue;
       }
     } catch (exception) {
@@ -816,7 +912,7 @@ class Engine {
 
   void applyMode(String currentKey) {
     // optimize numbers
-    if (isNumKey(currentKey) || isOp(currentKey)) {
+    if (isNumKey(currentKey) || isOp1param(currentKey)|| isOp2params(currentKey)) {
       return;
     }
 
@@ -863,6 +959,20 @@ class Engine {
     grid[mcX][mcY].label = (rpn ? " " : "MC");
 
     grid[zerozeroX][zerozeroY].label = (floatingPoint ? "." : "00");
+    grid[negX][negY].label = (floatingPoint ? "+/-" : "NEG");
+    grid[hexX][hexY].disabled = (floatingPoint ? true : false);
+    grid[octX][octY].disabled = (floatingPoint ? true : false);
+    grid[binX][binY].disabled = (floatingPoint ? true : false);
+    grid[shlX][shlY].disabled = (floatingPoint ? true : false);
+    grid[shrX][shrY].disabled = (floatingPoint ? true : false);
+    grid[rolX][rolY].disabled = (floatingPoint ? true : false);
+    grid[rorX][rorY].disabled = (floatingPoint ? true : false);
+    grid[modX][modY].disabled = (floatingPoint ? true : false);
+    grid[notX][notY].disabled = (floatingPoint ? true : false);
+    grid[andX][andY].disabled = (floatingPoint ? true : false);
+    grid[xorX][xorY].disabled = (floatingPoint ? true : false);
+    grid[orX][orY].disabled = (floatingPoint ? true : false);
+
   }
 
   void processMode(String key) {
@@ -891,16 +1001,14 @@ class Engine {
 
   void processMem(String key) {
     if (isMemKey(key)) {
+      int value1 = lineToValue(memory);
+      int value2 = lineToValue(stack[0]);
       switch (key) {
         case "M+":
-          int value1 = lineToValue(memory);
-          int value2 = lineToValue(stack[0]);
           value1 += value2;
           memory = valueToLine(value1);
           break;
         case "M-":
-          int value1 = lineToValue(memory);
-          int value2 = lineToValue(stack[0]);
           value1 -= value2;
           memory = valueToLine(value1);
           break;
@@ -936,7 +1044,6 @@ class Engine {
           break;
       }
     }
-   
   }
 
   //
@@ -956,6 +1063,7 @@ class Engine {
   }
 
   void processKey(int x, int y) {
+    if (grid[x][y].disabled) return;
     var key = grid[x][y].label;
     processEdit(key);
     processOpUnary(key);
