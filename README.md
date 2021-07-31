@@ -102,13 +102,34 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] engine/ui: non-rpm expression instead of precedence (keys: push,pop,rot (, ) )
 - [done] from settings: floating point
 - [done] add decimal places
+- [done] fp <-> dec stack
 
 - EXAPNDED IMPLEMENTATION
 
-- fp <-> dec stack
 
 - engine/ui: additional scientific functions
+- 1/x
+- x^2
+- sqrt(x)
+- y^x
 
+- pi
+- sin
+- cos
+- tan
+
+- asin
+- acos
+- atan
+
+- e
+- 10^x
+- e^x
+- ln
+
+- %
+
+- paste expression?
 
 
 - BUGS

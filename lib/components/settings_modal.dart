@@ -194,7 +194,7 @@ class _SettingsModal extends State<SettingsModal> {
 
   void floatingToggle(int index) {
     showWarningDialogAndResponse(
-      "Floating may change stack, continue?", 
+      "Change of loating must clear stack, continue?", 
       1,
       (bool choice) {
         if (choice) {
@@ -205,8 +205,8 @@ class _SettingsModal extends State<SettingsModal> {
           if (this.engine.floatingPoint) {
             this.engine.mode = "DEC";
             this.engine.numberSigned = true;
-            //showWarningDialog("Floating is not fully supported yet", 1);
           }
+          this.engine.clearStack();
         }
       }
     );

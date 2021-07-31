@@ -1137,4 +1137,9 @@ class Engine {
     processMode(key);
     applyMode(key);
   }
+
+  void clearStack() {
+    processAC("AC");
+    processMem("MC");
+  }
 }
