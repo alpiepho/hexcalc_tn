@@ -100,16 +100,21 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] from settings: rpm
 - [done] engine/ui: rpm, stack (keys: push,pop,rot)
 - [done] engine/ui: non-rpm expression instead of precedence (keys: push,pop,rot (, ) )
+- [done] from settings: floating point
+- [done] add decimal places
 
 - EXAPNDED IMPLEMENTATION
 
-- from settings: floating point
+- fp <-> dec stack
 
 - engine/ui: additional scientific functions
+
+
 
 - BUGS
 - engine: unit testing
 - fix 64 bit (BigInt for 64 and bitwise?)
+- refactor engine, clean up dec/floating/scientific
 - fix InkWell splash, ink is behind the decoration/gradient
 - fix setting HEX->DOZ not auto change keys after settings
 

@@ -77,6 +77,41 @@ class _SettingsModal extends State<SettingsModal> {
     );
   }
 
+  void showWarningDialogAndResponse(String message, int popCount, Function? onPress) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('WARNING'),
+          content: new Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                this.engine.numberBits = 32;
+                for (int i = 0; i < popCount; i++) {
+                  Navigator.of(context).pop();
+                }
+                onPress!(false);
+              },
+            ),
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                this.engine.numberBits = 32;
+                for (int i = 0; i < popCount; i++) {
+                  Navigator.of(context).pop();
+                }
+                onPress!(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void onBitsToggle(int index) {
     switch (index) {
       case 0:
@@ -101,6 +136,10 @@ class _SettingsModal extends State<SettingsModal> {
         showWarningDialog("64 bit not supported, will revert to 32", 2);
         break;
     }
+  }
+
+  void onPointsToggle(int index) {
+    this.engine.decimalPoints = index;
   }
 
   void onSignedToggle(int index) {
@@ -154,18 +193,23 @@ class _SettingsModal extends State<SettingsModal> {
   }
 
   void floatingToggle(int index) {
-    // TODO warn user and convert stack
-    this.engine.floatingPoint = (index == 1);
-    if (this.engine.floatingPoint) {
-      this.engine.mode = "DEC";
-      this.engine.numberSigned = true;
-    }
-    setState(() {
-      this._floatingIndex = index;
-    });
-    if (index == 1) {
-      showWarningDialog("Floating is not fully supported yet", 1);
-    }
+    showWarningDialogAndResponse(
+      "Floating may change stack, continue?", 
+      1,
+      (bool choice) {
+        if (choice) {
+          this.engine.floatingPoint = ((index == 1) ? true : false);
+          setState(() {
+            this._floatingIndex = index;
+          });
+          if (this.engine.floatingPoint) {
+            this.engine.mode = "DEC";
+            this.engine.numberSigned = true;
+            //showWarningDialog("Floating is not fully supported yet", 1);
+          }
+        }
+      }
+    );
   }
 
   void onHelp() async {
@@ -224,6 +268,8 @@ class _SettingsModal extends State<SettingsModal> {
         break;
     }
 
+    var pointsIndex = this.engine.decimalPoints;
+
     var signedIndex = (this.engine.numberSigned ? 1 : 0);
     // this._keyClickIndex = (this.engine.keyClick ? 1 : 0);
     // this._soundsIndex = (this.engine.sounds ? 1 : 0);
@@ -279,6 +325,21 @@ class _SettingsModal extends State<SettingsModal> {
               label: "    Floating Point",
               onToggle: floatingToggle,
             ),
+
+            new SizedBox(height: kSettingsSizedBoxHeight),
+            new Text(
+              "    Decimal Points",
+              textAlign: TextAlign.left,
+            ),
+
+            new SizedBox(height: 10),
+            ToggleRow(
+              minWidth: 50.0,
+              index: pointsIndex,
+              labels: ['0', '1', '2', '3', '4', '5', '6'],
+              onToggle: onPointsToggle,
+            ),
+            new SizedBox(height: 10),
 
             Divider(
               height: 10.0,

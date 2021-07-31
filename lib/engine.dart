@@ -87,6 +87,7 @@ class Engine {
   var resultLines = 1;
   var rpn = false;
   var floatingPoint = false;
+  var decimalPoints = 4;
 
   var editing = false;
 
@@ -315,7 +316,7 @@ class Engine {
   // pack/unpack
   //
   String pack() {
-    String result = "VER2;"; // match with unpack()
+    String result = "VER "+kVersion+";"; // match with unpack()
     for (var value in stack) {
       result += value + ";";
     }
@@ -332,6 +333,7 @@ class Engine {
     result += resultLines.toString() + ";";
     result += rpn.toString() + ";";
     result += floatingPoint.toString() + ";";
+    result += decimalPoints.toString() + ";";
     return result;
   }
 
@@ -340,7 +342,7 @@ class Engine {
 
     var parts = packed.split(";");
     int index = 0;
-    if (parts[index++] != "VER2") return; // match with pack()
+    if (parts[index++] != ("VER "+kVersion)) return; // match with pack()
 
     for (int i = 0; i < stack.length; i++) {
       stack[i] = parts[index++];
@@ -358,6 +360,7 @@ class Engine {
     resultLines = int.parse(parts[index++]);
     rpn = parts[index++] == "true";
     floatingPoint = parts[index++] == "true";
+    decimalPoints = int.parse(parts[index++]);
 
     applyMode("HEX"); // HACK: force update
   }
@@ -561,6 +564,7 @@ class Engine {
   }
 
   int lineToValue(String line) {
+    if (line == "") return 0;
     int result = 0;
     if (!floatingPoint) {
       switch (mode) {
@@ -613,6 +617,7 @@ class Engine {
   }
 
   double lineToValueFP(String line) {
+    if (line == "") return 0.0;
     double result = 0;
     if (floatingPoint && numberSigned) {
       switch (mode) {
@@ -630,7 +635,7 @@ class Engine {
       switch (mode) {
         case "DEC":
           if (numberSigned)
-            result = value.toString();
+            result = value.toStringAsFixed(decimalPoints);
           break;
       }
       result = result.toUpperCase();
@@ -776,49 +781,77 @@ class Engine {
 
   void processLastOp() {
     if (lastOp.length == 0) return;
-    int value0 = lineToValue(popStack());
-    int value1 = lineToValue(popStack());
-    switch (lastOp) {
-      case "MOD":
-        value0 = value1 % value0;
-        value0 = value0 & get0xFF();
-        break;
-      case "AND":
-        value0 = value1 & value0;
-        value0 = value0 & get0xFF();
-        break;
-      case "OR":
-        value0 = value1 | value0;
-        value0 = value0 & get0xFF();
-        break;
-      case "XOR":
-        value0 = value1 ^ value0;
-        value0 = value0 & get0xFF();
-        break;
-      case "/":
-        if (value0 != 0) {
-          value0 = value1 ~/ value0;
+    if (!floatingPoint) {
+      int value0 = lineToValue(popStack());
+      int value1 = lineToValue(popStack());
+      switch (lastOp) {
+        case "MOD":
+          value0 = value1 % value0;
           value0 = value0 & get0xFF();
-        }
-        break;
-      case "x":
-        value0 = value1 * value0;
-        value0 = value0 & get0xFF();
-        break;
-      case "+":
-        value0 = value1 + value0;
-        value0 = value0 & get0xFF();
-        break;
-      case "-":
-        value0 = value1 - value0;
-        value0 = value0 & get0xFF();
-        break;
-      default:
-        break;
+          break;
+        case "AND":
+          value0 = value1 & value0;
+          value0 = value0 & get0xFF();
+          break;
+        case "OR":
+          value0 = value1 | value0;
+          value0 = value0 & get0xFF();
+          break;
+        case "XOR":
+          value0 = value1 ^ value0;
+          value0 = value0 & get0xFF();
+          break;
+        case "/":
+          if (value0 != 0) {
+            value0 = value1 ~/ value0;
+            value0 = value0 & get0xFF();
+          }
+          break;
+        case "x":
+          value0 = value1 * value0;
+          value0 = value0 & get0xFF();
+          break;
+        case "+":
+          value0 = value1 + value0;
+          value0 = value0 & get0xFF();
+          break;
+        case "-":
+          value0 = value1 - value0;
+          value0 = value0 & get0xFF();
+          break;
+        default:
+          break;
+      }
+      clearActive(lastOp);
+      print(value0);
+      pushStack(valueToLine(value0));    
     }
-    clearActive(lastOp);
-    print(value0);
-    pushStack(valueToLine(value0));
+
+    if (floatingPoint) {
+      double value0 = lineToValueFP(popStack());
+      double value1 = lineToValueFP(popStack());
+      switch (lastOp) {
+        case "/":
+          if (value0 != 0) {
+            value0 = value1 / value0;
+          }
+          break;
+        case "x":
+          value0 = value1 * value0;
+          break;
+        case "+":
+          value0 = value1 + value0;
+          break;
+        case "-":
+          value0 = value1 - value0;
+          break;
+        default:
+          break;
+      }
+      clearActive(lastOp);
+      print(value0);
+      pushStack(valueToLineFP(value0));    
+    }
   }
 
   void processOps(String key) {
@@ -1001,28 +1034,56 @@ class Engine {
 
   void processMem(String key) {
     if (isMemKey(key)) {
-      int value1 = lineToValue(memory);
-      int value2 = lineToValue(stack[0]);
-      switch (key) {
-        case "M+":
-          value1 += value2;
-          memory = valueToLine(value1);
-          break;
-        case "M-":
-          value1 -= value2;
-          memory = valueToLine(value1);
-          break;
-        case "M in":
-          memory = stack[0];
-          setActive("MR");
-          break;
-        case "MR":
-          if (memory.length > 0) stack[0] = memory;
-          break;
-        case "MC":
-          memory = "";
-          clearActive("MR");
-          break;
+      if (!floatingPoint) {
+        int value1 = lineToValue(memory);
+        int value2 = lineToValue(stack[0]);
+        switch (key) {
+          case "M+":
+            value1 += value2;
+            memory = valueToLine(value1);
+            break;
+          case "M-":
+            value1 -= value2;
+            memory = valueToLine(value1);
+            break;
+          case "M in":
+            memory = stack[0];
+            setActive("MR");
+            break;
+          case "MR":
+            if (memory.length > 0) stack[0] = memory;
+            break;
+          case "MC":
+            memory = "";
+            clearActive("MR");
+            break;
+        }
+      }
+
+      if (floatingPoint) {
+        double value1 = lineToValueFP(memory);
+        double value2 = lineToValueFP(stack[0]);
+        switch (key) {
+          case "M+":
+            value1 += value2;
+            memory = valueToLineFP(value1);
+            break;
+          case "M-":
+            value1 -= value2;
+            memory = valueToLineFP(value1);
+            break;
+          case "M in":
+            memory = stack[0];
+            setActive("MR");
+            break;
+          case "MR":
+            if (memory.length > 0) stack[0] = memory;
+            break;
+          case "MC":
+            memory = "";
+            clearActive("MR");
+            break;
+        }
       }
     }
   }
