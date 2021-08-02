@@ -103,6 +103,7 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] from settings: floating point
 - [done] add decimal places
 - [done] fp <-> dec stack
+- [done] added copy button if swipe doesn't work
 
 - EXAPNDED IMPLEMENTATION
 
@@ -118,21 +119,24 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - cos
 - tan
 
-- asin
-- acos
-- atan
+- rad?
+- deg?
 
 - e
 - 10^x
 - e^x
 - ln
 
+- asin
+- acos
+- atan
 - %
 
 - paste expression?
 
 
 - BUGS
+- remove swipe to copy?
 - engine: unit testing
 - fix 64 bit (BigInt for 64 and bitwise?)
 - refactor engine, clean up dec/floating/scientific

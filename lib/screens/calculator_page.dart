@@ -67,6 +67,12 @@ class _CalculatorPageState extends State<CalculatorPage> {
     }
   }
 
+  void _onResultCopy(int lineNum) async {
+    var value = this._engine.processCopy(lineNum);
+    await Clipboard.setData(ClipboardData(text: value));
+    _clearPan();
+  }
+
   Future<void> _onResult1DoubleTap() async {
     Clipboard.getData(Clipboard.kTextPlain).then((value) {
       var newValue = value!.text!;
@@ -143,43 +149,96 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     // build the result lines from last N lines of stack
     if (_resultLines >= 4) {
-      colWidgets.add(GestureDetector(
-        onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(4, details)},
-        child: Text(
-          _results[3],
-          style: resultStyle,
-          textAlign: TextAlign.end,
-        ),
+      colWidgets.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => {_onResultCopy(4)},
+            child: new Icon(
+              Icons.copy, 
+              color: Colors.white10,
+              //size: 10,
+            ),
+          ),
+          GestureDetector(
+            onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(4, details)},
+            child: Text(
+              _results[3],
+              style: resultStyle,
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
       ));
     }
     if (_resultLines >= 3) {
-      colWidgets.add(GestureDetector(
-        onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(3, details)},
-        child: Text(
-          _results[2],
-          style: resultStyle,
-          textAlign: TextAlign.end,
-        ),
+      colWidgets.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => {_onResultCopy(3)},
+            child: new Icon(
+              Icons.copy, 
+              color: Colors.white10,
+              //size: 10,
+            ),
+          ),
+          GestureDetector(
+            onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(3, details)},
+            child: Text(
+              _results[2],
+              style: resultStyle,
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
       ));
     }
     if (_resultLines >= 2) {
-      colWidgets.add(GestureDetector(
-        onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(2, details)},
-        child: Text(
-          _results[1],
-          style: resultStyle,
-          textAlign: TextAlign.end,
-        ),
+      colWidgets.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => {_onResultCopy(2)},
+            child: new Icon(
+              Icons.copy, 
+              color: Colors.white10,
+              //size: 10,
+            ),
+          ),
+          GestureDetector(
+            onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(2, details)},
+            onDoubleTap: _onResult1DoubleTap,
+            child: Text(
+              _results[1],
+              style: resultStyle,
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
       ));
     }
-    colWidgets.add(GestureDetector(
-      onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(1, details)},
-      onDoubleTap: _onResult1DoubleTap,
-      child: Text(
-        _results[0],
-        style: resultStyle,
-        textAlign: TextAlign.end,
-      ),
+    colWidgets.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        GestureDetector(
+          onTap: () => {_onResultCopy(1)},
+          child: new Icon(
+            Icons.copy, 
+            color: Colors.white10,
+            //size: 10,
+          ),
+        ),
+        GestureDetector(
+          onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(1, details)},
+          onDoubleTap: _onResult1DoubleTap,
+          child: Text(
+            _results[0],
+            style: resultStyle,
+            textAlign: TextAlign.end,
+          ),
+        ),
+      ],
     ));
     colWidgets.add(SizedBox(
       height: 10,
