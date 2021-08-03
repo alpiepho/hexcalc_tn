@@ -20,15 +20,15 @@ class _CalculatorPageState extends State<CalculatorPage> {
   Engine _engine = Engine();
 
   void _loadEngine() async {
-    final prefs = await SharedPreferences.getInstance();
-    var packed = prefs.getString('engine') ?? "";
-    _engine.unpack(packed);
+    // final prefs = await SharedPreferences.getInstance();
+    // var packed = prefs.getString('engine') ?? "";
+    // _engine.unpack(packed);
     _fromEngine();
   }
 
   void _saveEngine() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('engine', _engine.pack());
+    // final prefs = await SharedPreferences.getInstance();
+    // prefs.setString('engine', _engine.pack());
   }
 
   void _fromEngine() async {
