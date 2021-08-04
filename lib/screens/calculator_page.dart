@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hexcalc_tn/components/calc_button.dart';
+import 'package:hexcalc_tn/components/results_area.dart';
 import 'package:hexcalc_tn/components/settings_modal.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
@@ -11,33 +11,24 @@ class CalculatorPage extends StatefulWidget {
 }
 
 class _CalculatorPageState extends State<CalculatorPage> {
-  // for results copy
-  var _panPositionXResult = [0.0, 0.0, 0.0, 0.0];
-
-  var _results = ["0", "0", "0", "0"];
-  int _resultLines = 4;
 
   Engine _engine = Engine();
+  late ResultsArea _resultsArea;
 
   void _loadEngine() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // var packed = prefs.getString('engine') ?? "";
-    // _engine.unpack(packed);
+    final prefs = await SharedPreferences.getInstance();
+    var packed = prefs.getString('engine') ?? "";
+    _engine.unpack(packed);
     _fromEngine();
   }
 
   void _saveEngine() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // prefs.setString('engine', _engine.pack());
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('engine', _engine.pack());
   }
 
   void _fromEngine() async {
     setState(() {
-      var index = 0;
-      while (index < _results.length) {
-        _results[index] = this._engine.stack[index++];
-      }
-      _resultLines = this._engine.resultLines;
       _saveEngine();
     });
   }
@@ -45,65 +36,20 @@ class _CalculatorPageState extends State<CalculatorPage> {
   void _onDone() async {
     this._engine.applyMode("HEX");  // HACK: force update
     _fromEngine();
+    this._resultsArea.fromEngine();
     Navigator.of(context).pop();
   }
 
-  void _clearPan() {
-      for (int i = 0; i < _panPositionXResult.length; i++) {
-        _panPositionXResult[i] = 0.0;
-      }
-  }
 
-  void _onResultSwipe(int lineNum, DragUpdateDetails details) async {
-    if (details.delta.dx.abs() > 1) {
-      _panPositionXResult[lineNum-1] += details.delta.dx;
-      if (_panPositionXResult[lineNum-1].abs() > 30) {
-        var value = this._engine.processCopy(lineNum);
-        await Clipboard.setData(ClipboardData(text: value));
-        _clearPan();
-      }
-    } else {
-      _clearPan();
-    }
-  }
 
-  void _onResultCopy(int lineNum) async {
-    var value = this._engine.processCopy(lineNum);
-    await Clipboard.setData(ClipboardData(text: value));
-    _clearPan();
-  }
-
-  Future<void> _onResult1DoubleTap() async {
-    Clipboard.getData(Clipboard.kTextPlain).then((value) {
-      var newValue = value!.text!;
-      if (this._engine.processPaste(newValue)) {
-        _fromEngine();
-      } else {
-        showDialog<void>(
-          context: context,
-          barrierDismissible: false, // user must tap button!
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('ERROR'),
-              content: new Text("'" + newValue + "' is not a number."),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );        
-      }
-    });
-  }
 
   void _notifyEngine(int x, int y) async {
-    this._engine.processKey(x, y);
-    _fromEngine();
+    if(this._engine.processKey(x, y)) {
+      // only some keys should cause page to re-build
+      _fromEngine();
+    }
+    // trigger results area to rebuild
+    this._resultsArea.fromEngine();
   }
 
   @override
@@ -115,6 +61,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   @override
   Widget build(BuildContext context) {
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    print("calc build");
     if (!isPortrait) {
       return Scaffold(
         backgroundColor: kInputPageBackgroundColor,
@@ -141,108 +88,12 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     var deviceSize = MediaQuery.of(context).size;
     var mainColumnHeightPortrait = kMainColumnHeightPortrait;
-    var resultStyle = kResultTextStyle;
     if (deviceSize.height < 700) {
       mainColumnHeightPortrait = kMainColumnHeightPortrait2;
-      resultStyle = kResultTextStyle.copyWith(fontSize: 30);
     }
 
-    // build the result lines from last N lines of stack
-    if (_resultLines >= 4) {
-      colWidgets.add(Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () => {_onResultCopy(4)},
-            child: new Icon(
-              Icons.copy, 
-              color: Colors.white10,
-              //size: 10,
-            ),
-          ),
-          GestureDetector(
-            onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(4, details)},
-            child: Text(
-              _results[3],
-              style: resultStyle,
-              textAlign: TextAlign.end,
-            ),
-          ),
-        ],
-      ));
-    }
-    if (_resultLines >= 3) {
-      colWidgets.add(Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () => {_onResultCopy(3)},
-            child: new Icon(
-              Icons.copy, 
-              color: Colors.white10,
-              //size: 10,
-            ),
-          ),
-          GestureDetector(
-            onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(3, details)},
-            child: Text(
-              _results[2],
-              style: resultStyle,
-              textAlign: TextAlign.end,
-            ),
-          ),
-        ],
-      ));
-    }
-    if (_resultLines >= 2) {
-      colWidgets.add(Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () => {_onResultCopy(2)},
-            child: new Icon(
-              Icons.copy, 
-              color: Colors.white10,
-              //size: 10,
-            ),
-          ),
-          GestureDetector(
-            onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(2, details)},
-            onDoubleTap: _onResult1DoubleTap,
-            child: Text(
-              _results[1],
-              style: resultStyle,
-              textAlign: TextAlign.end,
-            ),
-          ),
-        ],
-      ));
-    }
-    colWidgets.add(Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        GestureDetector(
-          onTap: () => {_onResultCopy(1)},
-          child: new Icon(
-            Icons.copy, 
-            color: Colors.white10,
-            //size: 10,
-          ),
-        ),
-        GestureDetector(
-          onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(1, details)},
-          onDoubleTap: _onResult1DoubleTap,
-          child: Text(
-            _results[0],
-            style: resultStyle,
-            textAlign: TextAlign.end,
-          ),
-        ),
-      ],
-    ));
-    colWidgets.add(SizedBox(
-      height: 10,
-    ));
+    _resultsArea = ResultsArea(this._engine);
+    colWidgets.add(_resultsArea);
 
     // build the buttons
     for (var i = 0; i < this._engine.grid.length; i++) {

@@ -823,7 +823,6 @@ class Engine {
           break;
       }
       clearActive(lastOp);
-      print(value0);
       pushStack(valueToLine(value0));    
     }
 
@@ -1123,8 +1122,9 @@ class Engine {
     return style;
   }
 
-  void processKey(int x, int y) {
-    if (grid[x][y].disabled) return;
+  bool processKey(int x, int y) {
+    var result = false;
+    if (grid[x][y].disabled) result;
     var key = grid[x][y].label;
     processEdit(key);
     processOpUnary(key);
@@ -1136,6 +1136,16 @@ class Engine {
     processStack(key);
     processMode(key);
     applyMode(key);
+    if (isModeKey(key) || isMemKey(key)) {
+      result = true;
+    }
+    if (!rpn && isOp2params(key)) {
+      result = true;
+    }
+    if (!rpn && isEqual(key)) {
+      result = true;
+    }
+    return result;
   }
 
   void clearStack() {
