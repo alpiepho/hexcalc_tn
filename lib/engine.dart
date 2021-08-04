@@ -23,6 +23,13 @@ class Cell {
   });
 }
 
+const FUNCS_SHL = 0;
+const FUNCS_1X = 1;
+const FUNCS_SIN = 2;
+const FUNCS_RAD = 3;
+const FUNCS_E = 4;
+const FUNCS_ASIN = 5;
+
 class Engine {
   var lastOp = "";
   var inputLimit = 20;
@@ -88,6 +95,7 @@ class Engine {
   var rpn = false;
   var floatingPoint = false;
   var decimalPoints = 4;
+  var functionsIndex = 0;
 
   var editing = false;
 
@@ -334,6 +342,7 @@ class Engine {
     result += rpn.toString() + ";";
     result += floatingPoint.toString() + ";";
     result += decimalPoints.toString() + ";";
+    result += functionsIndex.toString() + ";";
     return result;
   }
 
@@ -361,6 +370,7 @@ class Engine {
     rpn = parts[index++] == "true";
     floatingPoint = parts[index++] == "true";
     decimalPoints = int.parse(parts[index++]);
+    functionsIndex = int.parse(parts[index++]);
 
     applyMode("HEX"); // HACK: force update
   }
@@ -486,6 +496,66 @@ class Engine {
       "AND",
       "XOR",
       "OR"
+    ];
+    return labels.contains(key);
+  }
+
+  bool isShlOp(String key) {
+    var labels = [
+      "SHL",
+      "SHR",
+      "ROL",
+      "ROR",
+      "MOD",
+    ];
+    return labels.contains(key);
+  }
+
+  bool is1xOp(String key) {
+    var labels = [
+      "1/x",
+      "x^2",
+      "sqrt(x)",
+      "y^x",
+    ];
+    return labels.contains(key);
+  }
+
+  bool isSinOp(String key) {
+    var labels = [
+      "sin",
+      "cos",
+      "tan",
+      "pi",
+    ];
+    return labels.contains(key);
+  }
+
+  bool isRadOp(String key) {
+    var labels = [
+      "rad",
+      "deg",
+    ];
+    return labels.contains(key);
+  }
+
+  bool isEOp(String key) {
+    var labels = [
+      "e",
+      "10^x",
+      "e^x",
+      "ln",
+    ];
+    return labels.contains(key);
+  }
+
+
+  bool isAsinOp(String key) {
+    var labels = [
+      "asin",
+      "acos",
+      "atan",
+      "pi",
     ];
     return labels.contains(key);
   }
@@ -772,6 +842,22 @@ class Engine {
           case "+/-":
             value = -1 * value;
             break;
+          // TODO 1 op
+          // "1/x",
+          // "x^2",
+          // "sqrt(x)",
+          // "sin",
+          // "cos",
+          // "tan",
+          // "pi",
+          // "rad",
+          // "deg",
+          // "e",
+          // "10^x",
+          // "ln",
+          // "asin",
+          // "acos",
+          // "atan",
         }
         clearActive(lastOp);
         stack[0] = valueToLineFP(value);
@@ -844,6 +930,9 @@ class Engine {
         case "-":
           value0 = value1 - value0;
           break;
+        // TODO 2 op
+        // "y^x",
+        // "e^x",
         default:
           break;
       }
@@ -984,22 +1073,70 @@ class Engine {
     // based on rpn and float, adjust labels (will need to parse for these labels)
     grid[hexX][hexY].label = (dozonal ? "DOZ" : "HEX");
     grid[equalX][equalY].label = (rpn ? "enter" : "=");
+
     grid[mplusX][mplusY].label = (rpn ? "PUSH" : "M+");
     grid[mminusX][mminusY].label = (rpn ? "DROP" : "M-");
     grid[minX][minY].label = (rpn ? "ROT" : "M in");
     grid[mrX][mrY].label = (rpn ? "SWAP" : "MR");
     grid[mcX][mcY].label = (rpn ? " " : "MC");
 
+    if (!floatingPoint && functionsIndex == FUNCS_SHL) {
+      grid[shlX][shlY].label = "SHL";
+      grid[shrX][shrY].label = "SHR";
+      grid[rolX][rolY].label = "ROL";
+      grid[rorX][rorY].label = "ROR";
+      grid[modX][modY].label = "MOD";
+    }
+    if (floatingPoint && functionsIndex == FUNCS_1X) {
+      grid[shlX][shlY].label = "1/x";
+      grid[shrX][shrY].label = "x^2";
+      grid[rolX][rolY].label = "sqrt(x)";
+      grid[rorX][rorY].label = "y^x";
+      grid[modX][modY].label = " ";
+    }
+    if (floatingPoint && functionsIndex == FUNCS_SIN) {
+      grid[shlX][shlY].label = "sin";
+      grid[shrX][shrY].label = "cos";
+      grid[rolX][rolY].label = "tan";
+      grid[rorX][rorY].label = "pi";
+      grid[modX][modY].label = " ";
+    }
+    if (floatingPoint && functionsIndex == FUNCS_RAD) {
+      grid[shlX][shlY].label = "rad";
+      grid[shrX][shrY].label = "deg";
+      grid[rolX][rolY].label = " ";
+      grid[rorX][rorY].label = " ";
+      grid[modX][modY].label = " ";
+    }
+    if (floatingPoint && functionsIndex == FUNCS_E) {
+      grid[shlX][shlY].label = "e";
+      grid[shrX][shrY].label = "10^x";
+      grid[rolX][rolY].label = "e^x";
+      grid[rorX][rorY].label = "ln";
+      grid[modX][modY].label = " ";
+    }
+    if (floatingPoint && functionsIndex == FUNCS_ASIN) {
+      grid[shlX][shlY].label = "asin";
+      grid[shrX][shrY].label = "acos";
+      grid[rolX][rolY].label = "atan";
+      grid[rorX][rorY].label = "pi";
+      grid[modX][modY].label = " ";
+    }
+
     grid[zerozeroX][zerozeroY].label = (floatingPoint ? "." : "00");
     grid[negX][negY].label = (floatingPoint ? "+/-" : "NEG");
     grid[hexX][hexY].disabled = (floatingPoint ? true : false);
     grid[octX][octY].disabled = (floatingPoint ? true : false);
     grid[binX][binY].disabled = (floatingPoint ? true : false);
-    grid[shlX][shlY].disabled = (floatingPoint ? true : false);
-    grid[shrX][shrY].disabled = (floatingPoint ? true : false);
-    grid[rolX][rolY].disabled = (floatingPoint ? true : false);
-    grid[rorX][rorY].disabled = (floatingPoint ? true : false);
-    grid[modX][modY].disabled = (floatingPoint ? true : false);
+
+    if (functionsIndex == FUNCS_SHL) {
+      grid[shlX][shlY].disabled = (floatingPoint ? true : false);
+      grid[shrX][shrY].disabled = (floatingPoint ? true : false);
+      grid[rolX][rolY].disabled = (floatingPoint ? true : false);
+      grid[rorX][rorY].disabled = (floatingPoint ? true : false);
+      grid[modX][modY].disabled = (floatingPoint ? true : false);
+    }
+    
     grid[notX][notY].disabled = (floatingPoint ? true : false);
     grid[andX][andY].disabled = (floatingPoint ? true : false);
     grid[xorX][xorY].disabled = (floatingPoint ? true : false);
@@ -1124,7 +1261,7 @@ class Engine {
 
   bool processKey(int x, int y) {
     var result = false;
-    if (grid[x][y].disabled) result;
+    if (grid[x][y].disabled) return result;
     var key = grid[x][y].label;
     processEdit(key);
     processOpUnary(key);

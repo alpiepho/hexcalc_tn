@@ -142,6 +142,23 @@ class _SettingsModal extends State<SettingsModal> {
     this.engine.decimalPoints = index;
   }
 
+  void onFunctionsToggle(int index) {
+    if (index == 0 && this.engine.floatingPoint) {
+      showWarningDialog("Please disable floating point", 1);
+      return;
+    }
+    if (index > 0 && !this.engine.floatingPoint) {
+      showWarningDialog("Please enable floating point", 1);
+      return;
+    }
+    this.engine.functionsIndex = index;
+    if (index == 1) showWarningDialog("Under construction", 1);
+    if (index == 2) showWarningDialog("Under construction", 1);
+    if (index == 3) showWarningDialog("Under construction", 1);
+    if (index == 4) showWarningDialog("Under construction", 1);
+    if (index == 5) showWarningDialog("Under construction", 1);
+  }
+
   void onSignedToggle(int index) {
     this.engine.numberSigned = (index == 1);
   }
@@ -194,7 +211,7 @@ class _SettingsModal extends State<SettingsModal> {
 
   void floatingToggle(int index) {
     showWarningDialogAndResponse(
-      "Change of loating must clear stack, continue?", 
+      "Must clear stack, continue?", 
       1,
       (bool choice) {
         if (choice) {
@@ -205,6 +222,9 @@ class _SettingsModal extends State<SettingsModal> {
           if (this.engine.floatingPoint) {
             this.engine.mode = "DEC";
             this.engine.numberSigned = true;
+          }
+          else {
+            this.engine.functionsIndex = 0;
           }
           this.engine.clearStack();
         }
@@ -269,6 +289,7 @@ class _SettingsModal extends State<SettingsModal> {
     }
 
     var pointsIndex = this.engine.decimalPoints;
+    var functionsIndex = this.engine.functionsIndex;
 
     var signedIndex = (this.engine.numberSigned ? 1 : 0);
     // this._keyClickIndex = (this.engine.keyClick ? 1 : 0);
@@ -302,6 +323,10 @@ class _SettingsModal extends State<SettingsModal> {
             new Text(
               "    Result Lines",
               textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 16,
+                //fontWeight: FontWeight.w700,
+              ),
             ),
 
             new SizedBox(height: 10),
@@ -326,10 +351,14 @@ class _SettingsModal extends State<SettingsModal> {
               onToggle: floatingToggle,
             ),
 
-            new SizedBox(height: kSettingsSizedBoxHeight),
+            //new SizedBox(height: kSettingsSizedBoxHeight),
             new Text(
               "    Decimal Points",
               textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 16,
+                //fontWeight: FontWeight.w700,
+              ),
             ),
 
             new SizedBox(height: 10),
@@ -338,6 +367,24 @@ class _SettingsModal extends State<SettingsModal> {
               index: pointsIndex,
               labels: ['0', '1', '2', '3', '4', '5', '6'],
               onToggle: onPointsToggle,
+            ),
+            new SizedBox(height: 10),
+
+            //new SizedBox(height: kSettingsSizedBoxHeight),
+            new Text(
+              "    Functions",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 16,
+                //fontWeight: FontWeight.w700,
+              ),
+            ),
+            new SizedBox(height: 10),
+            ToggleRow(
+              minWidth: 50.0,
+              index: functionsIndex,
+              labels: ['SHL...', '1/x...', 'sin...', 'rad...', 'e...', 'asin...'],
+              onToggle: onFunctionsToggle,
             ),
             new SizedBox(height: 10),
 
@@ -350,6 +397,10 @@ class _SettingsModal extends State<SettingsModal> {
             new Text(
               "    Number of Bits",
               textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 16,
+                //fontWeight: FontWeight.w700,
+              ),
             ),
 
             new SizedBox(height: 10),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const kVersion = '0.1';
+const kVersion = '0.2';
 
 const kInputPageBackgroundColor = Colors.black45;
 

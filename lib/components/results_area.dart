@@ -6,6 +6,7 @@ import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// StreamController idea from https://stackoverflow.com/questions/53197745/how-to-add-event-listeners-in-flutter
 class ResultEvent  {
   var eventType;
   ResultEvent (this.eventType);
