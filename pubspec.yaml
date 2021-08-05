@@ -39,6 +39,8 @@ dependencies:
 
   toggle_switch: ^1.2.0
 
+  vector_math: any
+
   # flutter_colorpicker: ^0.4.0
   # google_fonts: ^2.0.0
 

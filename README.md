@@ -104,36 +104,30 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] add decimal places
 - [done] fp <-> dec stack
 - [done] added copy button if swipe doesn't work
+- [done] engine/ui: additional scientific functions
+- [done] 1/x
+- [done] x^2
+- [done] sqrt(x)
+- [done] y^x
+- [done] pi
+- [done] sin
+- [done] cos
+- [done] tan
+- [done] rad?
+- [done] deg?
+- [done] e
+- [done] 10^x
+- [done] e^x
+- [done] ln
+- [done] asin
+- [done] acos
+- [done] atan
+- [done] truncate
+- [done] floor
+- [done] ceil
 
 - EXAPNDED IMPLEMENTATION
-
-
-- engine/ui: additional scientific functions
-- 1/x
-- x^2
-- sqrt(x)
-- y^x
-
-- pi
-- sin
-- cos
-- tan
-
-- rad?
-- deg?
-
-- e
-- 10^x
-- e^x
-- ln
-
-- asin
-- acos
-- atan
-- %
-
 - paste expression?
-
 
 - BUGS
 - remove swipe to copy?

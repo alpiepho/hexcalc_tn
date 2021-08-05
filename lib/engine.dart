@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcalc_tn/constants.dart';
+import 'dart:math';
+import 'package:vector_math/vector_math.dart' as vector_math;
 
 class Cell {
   String label;
@@ -460,6 +462,25 @@ class Engine {
       "NEG",
       "+/-",
       "NOT",
+      "1/x",
+      "x^2",
+      "sqrt(x)",
+      "floor",
+      "ceil",
+      "trunc",
+      "sin",
+      "cos",
+      "tan",
+      "pi",
+      "rad",
+      "deg",
+      "e",
+      "10^x",
+      "ln",
+      "e^x",
+      "asin",
+      "acos",
+      "atan",
     ];
     return labels.contains(key);
   }
@@ -473,7 +494,9 @@ class Engine {
       "XOR",
       "-",
       "OR",
-      "+"
+      "+",
+      "+",
+      "y^x",
     ];
     return labels.contains(key);
   }
@@ -516,7 +539,9 @@ class Engine {
       "1/x",
       "x^2",
       "sqrt(x)",
-      "y^x",
+      "floor",
+      "ceil",
+      "trunc",
     ];
     return labels.contains(key);
   }
@@ -842,22 +867,64 @@ class Engine {
           case "+/-":
             value = -1 * value;
             break;
-          // TODO 1 op
-          // "1/x",
-          // "x^2",
-          // "sqrt(x)",
-          // "sin",
-          // "cos",
-          // "tan",
-          // "pi",
-          // "rad",
-          // "deg",
-          // "e",
-          // "10^x",
-          // "ln",
-          // "asin",
-          // "acos",
-          // "atan",
+          case "1/x":
+          if (value != 0.0) 
+            value = 1.0 / value;
+            break;
+          case "x^2":
+            value = pow(value, 2).truncateToDouble();
+            break;
+          case "sqrt(x)":
+            value = sqrt(value).truncateToDouble();
+            break;
+          case "floor":
+            value = value.floor().truncateToDouble();
+            break;
+          case "ceil":
+            value = value.ceil().truncateToDouble();
+            break;
+          case "trunc":
+            value = value.truncate().truncateToDouble();
+            break;
+          case "sin":
+            value = sin(value).truncateToDouble();
+            break;
+          case "cos":
+            value = cos(value).truncateToDouble();
+            break;
+          case "tan":
+            value = tan(value).truncateToDouble();
+            break;
+          case "pi":
+            value = pi;
+            break;
+          case "rad":
+            value = vector_math.radians(value);
+            break;
+          case "deg":
+            value = vector_math.degrees(value);
+            break;
+          case "e":
+            value = e;
+            break;
+          case "10^x":
+            value = pow(10, value).truncateToDouble();
+            break;
+          case "ln":
+            value = ln10;
+            break;
+          case "e^x":
+            value = pow(e, value).truncateToDouble();
+            break;
+          case "asin":
+            value = asin(value).truncateToDouble();
+            break;
+          case "acos":
+            value = acos(value).truncateToDouble();
+            break;
+          case "atan":
+            value = atan(value).truncateToDouble();
+            break;
         }
         clearActive(lastOp);
         stack[0] = valueToLineFP(value);
@@ -930,9 +997,9 @@ class Engine {
         case "-":
           value0 = value1 - value0;
           break;
-        // TODO 2 op
-        // "y^x",
-        // "e^x",
+        case "y^x":
+          value0 = pow(value1, value0).truncateToDouble();
+          break;
         default:
           break;
       }
@@ -1092,7 +1159,7 @@ class Engine {
       grid[shrX][shrY].label = "x^2";
       grid[rolX][rolY].label = "sqrt(x)";
       grid[rorX][rorY].label = "y^x";
-      grid[modX][modY].label = " ";
+      grid[modX][modY].label = "trunc";
     }
     if (floatingPoint && functionsIndex == FUNCS_SIN) {
       grid[shlX][shlY].label = "sin";
@@ -1104,9 +1171,9 @@ class Engine {
     if (floatingPoint && functionsIndex == FUNCS_RAD) {
       grid[shlX][shlY].label = "rad";
       grid[shrX][shrY].label = "deg";
-      grid[rolX][rolY].label = " ";
-      grid[rorX][rorY].label = " ";
-      grid[modX][modY].label = " ";
+      grid[rolX][rolY].label = "floor";
+      grid[rorX][rorY].label = "ceil";
+      grid[modX][modY].label = "trunc";
     }
     if (floatingPoint && functionsIndex == FUNCS_E) {
       grid[shlX][shlY].label = "e";
