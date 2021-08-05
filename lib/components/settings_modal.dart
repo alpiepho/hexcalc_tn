@@ -152,11 +152,11 @@ class _SettingsModal extends State<SettingsModal> {
       return;
     }
     this.engine.functionsIndex = index;
-    if (index == 1) showWarningDialog("Under construction", 1);
-    if (index == 2) showWarningDialog("Under construction", 1);
-    if (index == 3) showWarningDialog("Under construction", 1);
-    if (index == 4) showWarningDialog("Under construction", 1);
-    if (index == 5) showWarningDialog("Under construction", 1);
+    // if (index == 1) showWarningDialog("Under construction", 1);
+    // if (index == 2) showWarningDialog("Under construction", 1);
+    // if (index == 3) showWarningDialog("Under construction", 1);
+    // if (index == 4) showWarningDialog("Under construction", 1);
+    // if (index == 5) showWarningDialog("Under construction", 1);
   }
 
   void onSignedToggle(int index) {
@@ -467,7 +467,7 @@ class _SettingsModal extends State<SettingsModal> {
               thickness: 2.0,
             ),
             new Text(
-              "Swipe left/right = Copy to Clipboard",
+              "Icon on left = Copy to Clipboard",
               textAlign: TextAlign.center,
             ),
             new SizedBox(height: 10),

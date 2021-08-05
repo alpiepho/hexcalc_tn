@@ -39,7 +39,7 @@ class _ResultsAreaState extends State<ResultsArea> {
   late Engine engine;
 
   // for results copy
-  var _panPositionXResult = [0.0, 0.0, 0.0, 0.0];
+  //var _panPositionXResult = [0.0, 0.0, 0.0, 0.0];
 
   var _results = ["0", "0", "0", "0"];
   int _resultLines = 4;
@@ -67,29 +67,29 @@ class _ResultsAreaState extends State<ResultsArea> {
     });
   }
 
-  void _clearPan() {
-      for (int i = 0; i < _panPositionXResult.length; i++) {
-        _panPositionXResult[i] = 0.0;
-      }
-  }
+  // void _clearPan() {
+  //     for (int i = 0; i < _panPositionXResult.length; i++) {
+  //       _panPositionXResult[i] = 0.0;
+  //     }
+  // }
 
-  void _onResultSwipe(int lineNum, DragUpdateDetails details) async {
-    if (details.delta.dx.abs() > 1) {
-      _panPositionXResult[lineNum-1] += details.delta.dx;
-      if (_panPositionXResult[lineNum-1].abs() > 30) {
-        var value = this.engine.processCopy(lineNum);
-        await Clipboard.setData(ClipboardData(text: value));
-        _clearPan();
-      }
-    } else {
-      _clearPan();
-    }
-  }
+  // void _onResultSwipe(int lineNum, DragUpdateDetails details) async {
+  //   if (details.delta.dx.abs() > 1) {
+  //     _panPositionXResult[lineNum-1] += details.delta.dx;
+  //     if (_panPositionXResult[lineNum-1].abs() > 30) {
+  //       var value = this.engine.processCopy(lineNum);
+  //       await Clipboard.setData(ClipboardData(text: value));
+  //       _clearPan();
+  //     }
+  //   } else {
+  //     _clearPan();
+  //   }
+  // }
 
   void _onResultCopy(int lineNum) async {
     var value = this.engine.processCopy(lineNum);
     await Clipboard.setData(ClipboardData(text: value));
-    _clearPan();
+    //_clearPan();
   }
 
   Future<void> _onResult1DoubleTap() async {
@@ -154,7 +154,7 @@ class _ResultsAreaState extends State<ResultsArea> {
             ),
           ),
           GestureDetector(
-            onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(4, details)},
+            //onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(4, details)},
             child: Text(
               _results[3],
               style: resultStyle,
@@ -177,7 +177,7 @@ class _ResultsAreaState extends State<ResultsArea> {
             ),
           ),
           GestureDetector(
-            onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(3, details)},
+            //onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(3, details)},
             child: Text(
               _results[2],
               style: resultStyle,
@@ -200,7 +200,7 @@ class _ResultsAreaState extends State<ResultsArea> {
             ),
           ),
           GestureDetector(
-            onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(2, details)},
+            //onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(2, details)},
             onDoubleTap: _onResult1DoubleTap,
             child: Text(
               _results[1],
@@ -223,7 +223,7 @@ class _ResultsAreaState extends State<ResultsArea> {
           ),
         ),
         GestureDetector(
-          onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(1, details)},
+          //onPanUpdate: (DragUpdateDetails details) => {_onResultSwipe(1, details)},
           onDoubleTap: _onResult1DoubleTap,
           child: Text(
             _results[0],

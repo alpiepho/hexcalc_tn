@@ -125,12 +125,12 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] truncate
 - [done] floor
 - [done] ceil
+- [done] remove swipe to copy?
 
 - EXAPNDED IMPLEMENTATION
 - paste expression?
 
 - BUGS
-- remove swipe to copy?
 - engine: unit testing
 - fix 64 bit (BigInt for 64 and bitwise?)
 - refactor engine, clean up dec/floating/scientific
