@@ -124,9 +124,14 @@ class _ResultsAreaState extends State<ResultsArea> {
   initState() {
     super.initState();
     _loadEngine();
-    changeController.stream.listen((e) {
-      this._fromEngine();
-    });
+      try {
+        changeController.close();
+        changeController = StreamController<ResultEvent>();
+      }
+      catch(exception) {}
+      changeController.stream.listen((e) {
+        this._fromEngine();
+      });
   }
 
   @override

@@ -129,8 +129,20 @@ Most of the opeartion should be self evident, but we should clarify a few things
 
 - EXAPNDED IMPLEMENTATION
 - paste expression?
+  - setting to allow "paste expressions"
+  - on paste
+    - verify floating
+    - verify (mach parens etc?)
+    - replace consts (pi, = etc)
+    - replace stack[], x, y etc
+    - build expression
+    - evaluate
+    - warning on errors
+
+- store pasted expression???
 
 - BUGS
+- settings, rotate, rotate back, done...stuck on grey screen
 - engine: unit testing
 - fix 64 bit (BigInt for 64 and bitwise?)
 - refactor engine, clean up dec/floating/scientific

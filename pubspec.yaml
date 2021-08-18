@@ -41,6 +41,7 @@ dependencies:
 
   vector_math: any
 
+  math_expressions: ^2.2.0
   # flutter_colorpicker: ^0.4.0
   # google_fonts: ^2.0.0
 
