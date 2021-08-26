@@ -40,9 +40,10 @@ class CalcButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var colorTop = color;
     var colorBottom = (gradient ? darken(color, 0.2) : color);
-    return InkWell(
+    //return InkWell(
+    return GestureDetector(
         onTap: onPress as void Function()?,
-        splashColor: (disabled ? Colors.transparent : Colors.white),
+        //splashColor: (disabled ? Colors.transparent : Colors.white),
         child: Container(
           child: cardChild,
           margin: margin,

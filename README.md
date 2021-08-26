@@ -126,6 +126,7 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - [done] floor
 - [done] ceil
 - [done] remove swipe to copy?
+- [na] fix InkWell splash, ink is behind the decoration/gradient
 
 - EXAPNDED IMPLEMENTATION
 - paste expression?
@@ -146,7 +147,6 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - engine: unit testing
 - fix 64 bit (BigInt for 64 and bitwise?)
 - refactor engine, clean up dec/floating/scientific
-- fix InkWell splash, ink is behind the decoration/gradient
 - fix setting HEX->DOZ not auto change keys after settings
 
 - DEVIATION FROM EXAMPLE
