@@ -3,6 +3,11 @@ Version: 0.1
 
 GH-Pages site: https://alpiepho.github.io/hexcalc_tn/
 
+or QR Code:
+
+![QR Code](./qr-code.png)
+
+
 ## hexcalc_tn
 
 This is my version of a hexcalc as a PWA (prgressive web app), written in Flutter.
