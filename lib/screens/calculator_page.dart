@@ -4,6 +4,7 @@ import 'package:hexcalc_tn/components/results_area.dart';
 import 'package:hexcalc_tn/components/settings_modal.dart';
 import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
+import 'package:hexcalc_tn/test_engine.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class CalculatorPage extends StatefulWidget {
   @override
@@ -14,6 +15,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   Engine _engine = Engine();
   late ResultsArea _resultsArea;
+
+  //DEBUG TESTENGINE
+  TestEngine _testEngine = TestEngine();
 
   void _loadEngine() async {
     final prefs = await SharedPreferences.getInstance();
@@ -39,29 +43,38 @@ class _CalculatorPageState extends State<CalculatorPage> {
     this._resultsArea.fromEngine();
     Navigator.of(context).pop();
   }
-
-
-
-
+  
   void _notifyEngine(int x, int y) async {
+    //DEBUG TESTENGINE
+    this._testEngine.runTestEngine(x, y, this._engine, _notifyEngine);
+    if (x > this._engine.grid.length) {
+      return;
+    }
+
     if(this._engine.processKey(x, y)) {
       // only some keys should cause page to re-build
       _fromEngine();
     }
     // trigger results area to rebuild
     this._resultsArea.fromEngine();
+
+    //DEBUG TESTENGINE
+    this._testEngine.processKey(this._engine.grid[x][y].label, this._engine.stack);
   }
 
   @override
   initState() {
     super.initState();
     _loadEngine();
+
+    //DEBUG TESTENGINE
+    _testEngine.setContext(context);
   }
 
   @override
   Widget build(BuildContext context) {
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    print("calc build");
+    //print("calc build");
     if (!isPortrait) {
       return Scaffold(
         backgroundColor: kInputPageBackgroundColor,
@@ -162,6 +175,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
       );
       colWidgets.add(container);
     }
+
+    //DEBUG TESTENGINE
+    this._testEngine.addGrid(colWidgets, this._engine.grid.length, _notifyEngine);
 
     return Scaffold(
       backgroundColor: kInputPageBackgroundColor,

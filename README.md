@@ -37,6 +37,14 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - "MC" = MEM clear
 
 
+## Test/Record Keys
+
+With so many functions in this application, it became a daunting task to add unit testing around the compute engine.
+Instead, we have added keys to starting testing or record key strokes.  The idea is the application will have a 
+set of built in tests that can be run at will.  It also has the ability to record new sequences and copy to a clipboard.
+
+Those saved sequences can be emailed to the devloper to add to the tests, or debug issues found by a user.
+
 ## Learnings
 - Flutter is fun
 - Composed tree of widgets can get long and duplicate sections quickly

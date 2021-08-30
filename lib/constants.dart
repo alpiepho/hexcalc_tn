@@ -32,6 +32,8 @@ const kRedColor = Color(0xFFC30000);
 const kGreenColor = Color(0xFF00B02B);
 const kOrangeColor = Color(0xFFFF985A);
 const kDarkColor = Color(0xFFF29292C);
+const kBlackColor = Color(0xFFF000000);
+const kMedColor = Color(0xFF555555);
 const kLightColor = Color(0xFFACACAC);
 const kYellowColor = Colors.yellow;
 
@@ -50,6 +52,12 @@ const kActiveLabelTextStyle = TextStyle(
 const kBlueLabelTextStyle = TextStyle(
   fontSize: 18.0,
   color: kBlueColor,
+  fontWeight: FontWeight.bold,
+);
+
+const kMedLabelTextStyle = TextStyle(
+  fontSize: 18.0,
+  color: kMedColor,
   fontWeight: FontWeight.bold,
 );
 
