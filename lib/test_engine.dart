@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcalc_tn/constants.dart';
@@ -278,6 +277,19 @@ class TestEngine {
     }
   }
 
+  void processKeyAndConfig(String key, Engine engine) {
+    List<String> stack = [];
+    stack.add((engine.rpn ? "rpn" : "norm"));
+    stack.add((engine.floatingPoint ? "float" : "int"));
+    stack.add(engine.decimalPoints.toString());
+    stack.add(engine.numberBits.toString());
+    stack.add((engine.numberSigned ? "signed" : "unsigned"));
+    if (recording) {
+      var entry = buildEntry(key, stack);
+      recorded.add(entry);
+    }
+  }
+
 void runTestEngine(int x, int y, Engine engine, notifyEngine(int x, int y)) async {
     if (x >= engine.grid.length) {
       var key = grid[x-engine.grid.length][y].label;
@@ -305,6 +317,7 @@ void runTestEngine(int x, int y, Engine engine, notifyEngine(int x, int y)) asyn
                   var parts = line.split(":");
                   var a, b;
                   var found = false;
+                  // TODO fix this if not found will crah at notifyEngine below
                   for (var i = 0; i < engine.grid.length && !found; i++) {
                     for (var j = 0; j < engine.grid[0].length && !found; j++) {
                       if (engine.grid[i][j].label == parts[0]) {
@@ -314,17 +327,40 @@ void runTestEngine(int x, int y, Engine engine, notifyEngine(int x, int y)) asyn
                       }
                     }
                   }
-                  notifyEngine(a, b);
-                  var temp = buildEntry(parts[0], engine.stack);
-                  if (temp != line) {
-                    this._testTimer.cancel();
-                    _testTimerRunning = false;
-                    showWarningDialog(
-                      "Completed  " +  _testCount.toString() + " tests. Failed! \n expected: " + line + "\n got expected: " + temp, 
-                      () {}
-                    );
-                    _testCount = 0;
-                    return;
+                  if (parts[0] == "?") {
+                    try {
+                      // "?: norm, int, 4, 32, unsigned",
+                      var subparts = parts[1].split(",");
+                      engine.rpn = ((subparts[0] == "rpn") ? true : false);
+                      engine.floatingPoint = ((subparts[1] == "float") ? true : false);
+                      engine.decimalPoints = int.parse(subparts[2]);
+                      engine.numberBits = int.parse(subparts[3]);
+                      engine.numberSigned = ((subparts[1] == "signed") ? true : false);
+                      // TODO: fix this, how to force UI and engine grid to update?
+                    } catch(e) {}
+                  }
+                  else if (a == null || b == null) {
+                      this._testTimer.cancel();
+                      _testTimerRunning = false;
+                      showWarningDialog(
+                        "Completed  " +  _testCount.toString() + " tests. Failed! \n expected: " + line + "\n but key not found! ", 
+                        () {}
+                      );
+                      _testCount = 0;
+                  }
+                  else {
+                    notifyEngine(a, b);
+                    var temp = buildEntry(parts[0], engine.stack);
+                    if (temp != line) {
+                      this._testTimer.cancel();
+                      _testTimerRunning = false;
+                      showWarningDialog(
+                        "Completed  " +  _testCount.toString() + " tests. Failed! \n expected: " + line + "\n got expected: " + temp, 
+                        () {}
+                      );
+                      _testCount = 0;
+                      return;
+                    }
                   }
 
                   this._testCount++;
@@ -340,6 +376,10 @@ void runTestEngine(int x, int y, Engine engine, notifyEngine(int x, int y)) asyn
             (bool choice) {
               if (choice) {
                 recording = true;
+                // start recording with config and AC
+                processKeyAndConfig("?", engine);
+                notifyEngine(engine.acX, engine.acY);
+                notifyEngine(engine.mcX, engine.mcY);
               }
             }
           );      
@@ -370,30 +410,45 @@ void runTestEngine(int x, int y, Engine engine, notifyEngine(int x, int y)) asyn
   }
 
   var tests = [
+// "?: norm, int, 4, 32, unsigned",
+// "AC: 0, 0, 0, 0",
+// "1: 1, 0, 0, 0",
+// "+: 1, 0, 0, 0",
+// "2: 2, 1, 0, 0",
+// "=: 3, 0, 0, 0",
+// "AC: 0, 0, 0, 0",
+// "4: 4, 0, 0, 0",
+// "+: 4, 0, 0, 0",
+// "5: 5, 4, 0, 0",
+// "=: 9, 0, 0, 0",
+// "6: 6, 9, 0, 0",
+// "-: 6, 9, 0, 0",
+// "5: 5, 6, 9, 0",
+// "=: 1, 9, 0, 0", 
+
+// "AC: 0, 0, 0, 0",
+// "7: 7, 0, 0, 0",
+// "-: 7, 0, 0, 0",
+// "8: 8, 7, 0, 0",
+// "=: 4294967295, 0, 0, 0",
+// "9: 9, 4294967295, 0, 0",
+// "-: 9, 4294967295, 0, 0",
+// "8: 8, 9, 4294967295, 0",
+// "=: 1, 4294967295, 0, 0",
+
+"?: norm, int, 4, 32, unsigned",
 "AC: 0, 0, 0, 0",
+"MC: 0, 0, 0, 0",
 "1: 1, 0, 0, 0",
 "+: 1, 0, 0, 0",
 "2: 2, 1, 0, 0",
 "=: 3, 0, 0, 0",
-"AC: 0, 0, 0, 0",
-"4: 4, 0, 0, 0",
-"+: 4, 0, 0, 0",
-"5: 5, 4, 0, 0",
-"=: 9, 0, 0, 0",
-"6: 6, 9, 0, 0",
-"-: 6, 9, 0, 0",
-"5: 5, 6, 9, 0",
-"=: 1, 9, 0, 0", 
-
-"AC: 0, 0, 0, 0",
-"7: 7, 0, 0, 0",
-"-: 7, 0, 0, 0",
-"8: 8, 7, 0, 0",
-"=: 4294967295, 0, 0, 0",
-"9: 9, 4294967295, 0, 0",
-"-: 9, 4294967295, 0, 0",
-"8: 8, 9, 4294967295, 0",
-"=: 1, 4294967295, 0, 0",
+"?: rpn, int, 4, 32, unsigned",
+"?: rpn, int, 4, 32, unsigned",
+"4: 4, 3, 0, 0",
+"enter: 4, 4, 3, 0",
+"2: 2, 4, 4, 3",
+"+: 6, 4, 3, 0",
 
   ];
 }

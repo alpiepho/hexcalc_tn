@@ -38,6 +38,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
   }
 
   void _onDone() async {
+    //DEBUG TESTENGINE
+    this._testEngine.processKeyAndConfig("?", this._engine);
     this._engine.applyMode("HEX");  // HACK: force update
     _fromEngine();
     this._resultsArea.fromEngine();

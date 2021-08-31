@@ -83,6 +83,8 @@ class Engine {
   int xorY = -1;
   int orX = -1;
   int orY = -1;
+  int acX = -1;
+  int acY = -1;
 
   var mode = "DEC";
   var numberBits = 32; // 8, 12, 16, 24, 32, 48,   not supported in pwa: 64
@@ -247,6 +249,8 @@ class Engine {
     negY = col;
     col++;
     grid[row][col] = new Cell(label: "AC", background: kRedColor);
+    acX = row;
+    acY = col;
     col++;
     row++;
     col = 0;
