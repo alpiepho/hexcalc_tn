@@ -36,6 +36,7 @@ Most of the opeartion should be self evident, but we should clarify a few things
 - "MR" - MEM recall
 - "MC" = MEM clear
 
+<b>TODO</b> Need to descibe other features, like floating point and RPN.
 
 ## Test/Record Keys
 
@@ -53,6 +54,9 @@ Those saved sequences can be emailed to the devloper to add to the tests, or deb
 - Like Flutter in VSCode
 - Found my TODO list below to be good to track progress
 - Found scattered TODO items in code distracting
+- Realized late in project that state management made code really messy
+- Have been using setState, should look at provider (saw Google I/O on Pragmatic State Management)
+- TestEngine is very hackish, should refactor
 
 
 ## Ongoing Progress

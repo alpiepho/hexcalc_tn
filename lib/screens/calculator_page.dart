@@ -6,13 +6,13 @@ import 'package:hexcalc_tn/constants.dart';
 import 'package:hexcalc_tn/engine.dart';
 import 'package:hexcalc_tn/test_engine.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class CalculatorPage extends StatefulWidget {
   @override
   _CalculatorPageState createState() => _CalculatorPageState();
 }
 
 class _CalculatorPageState extends State<CalculatorPage> {
-
   Engine _engine = Engine();
   late ResultsArea _resultsArea;
 
@@ -40,20 +40,29 @@ class _CalculatorPageState extends State<CalculatorPage> {
   void _onDone() async {
     //DEBUG TESTENGINE
     this._testEngine.processKeyAndConfig("?", this._engine);
-    this._engine.applyMode("HEX");  // HACK: force update
+    this._engine.applyMode("HEX"); // HACK: force update
     _fromEngine();
     this._resultsArea.fromEngine();
     Navigator.of(context).pop();
   }
-  
+
+  //DEBUG TESTENGINE
+  void _onDoneTestEngine() async {
+    this._engine.applyMode("HEX"); // HACK: force update
+    _fromEngine();
+    this._resultsArea.fromEngine();
+  }
+
   void _notifyEngine(int x, int y) async {
     //DEBUG TESTENGINE
-    this._testEngine.runTestEngine(x, y, this._engine, _notifyEngine);
+    this
+        ._testEngine
+        .runTestEngine(x, y, this._engine, _notifyEngine, _onDoneTestEngine);
     if (x > this._engine.grid.length) {
       return;
     }
 
-    if(this._engine.processKey(x, y)) {
+    if (this._engine.processKey(x, y)) {
       // only some keys should cause page to re-build
       _fromEngine();
     }
@@ -61,7 +70,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
     this._resultsArea.fromEngine();
 
     //DEBUG TESTENGINE
-    this._testEngine.processKey(this._engine.grid[x][y].label, this._engine.stack);
+    this
+        ._testEngine
+        .processKey(this._engine.grid[x][y].label, this._engine.stack);
   }
 
   @override
@@ -90,7 +101,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 new Text(
                   "Landscape mode is not supported.",
                   style: kLanscapeWarningTextStyle,
-
                 )
               ],
             ),
@@ -179,7 +189,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
     }
 
     //DEBUG TESTENGINE
-    this._testEngine.addGrid(colWidgets, this._engine.grid.length, _notifyEngine);
+    this
+        ._testEngine
+        .addGrid(colWidgets, this._engine.grid.length, _notifyEngine);
 
     return Scaffold(
       backgroundColor: kInputPageBackgroundColor,

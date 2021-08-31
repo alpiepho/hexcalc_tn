@@ -28,7 +28,6 @@ class Cell {
 }
 
 class TestEngine {
-
   var grid = List.generate(2, (i) => List.generate(5, (index) => Cell()),
       growable: false);
 
@@ -104,14 +103,14 @@ class TestEngine {
         gradient: false);
     col++;
     grid[row][col] = new Cell(
-        label: "CLIP",
+        label: "PLAY",
         style: kMedLabelTextStyle,
         halfHeight: true,
         background: kDarkColor,
         gradient: false);
     col++;
     grid[row][col] = new Cell(
-        label: " ",
+        label: "CLIP",
         style: kMedLabelTextStyle,
         halfHeight: true,
         background: kDarkColor,
@@ -119,7 +118,6 @@ class TestEngine {
     col++;
     row++;
   }
-
 
   void showWarningDialog(String message, Function? onPress) {
     showDialog<void>(
@@ -176,10 +174,9 @@ class TestEngine {
     var entry = "";
     entry += key;
     entry += ": ";
-    for (var i=0; i<stack.length; i++) {
+    for (var i = 0; i < stack.length; i++) {
       entry += stack[i];
-      if (i+1 < stack.length)
-      entry += ", ";
+      if (i + 1 < stack.length) entry += ", ";
     }
     print(entry);
     return entry;
@@ -197,7 +194,6 @@ class TestEngine {
     return style;
   }
 
-
   void clearRecorded() {
     recorded = [];
   }
@@ -210,7 +206,6 @@ class TestEngine {
     return result;
   }
 
-
   //
   // Public methods
   //
@@ -219,7 +214,8 @@ class TestEngine {
     this.context = context;
   }
 
-  void addGrid(List<Widget> colWidgets, int rowOffset, notifyEngine(int x, int y)) {
+  void addGrid(
+      List<Widget> colWidgets, int rowOffset, notifyEngine(int x, int y)) {
     for (var i = 0; i < grid.length; i++) {
       var rowWidgets = <Widget>[];
       for (var j = 0; j < grid[0].length; j++) {
@@ -290,119 +286,121 @@ class TestEngine {
     }
   }
 
-void runTestEngine(int x, int y, Engine engine, notifyEngine(int x, int y)) async {
+  void runTestEngine(int x, int y, Engine engine, notifyEngine(int x, int y),
+      onDoneTestEngine()) async {
     if (x >= engine.grid.length) {
-      var key = grid[x-engine.grid.length][y].label;
+      var key = grid[x - engine.grid.length][y].label;
       //print(key);
       switch (key) {
         case "TEST":
-          showWarningDialogAndResponse(
-            "Will run automated tests, continue?", 
-            (bool choice) {
-              if (choice) {
-                clearRecorded();
-                this._testTimer = Timer.periodic(Duration(milliseconds: 200), (Timer timer) {
-                  if (this._testCount >= tests.length) {
+          showWarningDialogAndResponse("Will run automated tests, continue?",
+              (bool choice) {
+            if (choice) {
+              clearRecorded();
+              this._testTimer =
+                  Timer.periodic(Duration(milliseconds: 200), (Timer timer) {
+                if (this._testCount >= tests.length) {
+                  this._testTimer.cancel();
+                  _testTimerRunning = false;
+                  showWarningDialog(
+                      "Completed  " + _testCount.toString() + " tests.", () {});
+                  _testCount = 0;
+                  return;
+                }
+                print("test timer: " + this._testCount.toString());
+                var line = tests[this._testCount];
+                var parts = line.split(":");
+                var a, b;
+                var found = false;
+                for (var i = 0; i < engine.grid.length && !found; i++) {
+                  for (var j = 0; j < engine.grid[0].length && !found; j++) {
+                    if (engine.grid[i][j].label == parts[0]) {
+                      a = i;
+                      b = j;
+                      found = true;
+                    }
+                  }
+                }
+                if (parts[0] == "?") {
+                  try {
+                    // "?: norm, int, 4, 32, unsigned",
+                    var subparts = parts[1].split(",");
+                    engine.rpn = ((subparts[0].trim() == "rpn") ? true : false);
+                    engine.floatingPoint =
+                        ((subparts[1].trim() == "float") ? true : false);
+                    engine.decimalPoints = int.parse(subparts[2]);
+                    engine.numberBits = int.parse(subparts[3]);
+                    engine.numberSigned =
+                        ((subparts[1].trim() == "signed") ? true : false);
+                    //HACK
+                    onDoneTestEngine();
+                  } catch (e) {}
+                } else if (a == null || b == null) {
+                  this._testTimer.cancel();
+                  _testTimerRunning = false;
+                  showWarningDialog(
+                      "Completed  " +
+                          _testCount.toString() +
+                          " tests. Failed! \n expected: " +
+                          line +
+                          "\n but key not found! ",
+                      () {});
+                  _testCount = 0;
+                } else {
+                  notifyEngine(a, b);
+                  var temp = buildEntry(parts[0], engine.stack);
+                  if (temp != line) {
                     this._testTimer.cancel();
                     _testTimerRunning = false;
                     showWarningDialog(
-                      "Completed  " +  _testCount.toString() + " tests.", 
-                      () {}
-                    );
+                        "Completed  " +
+                            _testCount.toString() +
+                            " tests. Failed! \n expected: " +
+                            line +
+                            "\n got expected: " +
+                            temp,
+                        () {});
                     _testCount = 0;
                     return;
                   }
-                  print("test timer: " + this._testCount.toString());
-                  var line = tests[this._testCount];
-                  var parts = line.split(":");
-                  var a, b;
-                  var found = false;
-                  // TODO fix this if not found will crah at notifyEngine below
-                  for (var i = 0; i < engine.grid.length && !found; i++) {
-                    for (var j = 0; j < engine.grid[0].length && !found; j++) {
-                      if (engine.grid[i][j].label == parts[0]) {
-                        a = i;
-                        b = j;
-                        found = true;
-                      }
-                    }
-                  }
-                  if (parts[0] == "?") {
-                    try {
-                      // "?: norm, int, 4, 32, unsigned",
-                      var subparts = parts[1].split(",");
-                      engine.rpn = ((subparts[0] == "rpn") ? true : false);
-                      engine.floatingPoint = ((subparts[1] == "float") ? true : false);
-                      engine.decimalPoints = int.parse(subparts[2]);
-                      engine.numberBits = int.parse(subparts[3]);
-                      engine.numberSigned = ((subparts[1] == "signed") ? true : false);
-                      // TODO: fix this, how to force UI and engine grid to update?
-                    } catch(e) {}
-                  }
-                  else if (a == null || b == null) {
-                      this._testTimer.cancel();
-                      _testTimerRunning = false;
-                      showWarningDialog(
-                        "Completed  " +  _testCount.toString() + " tests. Failed! \n expected: " + line + "\n but key not found! ", 
-                        () {}
-                      );
-                      _testCount = 0;
-                  }
-                  else {
-                    notifyEngine(a, b);
-                    var temp = buildEntry(parts[0], engine.stack);
-                    if (temp != line) {
-                      this._testTimer.cancel();
-                      _testTimerRunning = false;
-                      showWarningDialog(
-                        "Completed  " +  _testCount.toString() + " tests. Failed! \n expected: " + line + "\n got expected: " + temp, 
-                        () {}
-                      );
-                      _testCount = 0;
-                      return;
-                    }
-                  }
+                }
 
-                  this._testCount++;
-                });
-                _testTimerRunning = true;
-              }
+                this._testCount++;
+              });
+              _testTimerRunning = true;
             }
-          );      
-        break;
+          });
+          break;
         case "REC":
-          showWarningDialogAndResponse(
-            "Will record key enyties, continue?", 
-            (bool choice) {
-              if (choice) {
-                recording = true;
-                // start recording with config and AC
-                processKeyAndConfig("?", engine);
-                notifyEngine(engine.acX, engine.acY);
-                notifyEngine(engine.mcX, engine.mcY);
-              }
+          showWarningDialogAndResponse("Will record key enyties, continue?",
+              (bool choice) {
+            if (choice) {
+              recording = true;
+              // start recording with config and AC
+              processKeyAndConfig("?", engine);
+              notifyEngine(engine.acX, engine.acY);
+              notifyEngine(engine.mcX, engine.mcY);
             }
-          );      
-        break;
+          });
+          break;
         case "STOP":
-        recording = false;
-        if (_testTimerRunning) {
-          this._testTimer.cancel();
-          _testTimerRunning = false;
-          _testCount = 0;
-        }
-        showWarningDialog(
-          "Test or Recording stopped.", 
-          () {}
-        );      
-        break;
+          recording = false;
+          if (_testTimerRunning) {
+            this._testTimer.cancel();
+            _testTimerRunning = false;
+            _testCount = 0;
+          }
+          showWarningDialog("Test or Recording stopped.", () {});
+          break;
+        case "PLAY":
+          showWarningDialog("TDB - Playback current recording?.", () {});
+          break;
         case "CLIP":
-        await Clipboard.setData(ClipboardData(text: getRecorded()));
-        showWarningDialog(
-          "Recorded keys copied to clipboard. Email to development team.", 
-          () {}
-        );      
-        break;
+          await Clipboard.setData(ClipboardData(text: getRecorded()));
+          showWarningDialog(
+              "Recorded keys copied to clipboard. Email to development team.",
+              () {});
+          break;
       }
       return;
     }
@@ -410,45 +408,43 @@ void runTestEngine(int x, int y, Engine engine, notifyEngine(int x, int y)) asyn
   }
 
   var tests = [
-// "?: norm, int, 4, 32, unsigned",
-// "AC: 0, 0, 0, 0",
-// "1: 1, 0, 0, 0",
-// "+: 1, 0, 0, 0",
-// "2: 2, 1, 0, 0",
-// "=: 3, 0, 0, 0",
-// "AC: 0, 0, 0, 0",
-// "4: 4, 0, 0, 0",
-// "+: 4, 0, 0, 0",
-// "5: 5, 4, 0, 0",
-// "=: 9, 0, 0, 0",
-// "6: 6, 9, 0, 0",
-// "-: 6, 9, 0, 0",
-// "5: 5, 6, 9, 0",
-// "=: 1, 9, 0, 0", 
-
-// "AC: 0, 0, 0, 0",
-// "7: 7, 0, 0, 0",
-// "-: 7, 0, 0, 0",
-// "8: 8, 7, 0, 0",
-// "=: 4294967295, 0, 0, 0",
-// "9: 9, 4294967295, 0, 0",
-// "-: 9, 4294967295, 0, 0",
-// "8: 8, 9, 4294967295, 0",
-// "=: 1, 4294967295, 0, 0",
-
-"?: norm, int, 4, 32, unsigned",
-"AC: 0, 0, 0, 0",
-"MC: 0, 0, 0, 0",
-"1: 1, 0, 0, 0",
-"+: 1, 0, 0, 0",
-"2: 2, 1, 0, 0",
-"=: 3, 0, 0, 0",
-"?: rpn, int, 4, 32, unsigned",
-"?: rpn, int, 4, 32, unsigned",
-"4: 4, 3, 0, 0",
-"enter: 4, 4, 3, 0",
-"2: 2, 4, 4, 3",
-"+: 6, 4, 3, 0",
-
+    "?: norm, int, 4, 32, unsigned",
+    "AC: 0, 0, 0, 0",
+    "MC: 0, 0, 0, 0",
+    "1: 1, 0, 0, 0",
+    "+: 1, 0, 0, 0",
+    "2: 2, 1, 0, 0",
+    "=: 3, 0, 0, 0",
+    "AC: 0, 0, 0, 0",
+    "4: 4, 0, 0, 0",
+    "+: 4, 0, 0, 0",
+    "5: 5, 4, 0, 0",
+    "=: 9, 0, 0, 0",
+    "6: 6, 9, 0, 0",
+    "-: 6, 9, 0, 0",
+    "5: 5, 6, 9, 0",
+    "=: 1, 9, 0, 0",
+    "AC: 0, 0, 0, 0",
+    "7: 7, 0, 0, 0",
+    "-: 7, 0, 0, 0",
+    "8: 8, 7, 0, 0",
+    "=: 4294967295, 0, 0, 0",
+    "9: 9, 4294967295, 0, 0",
+    "-: 9, 4294967295, 0, 0",
+    "8: 8, 9, 4294967295, 0",
+    "=: 1, 4294967295, 0, 0",
+    "?: norm, int, 4, 32, unsigned",
+    "AC: 0, 0, 0, 0",
+    "MC: 0, 0, 0, 0",
+    "1: 1, 0, 0, 0",
+    "+: 1, 0, 0, 0",
+    "2: 2, 1, 0, 0",
+    "=: 3, 0, 0, 0",
+    "?: rpn, int, 4, 32, unsigned",
+    "?: rpn, int, 4, 32, unsigned",
+    "4: 4, 3, 0, 0",
+    "enter: 4, 4, 3, 0",
+    "2: 2, 4, 4, 3",
+    "+: 6, 4, 3, 0",
   ];
 }
