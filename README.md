@@ -46,6 +46,15 @@ set of built in tests that can be run at will.  It also has the ability to recor
 
 Those saved sequences can be emailed to the devloper to add to the tests, or debug issues found by a user.
 
+- TEST - play the builtin set of tests, will report failures
+- REC - start recording each of the next key strokes and results
+- STOP - stop the TEST autorun or current REC session
+- PLAY - play the current REC sequence
+- CLIP - copy the current REC sequence to the clipboard
+
+NOTE: all recordings are lost when application is restarted.
+
+
 ## Learnings
 - Flutter is fun
 - Composed tree of widgets can get long and duplicate sections quickly
