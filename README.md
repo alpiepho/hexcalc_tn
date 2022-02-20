@@ -8,6 +8,15 @@ or QR Code:
 ![QR Code](./qr-code.png)
 
 
+Test
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
 ## hexcalc_tn
 
 This is my version of a hexcalc as a PWA (prgressive web app), written in Flutter.
