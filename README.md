@@ -8,15 +8,6 @@ or QR Code:
 ![QR Code](./qr-code.png)
 
 
-Test
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-```
-
 ## hexcalc_tn
 
 This is my version of a hexcalc as a PWA (prgressive web app), written in Flutter.
@@ -54,15 +45,6 @@ Instead, we have added keys to starting testing or record key strokes.  The idea
 set of built in tests that can be run at will.  It also has the ability to record new sequences and copy to a clipboard.
 
 Those saved sequences can be emailed to the devloper to add to the tests, or debug issues found by a user.
-
-- TEST - play the builtin set of tests, will report failures
-- REC - start recording each of the next key strokes and results
-- STOP - stop the TEST autorun or current REC session
-- PLAY - play the current REC sequence
-- CLIP - copy the current REC sequence to the clipboard
-
-NOTE: all recordings are lost when application is restarted.
-
 
 ## Learnings
 - Flutter is fun
