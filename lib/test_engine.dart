@@ -32,6 +32,7 @@ class TestEngine {
       growable: false);
 
   bool recording = false;
+  bool playback = false;
 
   late BuildContext context;
 
@@ -39,7 +40,7 @@ class TestEngine {
   bool _testTimerRunning = false;
   late int _testCount = 0;
 
-  var recorded = [];
+  List<String> recorded = [];
 
   TestEngine() {
     int row = 0;
@@ -194,10 +195,6 @@ class TestEngine {
     return style;
   }
 
-  void clearRecorded() {
-    recorded = [];
-  }
-
   String getRecorded() {
     String result = "";
     for (var i = 0; i < recorded.length; i++) {
@@ -267,7 +264,7 @@ class TestEngine {
   }
 
   void processKey(String key, List<String> stack) {
-    if (recording) {
+    if (recording && !playback) {
       var entry = buildEntry(key, stack);
       recorded.add(entry);
     }
@@ -280,10 +277,99 @@ class TestEngine {
     stack.add(engine.decimalPoints.toString());
     stack.add(engine.numberBits.toString());
     stack.add((engine.numberSigned ? "signed" : "unsigned"));
-    if (recording) {
+    if (recording && !playback) {
       var entry = buildEntry(key, stack);
       recorded.add(entry);
     }
+  }
+
+  void runTestEngineInternal(List<String> tests, Engine engine, notifyEngine(int x, int y),
+      onDoneTestEngine()) async {
+
+      this._testTimer =
+          Timer.periodic(Duration(milliseconds: 200), (Timer timer) {
+        if (this._testCount >= tests.length) {
+          this._testTimer.cancel();
+          _testTimerRunning = false;
+          showWarningDialog(
+              "Completed  " + _testCount.toString() + " tests.", 
+              () {
+                if (playback) 
+                  recording = true;
+                playback = false;
+              });
+          _testCount = 0;
+          return;
+        }
+        print("test timer: " + this._testCount.toString());
+        var line = tests[this._testCount];
+        var parts = line.split(":");
+        var a, b;
+        var found = false;
+        for (var i = 0; i < engine.grid.length && !found; i++) {
+          for (var j = 0; j < engine.grid[0].length && !found; j++) {
+            if (engine.grid[i][j].label == parts[0]) {
+              a = i;
+              b = j;
+              found = true;
+            }
+          }
+        }
+        if (parts[0] == "?") {
+          try {
+            // "?: norm, int, 4, 32, unsigned",
+            var subparts = parts[1].split(",");
+            engine.rpn = ((subparts[0].trim() == "rpn") ? true : false);
+            engine.floatingPoint =
+                ((subparts[1].trim() == "float") ? true : false);
+            engine.decimalPoints = int.parse(subparts[2]);
+            engine.numberBits = int.parse(subparts[3]);
+            engine.numberSigned =
+                ((subparts[1].trim() == "signed") ? true : false);
+            //HACK
+            onDoneTestEngine();
+          } catch (e) {}
+        } else if (a == null || b == null) {
+          this._testTimer.cancel();
+          _testTimerRunning = false;
+          showWarningDialog(
+              "Completed  " +
+                  _testCount.toString() +
+                  " tests. Failed! \n expected: " +
+                  line +
+                  "\n but key not found! ",
+              () {
+                if (playback) 
+                  recording = true;
+                playback = false;
+              });
+          _testCount = 0;
+        } else {
+          notifyEngine(a, b);
+          var temp = buildEntry(parts[0], engine.stack);
+          if (temp != line) {
+            this._testTimer.cancel();
+            _testTimerRunning = false;
+            showWarningDialog(
+                "Completed  " +
+                    _testCount.toString() +
+                    " tests. Failed! \n expected: " +
+                    line +
+                    "\n got expected: " +
+                    temp,
+                () {
+                  if (playback)
+                    recording = true;
+                  playback = false;
+                });
+            _testCount = 0;
+            return;
+          }
+        }
+
+        this._testCount++;
+      });
+      _testTimerRunning = true;
   }
 
   void runTestEngine(int x, int y, Engine engine, notifyEngine(int x, int y),
@@ -295,79 +381,10 @@ class TestEngine {
         case "TEST":
           showWarningDialogAndResponse("Will run automated tests, continue?",
               (bool choice) {
-            if (choice) {
-              clearRecorded();
-              this._testTimer =
-                  Timer.periodic(Duration(milliseconds: 200), (Timer timer) {
-                if (this._testCount >= tests.length) {
-                  this._testTimer.cancel();
-                  _testTimerRunning = false;
-                  showWarningDialog(
-                      "Completed  " + _testCount.toString() + " tests.", () {});
-                  _testCount = 0;
-                  return;
-                }
-                print("test timer: " + this._testCount.toString());
-                var line = tests[this._testCount];
-                var parts = line.split(":");
-                var a, b;
-                var found = false;
-                for (var i = 0; i < engine.grid.length && !found; i++) {
-                  for (var j = 0; j < engine.grid[0].length && !found; j++) {
-                    if (engine.grid[i][j].label == parts[0]) {
-                      a = i;
-                      b = j;
-                      found = true;
-                    }
-                  }
-                }
-                if (parts[0] == "?") {
-                  try {
-                    // "?: norm, int, 4, 32, unsigned",
-                    var subparts = parts[1].split(",");
-                    engine.rpn = ((subparts[0].trim() == "rpn") ? true : false);
-                    engine.floatingPoint =
-                        ((subparts[1].trim() == "float") ? true : false);
-                    engine.decimalPoints = int.parse(subparts[2]);
-                    engine.numberBits = int.parse(subparts[3]);
-                    engine.numberSigned =
-                        ((subparts[1].trim() == "signed") ? true : false);
-                    //HACK
-                    onDoneTestEngine();
-                  } catch (e) {}
-                } else if (a == null || b == null) {
-                  this._testTimer.cancel();
-                  _testTimerRunning = false;
-                  showWarningDialog(
-                      "Completed  " +
-                          _testCount.toString() +
-                          " tests. Failed! \n expected: " +
-                          line +
-                          "\n but key not found! ",
-                      () {});
-                  _testCount = 0;
-                } else {
-                  notifyEngine(a, b);
-                  var temp = buildEntry(parts[0], engine.stack);
-                  if (temp != line) {
-                    this._testTimer.cancel();
-                    _testTimerRunning = false;
-                    showWarningDialog(
-                        "Completed  " +
-                            _testCount.toString() +
-                            " tests. Failed! \n expected: " +
-                            line +
-                            "\n got expected: " +
-                            temp,
-                        () {});
-                    _testCount = 0;
-                    return;
-                  }
-                }
-
-                this._testCount++;
-              });
-              _testTimerRunning = true;
+            if (choice) { 
+              recording = false;
+              playback = false;
+              runTestEngineInternal(tests, engine, notifyEngine, onDoneTestEngine); 
             }
           });
           break;
@@ -375,6 +392,7 @@ class TestEngine {
           showWarningDialogAndResponse("Will record key enyties, continue?",
               (bool choice) {
             if (choice) {
+              recorded = [];
               recording = true;
               // start recording with config and AC
               processKeyAndConfig("?", engine);
@@ -393,12 +411,19 @@ class TestEngine {
           showWarningDialog("Test or Recording stopped.", () {});
           break;
         case "PLAY":
-          showWarningDialog("TDB - Playback current recording?.", () {});
+          showWarningDialogAndResponse("Playback current recording?",
+              (bool choice) {
+            if (choice) { 
+              recording = false;
+              playback = true;
+              runTestEngineInternal(recorded, engine, notifyEngine, onDoneTestEngine); 
+            }
+          });
           break;
         case "CLIP":
           await Clipboard.setData(ClipboardData(text: getRecorded()));
           showWarningDialog(
-              "Recorded keys copied to clipboard. Email to development team.",
+              "Recorded keys copied to clipboard. \nEmail to development team.",
               () {});
           break;
       }
@@ -446,5 +471,22 @@ class TestEngine {
     "enter: 4, 4, 3, 0",
     "2: 2, 4, 4, 3",
     "+: 6, 4, 3, 0",
+
+"?: norm, int, 4, 32, unsigned",
+"AC: 0, 0, 0, 0",
+"MC: 0, 0, 0, 0",
+"1: 1, 0, 0, 0",
+"+: 1, 0, 0, 0",
+"2: 2, 1, 0, 0",
+"=: 3, 0, 0, 0",
+"4: 4, 3, 0, 0",
+"+: 4, 3, 0, 0",
+"5: 5, 4, 3, 0",
+"=: 9, 3, 0, 0",
+"7: 7, 9, 3, 0",
+"+: 7, 9, 3, 0",
+"8: 8, 7, 9, 3",
+"=: 15, 9, 3, 0",
+
   ];
 }
